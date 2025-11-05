@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
 import 'package:spear_me_app/core/constants/color_constants.dart';
+import 'package:spear_me_app/core/constants/string_constants/assets_constants.dart';
 
 import 'package:spear_me_app/core/constants/string_constants/routes_constansts.dart';
 import 'package:spear_me_app/core/constants/string_constants/string_constants.dart';
@@ -41,15 +42,27 @@ class SignInScreen extends StatelessWidget {
               ),
             );
 
-            context.go(RoutesConstants.ownerHomeRoute);
+            if (context.mounted) {
+              context.go(RoutesConstants.ownerHomeRoute);
+            }
           }
         },
         builder: (BuildContext context, SignInState state) {
+          final bool isLoading = state is SignInLoading;
+
+          if (isLoading) {
+            return Scaffold(
+              backgroundColor: ColorConstants.scaffoldBg,
+              body: Center(
+                child: Lottie.asset(AssetsConstants.loginLoadingAsset),
+              ),
+            );
+          }
+
           // ignore: avoid_bool_literals_in_conditional_expressions
           final bool obscurePassword = state is SignInPasswordVisibilityChanged
               ? state.isPasswordObscured
               : true;
-          final bool isLoading = state is SignInLoading;
 
           return Scaffold(
             backgroundColor: ColorConstants.scaffoldBg,
@@ -62,13 +75,7 @@ class SignInScreen extends StatelessWidget {
                   ),
                   child: Column(
                     children: <Widget>[
-                      //! enable animations later
-                      // SizedBox(
-                      //   height: MediaQuery.of(context).size.height * 0.48,
-                      //   child: Lottie.asset(AssetsConstants.loginAsset),
-                      // ),
                       const SizedBox(height: 20),
-
                       Text(
                         StringConstants.welcomeBack,
                         style: TextStyle(
@@ -77,9 +84,7 @@ class SignInScreen extends StatelessWidget {
                           color: ColorConstants.primary,
                         ),
                       ),
-
                       const SizedBox(height: 6),
-
                       Text(
                         StringConstants.loginToContinue,
                         style: TextStyle(
@@ -87,9 +92,7 @@ class SignInScreen extends StatelessWidget {
                           color: ColorConstants.textSecondary,
                         ),
                       ),
-
                       const SizedBox(height: 26),
-
                       Container(
                         padding: const EdgeInsets.all(20),
                         decoration: BoxDecoration(
@@ -120,7 +123,6 @@ class SignInScreen extends StatelessWidget {
                               ),
                             );
                           },
-
                           isLoading: isLoading,
                         ),
                       ),

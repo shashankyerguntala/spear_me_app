@@ -4,5 +4,7 @@ sealed class OwnerHomeEvent extends Equatable {
   const OwnerHomeEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => <Object>[];
 }
+
+class OwnerInitialEvent extends OwnerHomeEvent {}

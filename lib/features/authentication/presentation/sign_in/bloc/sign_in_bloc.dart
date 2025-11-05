@@ -19,7 +19,7 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
       Emitter<SignInState> emit,
     ) async {
       emit(SignInLoading());
-      Future.delayed(Duration(seconds: 2));
+      await Future.delayed(Duration(seconds: 3));
       emit(SignInSuccess());
     });
   }

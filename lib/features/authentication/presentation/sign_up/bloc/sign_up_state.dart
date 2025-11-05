@@ -4,7 +4,7 @@ abstract class SignUpState extends Equatable {
   const SignUpState();
 
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => <Object?>[];
 }
 
 class SignUpInitial extends SignUpState {
@@ -13,7 +13,7 @@ class SignUpInitial extends SignUpState {
   const SignUpInitial({this.isPasswordObscured = true});
 
   @override
-  List<Object?> get props => [isPasswordObscured];
+  List<Object?> get props => <Object?>[isPasswordObscured];
 }
 
 class SignUpLoading extends SignUpState {}
@@ -24,7 +24,7 @@ class SignUpSuccess extends SignUpState {
   const SignUpSuccess(this.msg);
 
   @override
-  List<Object?> get props => [msg];
+  List<Object?> get props => <Object?>[msg];
 }
 
 class SignUpFailure extends SignUpState {
@@ -33,7 +33,7 @@ class SignUpFailure extends SignUpState {
   const SignUpFailure(this.message);
 
   @override
-  List<Object?> get props => [message];
+  List<Object?> get props => <Object?>[message];
 }
 
 class SignUpPasswordVisibilityChanged extends SignUpState {
@@ -42,5 +42,5 @@ class SignUpPasswordVisibilityChanged extends SignUpState {
   const SignUpPasswordVisibilityChanged(this.isPasswordObscured);
 
   @override
-  List<Object?> get props => [isPasswordObscured];
+  List<Object?> get props => <Object?>[isPasswordObscured];
 }

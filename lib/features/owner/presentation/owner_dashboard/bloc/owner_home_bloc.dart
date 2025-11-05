@@ -6,8 +6,13 @@ part 'owner_home_state.dart';
 
 class OwnerHomeBloc extends Bloc<OwnerHomeEvent, OwnerHomeState> {
   OwnerHomeBloc() : super(OwnerHomeInitial()) {
-    on<OwnerHomeEvent>((event, emit) {
-      // TODO: implement event handler
+    on<OwnerInitialEvent>((
+      OwnerHomeEvent event,
+      Emitter<OwnerHomeState> emit,
+    ) async {
+      emit(OwnerLoading());
+      await Future.delayed(Duration(seconds: 1));
+      emit(OwnerLoaded());
     });
   }
 }

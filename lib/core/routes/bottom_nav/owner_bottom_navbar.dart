@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:spear_me_app/core/constants/color_constants.dart';
 import 'package:spear_me_app/core/constants/string_constants/routes_constansts.dart';
 
 class OwnerBottomNavbar extends StatelessWidget {
@@ -27,6 +28,12 @@ class OwnerBottomNavbar extends StatelessWidget {
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: currentIndex == -1 ? 0 : currentIndex,
         onTap: (int index) => context.go(tabs[index]),
+
+        selectedItemColor: ColorConstants.primary,
+        unselectedItemColor: ColorConstants.textSecondary,
+        showUnselectedLabels: true,
+        selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
+        unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.normal),
         type: BottomNavigationBarType.fixed,
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
