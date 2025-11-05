@@ -37,7 +37,7 @@ class SignInScreen extends StatelessWidget {
                   StringConstants.welcomeBack,
                   style: const TextStyle(color: Colors.black),
                 ),
-                backgroundColor: const Color.fromARGB(186, 25, 255, 48),
+                backgroundColor: ColorConstants.success,
               ),
             );
 
