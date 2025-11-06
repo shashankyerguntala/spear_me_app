@@ -6,35 +6,34 @@ import 'package:spear_me_app/core/constants/string_constants/assets_constants.da
 import 'package:spear_me_app/core/constants/string_constants/string_constants.dart';
 import 'package:spear_me_app/core/di/di.dart';
 import 'package:spear_me_app/features/authentication/presentation/sign_in/widgets/custom_textfield.dart';
-import 'package:spear_me_app/features/owner/presentation/owner_factories/add_factory/bloc/add_factory_bloc.dart';
+import 'package:spear_me_app/features/owner/presentation/owner_central_office/add_central_office/bloc/add_central_office_bloc.dart';
 
-class AddFactoryScreen extends StatelessWidget {
-  const AddFactoryScreen({super.key});
+class AddCentralOffice extends StatelessWidget {
+  const AddCentralOffice({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => di<AddFactoryBloc>(),
-      child: const _AddFactoryBody(),
+      create: (_) => AddCentralOfficeBloc(ownerUsecase: di()),
+      child: const _AddCentralOfficerBody(),
     );
   }
 }
 
-class _AddFactoryBody extends StatefulWidget {
-  const _AddFactoryBody();
+class _AddCentralOfficerBody extends StatefulWidget {
+  const _AddCentralOfficerBody();
 
   @override
-  State<_AddFactoryBody> createState() => _AddFactoryBodyState();
+  State<_AddCentralOfficerBody> createState() => _AddCentralOfficerBodyState();
 }
 
-class _AddFactoryBodyState extends State<_AddFactoryBody> {
+class _AddCentralOfficerBodyState extends State<_AddCentralOfficerBody> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
-  final TextEditingController nameController = TextEditingController();
-  final TextEditingController cityController = TextEditingController();
-  final TextEditingController addressController = TextEditingController();
-  final TextEditingController plantHeadEmailController =
-      TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController headNameController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -45,33 +44,25 @@ class _AddFactoryBodyState extends State<_AddFactoryBody> {
           backgroundColor: ColorConstants.surface,
           centerTitle: true,
           title: const Text(
-            StringConstants.addFactory,
+            StringConstants.addCentralOfficer,
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
         ),
 
-        body: BlocListener<AddFactoryBloc, AddFactoryState>(
+        body: BlocListener<AddCentralOfficeBloc, AddCentralOfficeState>(
           listener: (context, state) {
-            if (state is AddFactoryLoading) {
-              showDialog(
-                context: context,
-                barrierDismissible: false,
-                builder: (_) => Center(
-                  child: Lottie.asset(AssetsConstants.loginLoadingAsset),
-                ),
-              );
+            if (state is AddCentralOfficeLoading) {
+              Lottie.asset(AssetsConstants.loginLoadingAsset);
             }
 
-            if (state is AddFactorySuccess) {
+            if (state is AddCentralOfficeSuccess) {
               Navigator.pop(context);
               ScaffoldMessenger.of(
                 context,
               ).showSnackBar(SnackBar(content: Text(state.message)));
-              Navigator.pop(context);
             }
 
-            if (state is AddFactoryFailure) {
-              Navigator.pop(context);
+            if (state is AddCentralOfficeFailure) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(state.message),
@@ -90,29 +81,25 @@ class _AddFactoryBodyState extends State<_AddFactoryBody> {
                   spacing: 20,
                   children: [
                     CustomTextField(
-                      controller: nameController,
-                      label: "Factory Name",
-                      validatorMsg: "Factory name cannot be empty",
-                      isNumber: false,
-                    ),
-                    CustomTextField(
-                      controller: cityController,
-                      label: "City",
-                      validatorMsg: "City cannot be empty",
-                      isNumber: false,
-                    ),
-                    CustomTextField(
-                      controller: addressController,
-                      label: "Address",
-                      validatorMsg: "Address cannot be empty",
-                      isNumber: false,
-                    ),
-                    CustomTextField(
-                      controller: plantHeadEmailController,
-                      label: "Plant Head Email",
+                      controller: emailController,
+                      label: "Central Officer Email",
                       validatorMsg: "Email cannot be empty",
                       keyboardType: TextInputType.emailAddress,
                       isNumber: false,
+                    ),
+                    CustomTextField(
+                      controller: headNameController,
+                      label: "Central Office Head Name",
+                      validatorMsg: "Name cannot be empty",
+                      isNumber: false,
+                    ),
+
+                    CustomTextField(
+                      controller: phoneController,
+                      label: "Phone Number",
+                      validatorMsg: "Phone cannot be empty",
+                      keyboardType: TextInputType.number,
+                      isNumber: true,
                     ),
 
                     SizedBox(
@@ -125,19 +112,17 @@ class _AddFactoryBodyState extends State<_AddFactoryBody> {
                         onPressed: () {
                           if (formKey.currentState!.validate()) {
                             FocusScope.of(context).unfocus();
-
-                            context.read<AddFactoryBloc>().add(
-                              AddFactoryRequested(
-                                name: nameController.text.trim(),
-                                city: cityController.text.trim(),
-                                address: addressController.text.trim(),
-                                email: plantHeadEmailController.text.trim(),
+                            context.read<AddCentralOfficeBloc>().add(
+                              AddCentralOfficeRequested(
+                                name: headNameController.text.trim(),
+                                email: emailController.text.trim(),
+                                phone: int.parse(phoneController.text.trim()),
                               ),
                             );
                           }
                         },
                         child: const Text(
-                          StringConstants.createFactory,
+                          StringConstants.createCentralOffice,
                           style: TextStyle(color: Colors.white),
                         ),
                       ),

@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:spear_me_app/core/shared_prefs/auth_local_storage.dart';
 
 class AppInterceptor extends Interceptor {
   @override
@@ -7,10 +8,10 @@ class AppInterceptor extends Interceptor {
     RequestInterceptorHandler handler,
   ) async {
     if (!options.path.contains('login') && !options.path.contains('register')) {
-      // final token = await AuthLocalStorage.getToken();
-      // if (token != null) {
-      //   options.headers["Authorization"] = "Bearer $token";
-      // }
+      final token = await AuthLocalStorage.getToken();
+      if (token != null) {
+        options.headers["Authorization"] = "Bearer $token";
+      }
     }
 
     return handler.next(options);

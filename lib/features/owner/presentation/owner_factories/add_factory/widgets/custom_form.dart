@@ -5,17 +5,19 @@ class CustomForm extends StatelessWidget {
   final String label;
   final TextEditingController controller;
   final String validatorMsg;
+  final Function(String)? onChanged;
   const CustomForm({
     required this.label,
     required this.controller,
     required this.validatorMsg,
+    this.onChanged,
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-
+      onChanged: onChanged,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       controller: controller,
       validator: (String? value) {

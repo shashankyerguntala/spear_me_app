@@ -1,10 +1,30 @@
 part of 'add_factory_bloc.dart';
 
-sealed class AddFactoryState extends Equatable {
+abstract class AddFactoryState extends Equatable {
   const AddFactoryState();
-  
+
   @override
-  List<Object> get props => <Object>[];
+  List<Object?> get props => [];
 }
 
-final class AddFactoryInitial extends AddFactoryState {}
+class AddFactoryInitial extends AddFactoryState {}
+
+class AddFactoryLoading extends AddFactoryState {}
+
+class AddFactorySuccess extends AddFactoryState {
+  final String message;
+
+  const AddFactorySuccess(this.message);
+
+  @override
+  List<Object?> get props => [message];
+}
+
+class AddFactoryFailure extends AddFactoryState {
+  final String message;
+
+  const AddFactoryFailure(this.message);
+
+  @override
+  List<Object?> get props => [message];
+}

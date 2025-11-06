@@ -6,7 +6,13 @@ import 'package:spear_me_app/features/authentication/domain/repository/auth_repo
 import 'package:spear_me_app/features/authentication/domain/usecase/auth_usecase.dart';
 import 'package:spear_me_app/features/authentication/presentation/sign_in/bloc/sign_in_bloc.dart';
 import 'package:spear_me_app/features/authentication/presentation/sign_up/bloc/sign_up_bloc.dart';
+import 'package:spear_me_app/features/owner/data/data_sources/owner_data_source.dart';
+import 'package:spear_me_app/features/owner/data/repo_impl/owner_repo_impl.dart';
+import 'package:spear_me_app/features/owner/domain/repository/owner_repository.dart';
+import 'package:spear_me_app/features/owner/domain/usecase/owner_usecase.dart';
+import 'package:spear_me_app/features/owner/presentation/owner_central_office/owner_central_office_home/bloc/owner_central_office_home_bloc.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_dashboard/bloc/owner_home_bloc.dart';
+import 'package:spear_me_app/features/owner/presentation/owner_factories/add_factory/bloc/add_factory_bloc.dart';
 
 final GetIt di = GetIt.instance;
 
@@ -18,18 +24,26 @@ class Di {
 
     //!data sources
     di.registerLazySingleton(() => AuthDataSource(dioClient: di()));
+    di.registerLazySingleton(() => OwnerDataSource(dioClient: di()));
 
     //! Repositories
 
     di.registerLazySingleton<AuthRepository>(
       () => AuthRepoImpl(authDataSource: di()),
     );
+    di.registerLazySingleton<OwnerRepository>(
+      () => OwnerRepoImpl(ownerDataSource: di()),
+    );
 
     //! usecases
     di.registerLazySingleton(() => AuthUsecase(authRepository: di()));
+    di.registerLazySingleton(() => OwnerUsecase(ownerRepository: di()));
+
     //! bloc
     di.registerCachedFactory(() => SignInBloc(di()));
     di.registerCachedFactory(() => OwnerHomeBloc());
     di.registerCachedFactory(() => SignUpBloc(di()));
+    di.registerCachedFactory(() => OwnerCentralOfficeHomeBloc());
+    di.registerCachedFactory(() => AddFactoryBloc(di()));
   }
 }

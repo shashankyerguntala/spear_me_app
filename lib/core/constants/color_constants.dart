@@ -11,7 +11,7 @@ class ColorConstants {
   static const Color scaffoldBg = Color(0xFFF3F4F6);
   static const Color cardBg = Colors.white;
   static const Color surface = Colors.white;
-
+  
   static const Color textPrimary = Color(0xFF111827);
   static const Color textSecondary = Color(0xFF6B7280);
   static const Color textOnPrimary = Colors.white;

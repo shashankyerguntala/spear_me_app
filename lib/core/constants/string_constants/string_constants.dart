@@ -32,7 +32,8 @@ class StringConstants {
 
   static const String loginFailure = 'Login Failed. Please try again.';
 
-  static const String numberLabel = 'Number';
+  static const String numberLabel = 'Mobile Number';
+  static const String numberEmpty = 'Number cannot be empty';
   static const String nineOne = "+91";
 
   //! O W N E R
@@ -53,11 +54,10 @@ class StringConstants {
       'Factory name cannot be empty!';
 
   //! owner-central-office
-  static const String centralOfficeName = 'Central office Name';
-  static const String centralOfficeLocation = 'Central office Location';
-  static const String centralOfficeHead = 'Appoint central office head';
-  static const String createCentralOffice = 'Create central office';
-  static const String addCentralOffice = 'Add central office';
+  static const String centralOfficerName = 'Central officer Name';
+  static const String centralOfficerEmail = 'Central officer email';
+  static const String createCentralOffice = 'Create central officer';
+  static const String addCentralOfficer = 'Add central officer';
   static const String centralOfficeNameCannnotBeEmpty =
-      'Central office name cannot be empty!';
+      'Central officer name cannot be empty!';
 }

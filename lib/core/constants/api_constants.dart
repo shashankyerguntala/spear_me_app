@@ -11,5 +11,8 @@ class ApiConstants {
   //! distributor sign Up
   static const String register = '/api/auth/signup';
 
-  
+  //! owner API
+  static const String createCentralOfficer = '/api/owner/add-officer';
+  static const String createFactory = '/api/owner/create/factory';
+  static const String getCentralOffice = '/api/owner/get/central-offices';
 }
