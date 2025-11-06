@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:spear_me_app/core/constants/string_constants/routes_constansts.dart';
-import 'package:spear_me_app/features/owner/presentation/owner_central_office/screens/owner_central_offices.dart';
+import 'package:spear_me_app/features/owner/presentation/owner_central_office/add_central_office/screens/add_central_office.dart';
+import 'package:spear_me_app/features/owner/presentation/owner_central_office/owner_central_office_home/screens/owner_central_offices.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_dashboard/screens/owner_dashboard.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_employees/screens/owner_employees.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_factories/add_factory/screen/add_factory_screen.dart';
@@ -34,5 +35,9 @@ final List<GoRoute> ownerRoutes = <GoRoute>[
   GoRoute(
     path: RoutesConstants.ownerAddProductsRoute,
     builder: (BuildContext context, GoRouterState state) => AddFactoryScreen(),
+  ),
+  GoRoute(
+    path: RoutesConstants.ownerAddCentralOfficeRoute,
+    builder: (BuildContext context, GoRouterState state) => AddCentralOffice(),
   ),
 ];

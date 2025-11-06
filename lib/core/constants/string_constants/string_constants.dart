@@ -41,12 +41,23 @@ class StringConstants {
   static const String factories = 'Factories';
   static const String employees = 'Employees';
   static const String products = 'Products';
+
+  //!owner-factories
+
   static const String factoryName = 'Factory Name';
   static const String factoryLocation = 'Factory Location';
   static const String appointPlantHead = 'Appoint plant head';
   static const String createFactory = 'Create factory';
   static const String addFactory = 'Add Factory';
-  //! validator messages
   static const String factoryNameCannnotBeEmpty =
       'Factory name cannot be empty!';
+
+  //! owner-central-office
+  static const String centralOfficeName = 'Central office Name';
+  static const String centralOfficeLocation = 'Central office Location';
+  static const String centralOfficeHead = 'Appoint central office head';
+  static const String createCentralOffice = 'Create central office';
+  static const String addCentralOffice = 'Add central office';
+  static const String centralOfficeNameCannnotBeEmpty =
+      'Central office name cannot be empty!';
 }

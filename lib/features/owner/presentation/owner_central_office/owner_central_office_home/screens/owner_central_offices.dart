@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:spear_me_app/core/constants/color_constants.dart';
 import 'package:spear_me_app/core/constants/string_constants/routes_constansts.dart';
-import 'package:spear_me_app/features/owner/presentation/owner_central_office/widgets/central_office_card.dart';
-import 'package:spear_me_app/features/owner/presentation/owner_factories/factory_home/widgets/factory_card.dart';
+import 'package:spear_me_app/features/owner/presentation/owner_central_office/owner_central_office_home/widgets/central_office_card.dart';
 
 class OwnerCentralOffices extends StatelessWidget {
   const OwnerCentralOffices({super.key});
@@ -69,10 +68,10 @@ class OwnerCentralOffices extends StatelessWidget {
         hoverColor: ColorConstants.owner,
         backgroundColor: ColorConstants.owner,
         onPressed: () {
-          context.push(RoutesConstants.ownerAddProductsRoute);
+          context.push(RoutesConstants.ownerAddCentralOfficeRoute);
         },
         label: Text(
-          'Add Factory',
+          'Add central office',
           style: TextStyle(
             color: ColorConstants.cardBg,
             fontWeight: FontWeight.bold,
