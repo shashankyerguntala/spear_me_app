@@ -9,6 +9,7 @@ class SignUpForm extends StatelessWidget {
   final TextEditingController nameController;
   final TextEditingController emailController;
   final TextEditingController passwordController;
+  final TextEditingController numberController;
   final bool obscurePassword;
 
   final VoidCallback onPasswordVisibilityToggle;
@@ -27,6 +28,7 @@ class SignUpForm extends StatelessWidget {
 
     required this.onSubmit,
     required this.isLoading,
+    required this.numberController,
     super.key,
   });
 
@@ -36,13 +38,15 @@ class SignUpForm extends StatelessWidget {
       child: Form(
         key: formKey,
         child: Column(
+          spacing: 16,
           children: <Widget>[
             CustomTextField(
               controller: nameController,
               label: StringConstants.usernameLabel,
               validatorMsg: StringConstants.usernameEmpty,
+              keyboardType: TextInputType.name,
+              isNumber: false,
             ),
-            const SizedBox(height: 16),
 
             CustomTextField(
               controller: emailController,
@@ -50,26 +54,31 @@ class SignUpForm extends StatelessWidget {
               validatorMsg: StringConstants.emailEmpty,
               keyboardType: TextInputType.emailAddress,
               emailValidator: true,
+              isNumber: false,
             ),
-            const SizedBox(height: 16),
-
+            CustomTextField(
+              controller: numberController,
+              label: StringConstants.numberLabel,
+              validatorMsg: StringConstants.passwordEmpty,
+              keyboardType: TextInputType.number,
+              isNumber: true,
+            ),
             CustomTextField(
               controller: passwordController,
               label: StringConstants.passwordLabel,
               validatorMsg: StringConstants.passwordEmpty,
               obscureText: obscurePassword,
+              isNumber: false,
 
               suffixIcon: IconButton(
                 icon: Icon(
                   obscurePassword ? Icons.visibility_off : Icons.visibility,
-                  color: ColorConstants.secondaryLight,
+                  color: ColorConstants.primaryLight,
                 ),
                 onPressed: onPasswordVisibilityToggle,
               ),
             ),
-            const SizedBox(height: 16),
 
-            const SizedBox(height: 12),
             Row(
               spacing: 4,
               mainAxisAlignment: MainAxisAlignment.center,

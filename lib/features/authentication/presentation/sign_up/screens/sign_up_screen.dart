@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:spear_me_app/core/constants/color_constants.dart';
+import 'package:spear_me_app/core/constants/string_constants/routes_constansts.dart';
 import 'package:spear_me_app/core/di/di.dart';
 import 'package:spear_me_app/features/authentication/presentation/sign_up/bloc/sign_up_bloc.dart';
 import 'package:spear_me_app/features/authentication/presentation/sign_up/widgets/sign_up_appbar.dart';
@@ -14,6 +15,7 @@ class SignUpScreen extends StatelessWidget {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final TextEditingController numberController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return BlocProvider<SignUpBloc>(
@@ -34,7 +36,7 @@ class SignUpScreen extends StatelessWidget {
                 backgroundColor: ColorConstants.success,
               ),
             );
-            context.go('/login');
+            context.go(RoutesConstants.loginRoute);
           }
         },
         builder: (BuildContext context, SignUpState state) {
@@ -69,12 +71,15 @@ class SignUpScreen extends StatelessWidget {
                             SignUpRequested(
                               username: nameController.text.trim(),
                               email: emailController.text.trim(),
+
                               password: passwordController.text.trim(),
+                              number: int.parse(numberController.text),
                             ),
                           );
                         }
                       },
                       isLoading: isLoading,
+                      numberController: numberController,
                     ),
                   ],
                 ),

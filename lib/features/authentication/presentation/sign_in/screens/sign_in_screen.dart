@@ -43,7 +43,7 @@ class SignInScreen extends StatelessWidget {
             );
 
             if (context.mounted) {
-              context.go(RoutesConstants.ownerHomeRoute);
+              context.push(RoutesConstants.ownerHomeRoute);
             }
           }
         },
@@ -75,6 +75,7 @@ class SignInScreen extends StatelessWidget {
                   ),
                   child: Column(
                     children: <Widget>[
+                      Lottie.asset(AssetsConstants.loginAsset),
                       const SizedBox(height: 20),
                       Text(
                         StringConstants.welcomeBack,

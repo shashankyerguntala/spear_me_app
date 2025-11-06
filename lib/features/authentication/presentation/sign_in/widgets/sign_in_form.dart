@@ -38,11 +38,12 @@ class SignInForm extends StatelessWidget {
             controller: emailController,
             label: StringConstants.emailLabel,
             validatorMsg: StringConstants.emailEmpty,
-            keyboardType: TextInputType.emailAddress,
+            keyboardType: TextInputType.emailAddress, isNumber: false,
           ),
           const SizedBox(height: 16),
 
           CustomTextField(
+             isNumber: false,
             controller: passwordController,
             label: StringConstants.passwordLabel,
             validatorMsg: StringConstants.passwordEmpty,

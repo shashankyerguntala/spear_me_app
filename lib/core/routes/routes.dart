@@ -8,10 +8,9 @@ import 'package:spear_me_app/features/authentication/presentation/sign_in/screen
 import 'package:spear_me_app/features/authentication/presentation/sign_up/screens/sign_up_screen.dart';
 
 // ignore: avoid_classes_with_only_static_members
-
-abstract class Routes {
+class Routes {
   static final GoRouter router = GoRouter(
-    initialLocation: RoutesConstants.loginRoute,
+    initialLocation: RoutesConstants.ownerHomeRoute,
     routes: <RouteBase>[
       ShellRoute(
         navigatorKey: ownerKey,

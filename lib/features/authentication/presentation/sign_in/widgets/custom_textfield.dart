@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/src/services/text_formatter.dart';
 import 'package:spear_me_app/core/constants/color_constants.dart';
 import 'package:spear_me_app/core/constants/string_constants/string_constants.dart';
 
@@ -9,19 +10,21 @@ class CustomTextField extends StatelessWidget {
   final TextInputType keyboardType;
   final bool obscureText;
   final bool emailValidator;
-
+  final bool isNumber;
   final Widget? suffixIcon;
 
   const CustomTextField({
     required this.controller,
     required this.label,
     required this.validatorMsg,
+    required this.isNumber,
     this.keyboardType = TextInputType.text,
     this.obscureText = false,
     this.emailValidator = false,
-    super.key,
 
     this.suffixIcon,
+
+    super.key,
   });
 
   @override
@@ -29,9 +32,36 @@ class CustomTextField extends StatelessWidget {
     return TextFormField(
       controller: controller,
       keyboardType: keyboardType,
+      inputFormatters: isNumber
+          ? <TextInputFormatter>[
+              FilteringTextInputFormatter.digitsOnly,
+              LengthLimitingTextInputFormatter(10),
+            ]
+          : <TextInputFormatter>[],
       autovalidateMode: AutovalidateMode.onUserInteraction,
       obscureText: obscureText,
       decoration: InputDecoration(
+        prefixIcon: isNumber
+            ? SizedBox(
+                width: 60,
+                child: Row(
+                  spacing: 12,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      StringConstants.nineOne,
+                      style: TextStyle(fontWeight: FontWeight.w600),
+                    ),
+
+                    Container(
+                      width: 1.2,
+                      height: 20,
+                      color: ColorConstants.border,
+                    ),
+                  ],
+                ),
+              )
+            : null,
         labelText: label,
         labelStyle: const TextStyle(color: ColorConstants.textPrimary),
         focusedErrorBorder: OutlineInputBorder(
@@ -52,6 +82,7 @@ class CustomTextField extends StatelessWidget {
         fillColor: ColorConstants.cardBg,
         suffixIcon: suffixIcon,
       ),
+
       validator: (String? value) {
         if (value == null || value.isEmpty) {
           return validatorMsg;

@@ -32,10 +32,21 @@ class StringConstants {
 
   static const String loginFailure = 'Login Failed. Please try again.';
 
+  static const String numberLabel = 'Number';
+  static const String nineOne = "+91";
+
   //! O W N E R
   static const String ownerLabel = 'Owner';
   static const String dashboard = 'Dashboard';
   static const String factories = 'Factories';
   static const String employees = 'Employees';
   static const String products = 'Products';
+  static const String factoryName = 'Factory Name';
+  static const String factoryLocation = 'Factory Location';
+  static const String appointPlantHead = 'Appoint plant head';
+  static const String createFactory = 'Create factory';
+  static const String addFactory = 'Add Factory';
+  //! validator messages
+  static const String factoryNameCannnotBeEmpty =
+      'Factory name cannot be empty!';
 }
