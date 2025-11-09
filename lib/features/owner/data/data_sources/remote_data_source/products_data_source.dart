@@ -6,10 +6,8 @@ import 'package:spear_me_app/core/network/dio_client.dart';
 import 'package:spear_me_app/core/network/failure.dart';
 import 'package:spear_me_app/features/owner/data/models/paged_products_model.dart';
 import 'package:spear_me_app/features/owner/data/models/product_category_model.dart';
-import 'package:spear_me_app/features/owner/data/models/product_entity.dart';
 import 'package:spear_me_app/features/owner/domain/entity/paged_products_entity.dart';
 import 'package:spear_me_app/features/owner/domain/entity/product_category_entity.dart';
-import 'package:spear_me_app/features/owner/domain/entity/product_entity.dart';
 
 class ProductsDataSource {
   final DioClient dioClient;
@@ -86,7 +84,7 @@ class ProductsDataSource {
   }
 
   //!  UPLOAD PRODUCT
-  Future<Either<Failure, ProductEntity>> uploadProduct({
+  Future<Either<Failure, String>> addProduct({
     required String name,
     required String description,
     required double price,
@@ -114,7 +112,7 @@ class ProductsDataSource {
       if (data['success'] != true) {
         return Left(Failure(data["message"]));
       }
-      return Right(ProductModel.fromJson(data['data']));
+      return Right(data['message']);
     });
   }
 
