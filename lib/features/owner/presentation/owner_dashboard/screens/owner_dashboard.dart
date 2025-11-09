@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
 import 'package:spear_me_app/core/constants/color_constants.dart';
 import 'package:spear_me_app/core/constants/string_constants/assets_constants.dart';
+import 'package:spear_me_app/core/constants/string_constants/routes_constansts.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_dashboard/bloc/owner_home_bloc.dart';
-import 'package:spear_me_app/features/owner/presentation/owner_dashboard/widgets/bar_chart_widget.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_dashboard/widgets/stat_card.dart';
 
 class OwnerDashboard extends StatelessWidget {
@@ -13,7 +14,6 @@ class OwnerDashboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final double screenHeight = MediaQuery.of(context).size.height;
-
     return BlocProvider<OwnerHomeBloc>(
       create: (BuildContext context) =>
           OwnerHomeBloc()..add(OwnerInitialEvent()),
@@ -22,7 +22,12 @@ class OwnerDashboard extends StatelessWidget {
           actions: <Widget>[
             Padding(
               padding: const EdgeInsets.all(12.0),
-              child: Icon(Icons.person),
+              child: IconButton(
+                onPressed: () {
+                  context.go(RoutesConstants.ownerProfileRoute);
+                },
+                icon: Icon(Icons.person),
+              ),
             ),
           ],
         ),
@@ -65,7 +70,8 @@ class OwnerDashboard extends StatelessWidget {
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(color: ColorConstants.border),
                         ),
-                        child: const BarChartWidget(),
+                        child: Text('BAR GRAPH SOON ->'),
+                        // child: const BarChartWidget(),
                       ),
                     ],
                   ),

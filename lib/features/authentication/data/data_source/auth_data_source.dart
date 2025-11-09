@@ -52,12 +52,11 @@ class AuthDataSource {
           data: <String, dynamic>{"email": email, "password": password},
         );
 
-    // ignore: always_specify_types
     return result.fold((Failure fail) => Left(fail), (
       Map<String, dynamic> data,
     ) {
       final LoginResponseModel response = LoginResponseModel.fromJson(data);
-      // ignore: always_specify_types
+
       return Right(response);
     });
   }

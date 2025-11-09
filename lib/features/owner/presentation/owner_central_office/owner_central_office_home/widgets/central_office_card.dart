@@ -8,11 +8,7 @@ class CentralOfficeSummaryCard extends StatelessWidget {
   final VoidCallback onEmployeesTap;
 
   const CentralOfficeSummaryCard({
-    super.key,
-    required this.name,
-    required this.location,
-    required this.employeeCount,
-    required this.onEmployeesTap,
+    required this.name, required this.location, required this.employeeCount, required this.onEmployeesTap, super.key,
   });
 
   @override
@@ -33,7 +29,7 @@ class CentralOfficeSummaryCard extends StatelessWidget {
               end: Alignment.bottomRight,
               colors: [Colors.white, Colors.grey.shade50],
             ),
-            border: Border.all(color: Colors.grey.shade200, width: 1),
+            border: Border.all(color: Colors.grey.shade200),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

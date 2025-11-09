@@ -12,8 +12,8 @@ class DioClient {
     : dio = Dio(
         BaseOptions(
           baseUrl: ApiConstants.baseUrl,
-          connectTimeout: const Duration(seconds: 8),
-          receiveTimeout: const Duration(seconds: 8),
+          connectTimeout: const Duration(seconds: 5),
+          receiveTimeout: const Duration(seconds: 5),
           headers: <String, dynamic>{'Content-Type': 'application/json'},
         ),
       ) {
@@ -23,12 +23,12 @@ class DioClient {
   //! Learn to Use reponse parser
   Future<Either<Failure, dynamic>> getRequest(
     String endpoint, {
-    Map<String, dynamic>? query,
+    Map<String, dynamic>? queryParameters,
   }) async {
     try {
       final Response response = await dio.get(
         endpoint,
-        queryParameters: query,
+        queryParameters: queryParameters,
         options: Options(validateStatus: (int? status) => true),
       );
       return Right(response.data);
@@ -74,6 +74,25 @@ class DioClient {
       final Response response = await dio.delete(
         endpoint,
         options: Options(validateStatus: (int? status) => true),
+      );
+      return Right(response.data);
+    } on DioException catch (e) {
+      return Left(ErrorHandler.handle(e));
+    }
+  }
+
+  Future<Either<Failure, dynamic>> uploadRequest(
+    String endpoint, {
+    required FormData formData,
+  }) async {
+    try {
+      final Response response = await dio.post(
+        endpoint,
+        data: formData,
+        options: Options(
+          contentType: 'multipart/form-data',
+          validateStatus: (int? status) => true,
+        ),
       );
       return Right(response.data);
     } on DioException catch (e) {

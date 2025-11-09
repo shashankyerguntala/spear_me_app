@@ -1,0 +1,93 @@
+{
+    "success": true,
+    "message": "Factories fetched successfully",
+    "data": {
+        "content": [
+            {
+                "name": "Omega Factory Unit 1",
+                "city": "Pune",
+                "address": "MIDC Phase 1, Hinjewadi, Pune",
+                "plantHeadEmail": "omega1.head@gmail.com"
+            },
+            {
+                "name": "Omega Factory Unit 2",
+                "city": "Pune",
+                "address": "Plot 12, Electronics City Phase 2, Bangalore",
+                "plantHeadEmail": "omega2.head@gmail.com"
+            },
+            {
+                "name": "Prime Automotive Parts",
+                "city": "Hyderabad",
+                "address": "Sector 21, Hitech City, Hyderabad",
+                "plantHeadEmail": "prime.hyderabad@gmail.com"
+            },
+            {
+                "name": "Shree Motors Assembly",
+                "city": "Mumbai",
+                "address": "TTC Industrial Area, Navi Mumbai",
+                "plantHeadEmail": "shree.mumbai@gmail.com"
+            },
+            {
+                "name": "Rapid Gear Unit",
+                "city": "Chennai",
+                "address": "SIDCO Industrial Estate, Chennai",
+                "plantHeadEmail": "rapid.chennai@gmail.com"
+            },
+            {
+                "name": "Velocity Auto Components",
+                "city": "Delhi",
+                "address": "Okhla Industrial Phase 3, Delhi",
+                "plantHeadEmail": "velocity.delhi@gmail.com"
+            },
+            {
+                "name": "GearMax Engineering",
+                "city": "Nagpur",
+                "address": "Hingna Industrial Area, Nagpur",
+                "plantHeadEmail": "gearmax.nagpur@gmail.com"
+            },
+            {
+                "name": "Maharashtra Auto Works",
+                "city": "Aurangabad",
+                "address": "MIDC Industrial Zone, Aurangabad",
+                "plantHeadEmail": "maharashtra.auto@gmail.com"
+            },
+            {
+                "name": "Innovate Motors",
+                "city": "Bangalore",
+                "address": "Peenya Industrial Layout, Bangalore",
+                "plantHeadEmail": "innovate.bangalore@gmail.com"
+            },
+            {
+                "name": "Unity Auto Components",
+                "city": "Surat",
+                "address": "Katargam Industrial Estate, Surat",
+                "plantHeadEmail": "unity.surat@gmail.com"
+            }
+        ],
+        "pageable": {
+            "pageNumber": 0,
+            "pageSize": 5,
+            "sort": {
+                "empty": false,
+                "sorted": true,
+                "unsorted": false
+            },
+            "offset": 0,
+            "paged": true,
+            "unpaged": false
+        },
+        "last": false,
+        "totalElements": 10,
+        "totalPages": 2,
+        "first": true,
+        "size": 5,
+        "number": 0,
+        "numberOfElements": 5,
+        "sort": {
+            "empty": false,
+            "sorted": true,
+            "unsorted": false
+        },
+        "empty": false
+    }
+}

@@ -1,19 +1,15 @@
-class Employee {
-  final String id;
-  final String name;
-  final String position;
-  final String department;
+class OfficerEntity {
+  final int id;
+  final String username;
   final String email;
-  final String phone;
-  final String imageUrl;
+  final String role;
+  final String isActive;
 
-  Employee({
+  OfficerEntity({
     required this.id,
-    required this.name,
-    required this.position,
-    required this.department,
+    required this.username,
     required this.email,
-    required this.phone,
-    required this.imageUrl,
+    required this.role,
+    required this.isActive,
   });
 }

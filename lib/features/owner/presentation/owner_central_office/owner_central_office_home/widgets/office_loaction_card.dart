@@ -55,8 +55,6 @@ class OfficeLocationCard extends StatelessWidget {
           const SizedBox(height: 16),
           InfoRow(icon: Icons.location_on, text: location),
           const SizedBox(height: 8),
-          InfoRow(icon: Icons.home, text: address),
-          const SizedBox(height: 8),
           InfoRow(icon: Icons.people, text: '$employeeCount Employees'),
         ],
       ),

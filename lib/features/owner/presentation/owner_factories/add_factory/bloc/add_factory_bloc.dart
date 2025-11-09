@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:spear_me_app/features/owner/domain/usecase/owner_usecase.dart';
-import 'package:spear_me_app/core/network/failure.dart';
 
 part 'add_factory_event.dart';
 part 'add_factory_state.dart';
@@ -26,9 +25,16 @@ class AddFactoryBloc extends Bloc<AddFactoryEvent, AddFactoryState> {
       event.email,
     );
 
-    result.fold(
-      (Failure failure) => emit(AddFactoryFailure(failure.message)),
-      (String message) => emit(AddFactorySuccess(message)),
-    );
+    result.fold((failure) {
+      final isPlantHeadMissing = failure.message.contains(
+        "Please create a Plant Head ",
+      );
+      emit(
+        AddFactoryFailure(
+          failure.message,
+          allowAddPlantHead: isPlantHeadMissing,
+        ),
+      );
+    }, (success) => emit(AddFactorySuccess(success)));
   }
 }

@@ -1,0 +1,200 @@
+{
+    "success": true,
+    "message": "Employees fetched successfully",
+    "data": {
+        "content": [
+            {
+                "id": 18,
+                "username": "aaa",
+                "email": "a@gmail.com",
+                "role": "CENTRAL_OFFICE",
+                "isActive": "ACTIVE",
+                "img": null,
+                "phone": null
+            },
+            {
+                "id": 4,
+                "username": "ankita",
+                "email": "ankita@gmail.com",
+                "role": "DISTRIBUTOR",
+                "isActive": "ACTIVE",
+                "img": "https://res.cloudinary.com/dsprypjte/image/upload/v1762404746/phsggqx41spm1eep8wcx.jpg",
+                "phone": 123456765432
+            },
+            {
+                "id": 21,
+                "username": "dhano",
+                "email": "d@gmail.com",
+                "role": "CENTRAL_OFFICE",
+                "isActive": "ACTIVE",
+                "img": null,
+                "phone": null
+            },
+            {
+                "id": 22,
+                "username": "email",
+                "email": "email@gmail.com",
+                "role": "CENTRAL_OFFICE",
+                "isActive": "ACTIVE",
+                "img": null,
+                "phone": null
+            },
+            {
+                "id": 1,
+                "username": "john_doe123",
+                "email": "johndoe@example.com",
+                "role": "DISTRIBUTOR",
+                "isActive": "ACTIVE",
+                "img": null,
+                "phone": 1234567890
+            },
+            {
+                "id": 19,
+                "username": "karan",
+                "email": "k@gmail.com",
+                "role": "CENTRAL_OFFICE",
+                "isActive": "ACTIVE",
+                "img": null,
+                "phone": null
+            },
+            {
+                "id": 2,
+                "username": "lavanya",
+                "email": "lavanya@gmail.com",
+                "role": "DISTRIBUTOR",
+                "isActive": "ACTIVE",
+                "img": "https://res.cloudinary.com/dsprypjte/image/upload/v1762367079/ixugdaubfnfauwh0wxv7.jpg",
+                "phone": 9356837100
+            },
+            {
+                "id": 8,
+                "username": "lavanya",
+                "email": "lav@gmail.com",
+                "role": "DISTRIBUTOR",
+                "isActive": "ACTIVE",
+                "img": null,
+                "phone": 7447739847
+            },
+            {
+                "id": 13,
+                "username": "mitali Doe",
+                "email": "mitali@gmail.com",
+                "role": "CENTRAL_OFFICE",
+                "isActive": "ACTIVE",
+                "img": null,
+                "phone": null
+            },
+            {
+                "id": 20,
+                "username": "narayan",
+                "email": "n@gmail.com",
+                "role": "CENTRAL_OFFICE",
+                "isActive": "ACTIVE",
+                "img": null,
+                "phone": null
+            },
+            {
+                "id": 17,
+                "username": "one Doe",
+                "email": "one@gmail.com",
+                "role": "CENTRAL_OFFICE",
+                "isActive": "ACTIVE",
+                "img": null,
+                "phone": null
+            },
+            {
+                "id": 9,
+                "username": "Owner",
+                "email": "owner@gmail.com",
+                "role": "OWNER",
+                "isActive": "ACTIVE",
+                "img": "https://res.cloudinary.com/dsprypjte/image/upload/v1762448252/egrxu2ttfekzcsy5mtx0.jpg",
+                "phone": 2124565432
+            },
+            {
+                "id": 6,
+                "username": "owner_admin",
+                "email": "owner@supplychain.com",
+                "role": "OWNER",
+                "isActive": "ACTIVE",
+                "img": null,
+                "phone": null
+            },
+            {
+                "id": 15,
+                "username": "planthead",
+                "email": "wow@gmail.com",
+                "role": "PLANT_HEAD",
+                "isActive": "ACTIVE",
+                "img": null,
+                "phone": null
+            },
+            {
+                "id": 16,
+                "username": "planthead",
+                "email": "nice@gmail.com",
+                "role": "PLANT_HEAD",
+                "isActive": "ACTIVE",
+                "img": null,
+                "phone": null
+            },
+            {
+                "id": 23,
+                "username": "sai",
+                "email": "sai@gmail.com",
+                "role": "CENTRAL_OFFICE",
+                "isActive": "ACTIVE",
+                "img": null,
+                "phone": null
+            },
+            {
+                "id": 24,
+                "username": "sai ambat",
+                "email": "sai1@gmail.com",
+                "role": "CENTRAL_OFFICE",
+                "isActive": "ACTIVE",
+                "img": null,
+                "phone": null
+            },
+            {
+                "id": 3,
+                "username": "shash",
+                "email": "shash@gmail.com",
+                "role": "DISTRIBUTOR",
+                "isActive": "ACTIVE",
+                "img": "https://res.cloudinary.com/dsprypjte/image/upload/v1762367300/vq89qi8g5hfbzetcddwu.jpg",
+                "phone": 9356837100
+            },
+            {
+                "id": 7,
+                "username": "shash",
+                "email": "s@gmail.com",
+                "role": "DISTRIBUTOR",
+                "isActive": "ACTIVE",
+                "img": null,
+                "phone": 1234567890
+            },
+            {
+                "id": 14,
+                "username": "shash Doe",
+                "email": "shash1@gmail.com",
+                "role": "CENTRAL_OFFICE",
+                "isActive": "ACTIVE",
+                "img": null,
+                "phone": null
+            }
+        ],
+        "pageable": {
+            "pageNumber": 0,
+            "pageSize": 20
+        },
+        "last": false,
+        "totalPages": 2,
+        "totalElements": 23,
+        "first": true,
+        "size": 20,
+        "number": 0,
+        "numberOfElements": 20,
+        "empty": false
+    }
+}

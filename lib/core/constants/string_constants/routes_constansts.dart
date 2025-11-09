@@ -11,6 +11,8 @@ class RoutesConstants {
   static String ownerCentralOfficesRoute = '/owner/central-office';
   static String ownerEmployeesRoute = '/owner/employees';
   static String ownerProductsRoute = '/owner/products';
-  static String ownerAddProductsRoute = '/owner/products/add';
-   static String ownerAddCentralOfficeRoute = '/owner/central-office/add';
+  static String ownerAddProductsRoute = '/owner/products/add'; //! add factories
+  static String ownerAddCentralOfficeRoute = '/owner/central-office/add';
+  static String ownerProfileRoute = '/owner/profile';
+  static String createPlantHead = '/owner/create-plant-head';
 }

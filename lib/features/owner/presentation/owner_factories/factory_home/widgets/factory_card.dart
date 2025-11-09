@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:spear_me_app/core/constants/color_constants.dart';
 
 class FactoryCard extends StatelessWidget {
   final String name;
@@ -50,20 +49,6 @@ class FactoryCard extends StatelessWidget {
                 Text(location, style: TextStyle(color: Colors.grey.shade600)),
               ],
             ),
-          ),
-
-          Row(
-            spacing: 4,
-            children: <Widget>[
-              Icon(Icons.circle, size: 8, color: ColorConstants.success),
-              Text(
-                isActive ? 'Active' : 'Inactive',
-                style: TextStyle(
-                  color: isActive ? Colors.green : Colors.red,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
           ),
         ],
       ),

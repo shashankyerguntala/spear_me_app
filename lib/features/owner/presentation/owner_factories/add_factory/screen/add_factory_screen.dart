@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
 import 'package:spear_me_app/core/constants/color_constants.dart';
 import 'package:spear_me_app/core/constants/string_constants/assets_constants.dart';
+import 'package:spear_me_app/core/constants/string_constants/routes_constansts.dart';
 import 'package:spear_me_app/core/constants/string_constants/string_constants.dart';
 import 'package:spear_me_app/core/di/di.dart';
 import 'package:spear_me_app/features/authentication/presentation/sign_in/widgets/custom_textfield.dart';
+import 'package:spear_me_app/features/owner/data/data_sources/local_data_source/city_list.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_factories/add_factory/bloc/add_factory_bloc.dart';
 
 class AddFactoryScreen extends StatelessWidget {
@@ -28,8 +31,9 @@ class _AddFactoryBody extends StatefulWidget {
 }
 
 class _AddFactoryBodyState extends State<_AddFactoryBody> {
+  final bool shoeCreatePlantHead = false;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-
+  String? selectedCity;
   final TextEditingController nameController = TextEditingController();
   final TextEditingController cityController = TextEditingController();
   final TextEditingController addressController = TextEditingController();
@@ -53,13 +57,7 @@ class _AddFactoryBodyState extends State<_AddFactoryBody> {
         body: BlocListener<AddFactoryBloc, AddFactoryState>(
           listener: (context, state) {
             if (state is AddFactoryLoading) {
-              showDialog(
-                context: context,
-                barrierDismissible: false,
-                builder: (_) => Center(
-                  child: Lottie.asset(AssetsConstants.loginLoadingAsset),
-                ),
-              );
+              Lottie.asset(AssetsConstants.loginLoadingAsset);
             }
 
             if (state is AddFactorySuccess) {
@@ -67,11 +65,9 @@ class _AddFactoryBodyState extends State<_AddFactoryBody> {
               ScaffoldMessenger.of(
                 context,
               ).showSnackBar(SnackBar(content: Text(state.message)));
-              Navigator.pop(context);
             }
 
             if (state is AddFactoryFailure) {
-              Navigator.pop(context);
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(state.message),
@@ -95,12 +91,34 @@ class _AddFactoryBodyState extends State<_AddFactoryBody> {
                       validatorMsg: "Factory name cannot be empty",
                       isNumber: false,
                     ),
-                    CustomTextField(
-                      controller: cityController,
-                      label: "City",
-                      validatorMsg: "City cannot be empty",
-                      isNumber: false,
+                    DropdownButtonFormField<String>(
+                      dropdownColor: ColorConstants.cardBg,
+                      value: selectedCity,
+                      items: citiesList
+                          .map(
+                            (city) => DropdownMenuItem(
+                              value: city,
+                              child: Text(city),
+                            ),
+                          )
+                          .toList(),
+                      onChanged: (value) {
+                        selectedCity = value;
+                        cityController.text = value ?? "";
+                        setState(() {});
+                      },
+                      decoration: InputDecoration(
+                        focusColor: ColorConstants.primary,
+                        labelText: "City",
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                      ),
+                      validator: (value) => value == null || value.isEmpty
+                          ? "City cannot be empty"
+                          : null,
                     ),
+
                     CustomTextField(
                       controller: addressController,
                       label: "Address",
@@ -147,6 +165,24 @@ class _AddFactoryBodyState extends State<_AddFactoryBody> {
               ),
             ),
           ),
+        ),
+        floatingActionButton: BlocBuilder<AddFactoryBloc, AddFactoryState>(
+          builder: (context, state) {
+            if (state is AddFactoryFailure && state.allowAddPlantHead == true) {
+              return FloatingActionButton.extended(
+                backgroundColor: ColorConstants.primary,
+                onPressed: () {
+                  context.push(RoutesConstants.createPlantHead);
+                },
+                icon: const Icon(Icons.add, color: Colors.white),
+                label: const Text(
+                  "Create Plant Head",
+                  style: TextStyle(color: Colors.white),
+                ),
+              );
+            }
+            return const SizedBox.shrink();
+          },
         ),
       ),
     );

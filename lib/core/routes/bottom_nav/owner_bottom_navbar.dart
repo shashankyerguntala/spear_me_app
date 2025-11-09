@@ -1,3 +1,4 @@
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:spear_me_app/core/constants/color_constants.dart';
@@ -9,9 +10,9 @@ class OwnerBottomNavbar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final String location = GoRouterState.of(context).uri.toString();
+    final location = GoRouterState.of(context).uri.toString();
 
-    final List<String> tabs = <String>[
+    final tabs = [
       RoutesConstants.ownerHomeRoute,
       '/owner/factories',
       '/owner/central-office',
@@ -19,40 +20,26 @@ class OwnerBottomNavbar extends StatelessWidget {
       '/owner/employees',
     ];
 
-    final int currentIndex = tabs.indexWhere(
-      (String path) => location.startsWith(path),
-    );
+    int selectedIndex = tabs.indexWhere((path) => location.startsWith(path));
+    selectedIndex = selectedIndex == -1 ? 0 : selectedIndex;
 
     return Scaffold(
       body: child,
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: currentIndex == -1 ? 0 : currentIndex,
-        onTap: (int index) => context.go(tabs[index]),
-
-        selectedItemColor: ColorConstants.primary,
-        unselectedItemColor: ColorConstants.textSecondary,
-        showUnselectedLabels: true,
-        selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
-        unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.normal),
-        type: BottomNavigationBarType.fixed,
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.dashboard),
-            label: 'Dashboard',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.factory),
-            label: 'Factories',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.apartment),
-            label: 'Central Office',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_bag),
-            label: 'Products',
-          ),
-          BottomNavigationBarItem(icon: Icon(Icons.people), label: 'Employees'),
+      bottomNavigationBar: CurvedNavigationBar(
+        index: selectedIndex,
+        height: 60,
+        backgroundColor: Colors.transparent,
+        color: ColorConstants.primary,
+        buttonBackgroundColor: ColorConstants.primaryLight,
+        animationDuration: Duration(milliseconds: 350),
+        animationCurve: Curves.linear,
+        onTap: (i) => context.go(tabs[i]),
+        items: const [
+          Icon(Icons.dashboard, size: 28, color: ColorConstants.surface),
+          Icon(Icons.factory, size: 28, color: ColorConstants.surface),
+          Icon(Icons.apartment, size: 28, color: ColorConstants.surface),
+          Icon(Icons.shopping_bag, size: 28, color: ColorConstants.surface),
+          Icon(Icons.people, size: 28, color: ColorConstants.surface),
         ],
       ),
     );

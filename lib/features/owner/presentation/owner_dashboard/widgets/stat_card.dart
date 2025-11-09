@@ -17,7 +17,7 @@ class StatCard extends StatelessWidget {
         spacing: 16,
         children: <Widget>[
           Text(label, style: TextStyle(fontSize: 16)),
-
+        
           Text(
             '1,2345',
             style: TextStyle(
