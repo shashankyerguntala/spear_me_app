@@ -28,4 +28,9 @@ class ApiConstants {
   static const String uploadProduct = '/api/products/upload';
   static const String getProducts = '/api/products';
   static const String deleteProduct = '/api/products/delete';
+
+  //! plant head api's
+  static const String plantHeadCreateBay = "/api/plant-head/bays";
+  static const String plantHeadCreateEmployee = "/api/plant-head/add/employees";
+  static const String plantHeadGetBays = "/api/plant-head/get/bays";
 }

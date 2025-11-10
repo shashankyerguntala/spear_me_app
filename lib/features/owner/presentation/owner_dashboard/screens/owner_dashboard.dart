@@ -6,6 +6,7 @@ import 'package:spear_me_app/core/constants/color_constants.dart';
 import 'package:spear_me_app/core/constants/string_constants/assets_constants.dart';
 import 'package:spear_me_app/core/constants/string_constants/routes_constansts.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_dashboard/bloc/owner_home_bloc.dart';
+import 'package:spear_me_app/features/owner/presentation/owner_dashboard/widgets/bar_chart_widget.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_dashboard/widgets/stat_card.dart';
 
 class OwnerDashboard extends StatelessWidget {
@@ -70,8 +71,8 @@ class OwnerDashboard extends StatelessWidget {
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(color: ColorConstants.border),
                         ),
-                        child: Text('BAR GRAPH SOON ->'),
-                        // child: const BarChartWidget(),
+
+                        child: const BarChartWidget(),
                       ),
                     ],
                   ),

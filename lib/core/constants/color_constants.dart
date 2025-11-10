@@ -11,7 +11,7 @@ class ColorConstants {
   static const Color scaffoldBg = Color(0xFFF3F4F6);
   static const Color cardBg = Colors.white;
   static const Color surface = Colors.white;
-  
+
   static const Color textPrimary = Color(0xFF111827);
   static const Color textSecondary = Color(0xFF6B7280);
   static const Color textOnPrimary = Colors.white;
@@ -22,6 +22,7 @@ class ColorConstants {
 
   static const Color owner = Color(0xFF1E40AF);
   static const Color plantHead = Color(0xFF047857);
+  static const Color plantHeadLight = Color.fromARGB(255, 0, 93, 45);
   static const Color supervisor = Color(0xFFB45309);
   static const Color worker = Color(0xFF6B21A8);
   static const Color distributor = Color(0xFF0EA5E9);

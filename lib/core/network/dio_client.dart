@@ -40,11 +40,13 @@ class DioClient {
   Future<Either<Failure, Map<String, dynamic>>> postRequest(
     String endpoint, {
     Map<String, dynamic>? data,
+    Map<String, dynamic>? query,
   }) async {
     try {
       final Response response = await dio.post(
         endpoint,
         data: data,
+        queryParameters: query,
         options: Options(validateStatus: (int? status) => true),
       );
       return Right(response.data);

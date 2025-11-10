@@ -14,10 +14,10 @@ class PlantHeadBottomNavbar extends StatelessWidget {
 
     final tabs = [
       RoutesConstants.plantHeadHomeRoute,
-      '/owner/factories',
-      '/owner/central-office',
-      '/owner/products',
-      '/owner/employees',
+      RoutesConstants.plantHeadRequestsRoute,
+      RoutesConstants.plantHeadCreateRoute,
+      RoutesConstants.plantHeadToolsRoute,
+      RoutesConstants.plantHeadProfileRoute,
     ];
 
     int selectedIndex = tabs.indexWhere((path) => location.startsWith(path));
@@ -29,16 +29,16 @@ class PlantHeadBottomNavbar extends StatelessWidget {
         index: selectedIndex,
         height: 60,
         backgroundColor: Colors.transparent,
-        color: ColorConstants.primary,
-        buttonBackgroundColor: ColorConstants.primaryLight,
+        color: ColorConstants.plantHead,
+        buttonBackgroundColor: ColorConstants.plantHeadLight,
         animationDuration: Duration(milliseconds: 350),
         animationCurve: Curves.linear,
         onTap: (i) => context.go(tabs[i]),
         items: const [
           Icon(Icons.dashboard, size: 28, color: ColorConstants.surface),
-          Icon(Icons.inbox, size: 28, color: ColorConstants.surface),
-          Icon(Icons.apartment, size: 28, color: ColorConstants.surface),
-          Icon(Icons.shopping_bag, size: 28, color: ColorConstants.surface),
+          Icon(Icons.move_to_inbox, size: 28, color: ColorConstants.surface),
+          Icon(Icons.add, size: 28, color: ColorConstants.surface),
+          Icon(Icons.handyman, size: 28, color: ColorConstants.surface),
           Icon(Icons.people, size: 28, color: ColorConstants.surface),
         ],
       ),
