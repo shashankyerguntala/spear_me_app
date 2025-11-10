@@ -12,49 +12,65 @@ class PlCreateScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => di<PlCreateBloc>()..add(PlFetchBays()),
+      create: (_) => di<PlCreateBloc>(),
       child: const _PlCreateBody(),
     );
   }
 }
 
-class _PlCreateBody extends StatelessWidget {
+class _PlCreateBody extends StatefulWidget {
   const _PlCreateBody();
 
   @override
-  Widget build(BuildContext context) {
-    final nameController = TextEditingController();
-    final emailController = TextEditingController();
-    final bayNameController = TextEditingController();
+  State<_PlCreateBody> createState() => _PlCreateBodyState();
+}
 
+class _PlCreateBodyState extends State<_PlCreateBody> {
+  final nameController = TextEditingController();
+  final emailController = TextEditingController();
+  final bayNameController = TextEditingController();
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    emailController.dispose();
+    bayNameController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return BlocConsumer<PlCreateBloc, PlCreateState>(
       listener: (context, state) {
         if (state is PlCreateFailure) {
-          ScaffoldMessenger.of(context)
-            ..clearSnackBars()
-            ..showSnackBar(
-              SnackBar(
-                content: Text(state.message),
-                backgroundColor: Colors.red,
-              ),
-            );
+          ScaffoldMessenger.of(context).clearSnackBars();
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(state.message), backgroundColor: Colors.red),
+          );
         }
+
         if (state is PlCreateSuccess) {
-          ScaffoldMessenger.of(context)
-            ..clearSnackBars()
-            ..showSnackBar(SnackBar(content: Text(state.msg)));
+          ScaffoldMessenger.of(context).clearSnackBars();
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(state.message),
+              backgroundColor: Colors.green,
+            ),
+          );
+
+          nameController.clear();
+          emailController.clear();
         }
       },
       builder: (context, state) {
-        if (state is PlCreateLoading) {
+        // UI only builds from PlCreateDataState
+        if (state is! PlCreateDataState) {
           return const Scaffold(
             body: Center(child: CircularProgressIndicator()),
           );
         }
 
-        if (state is! PlCreateLoaded) {
-          return const SizedBox.shrink();
-        }
+        final data = state;
 
         return Scaffold(
           backgroundColor: ColorConstants.surface,
@@ -63,102 +79,116 @@ class _PlCreateBody extends StatelessWidget {
             elevation: 0,
             centerTitle: true,
           ),
-          body: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              children: [
-                CustomTextField(
-                  controller: nameController,
-                  label: "Name",
-                  validatorMsg: "Name cannot be empty",
-                  isNumber: false,
-                ),
-                const SizedBox(height: 16),
-
-                CustomTextField(
-                  controller: emailController,
-                  label: "Email",
-                  keyboardType: TextInputType.emailAddress,
-                  validatorMsg: "Email cannot be empty",
-                  isNumber: false,
-                ),
-                const SizedBox(height: 16),
-
-                RoleDropdown(
-                  selectedRole: state.selectedRole,
-                  onRoleChanged: (role) {
-                    context.read<PlCreateBloc>().add(PlSelectRole(role!));
-                  },
-                ),
-                const SizedBox(height: 16),
-
-                if (state.selectedRole == "WORKER") ...[
-                  Row(
+          body: data.isLoading
+              ? const Center(child: CircularProgressIndicator())
+              : Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
                     children: [
-                      Expanded(
-                        child: DropdownButtonFormField<int>(
-                          value: state.selectedBayId,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            labelText: "Select Bay",
-                          ),
-                          items: state.bays.map((bay) {
-                            return DropdownMenuItem(
-                              value: bay.id,
-                              child: Text(bay.bayName),
-                            );
-                          }).toList(),
-                          onChanged: (val) => context.read<PlCreateBloc>().add(
-                            PlSelectBay(val!),
-                          ),
-                        ),
+                      CustomTextField(
+                        controller: nameController,
+                        label: "Name",
+                        validatorMsg: "Name cannot be empty",
+                        isNumber: false,
                       ),
-                      const SizedBox(width: 10),
-                      GestureDetector(
-                        onTap: () =>
-                            _showAddBaySheet(context, bayNameController),
-                        child: CircleAvatar(
-                          radius: 18,
-                          backgroundColor: ColorConstants.primary,
-                          child: const Icon(Icons.add, color: Colors.white),
+                      const SizedBox(height: 16),
+                      CustomTextField(
+                        controller: emailController,
+                        label: "Email",
+                        keyboardType: TextInputType.emailAddress,
+                        validatorMsg: "Email cannot be empty",
+                        isNumber: false,
+                      ),
+                      const SizedBox(height: 16),
+                      RoleDropdown(
+                        selectedRole: data.selectedRole,
+                        onRoleChanged: (role) {
+                          if (role != null) {
+                            context.read<PlCreateBloc>().add(
+                              PlSelectRole(role),
+                            );
+                          }
+                        },
+                      ),
+                      const SizedBox(height: 16),
+
+                      if (data.selectedRole.toUpperCase() == "WORKER") ...[
+                        Row(
+                          children: [
+                            Expanded(
+                              child: DropdownButtonFormField<int>(
+                                value: data.selectedBayId,
+                                decoration: InputDecoration(
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  labelText: "Select Bay",
+                                ),
+                                hint: const Text("Select a bay"),
+                                items: data.bays.map((bay) {
+                                  return DropdownMenuItem(
+                                    value: bay.id,
+                                    child: Text(bay.bayName),
+                                  );
+                                }).toList(),
+                                onChanged: (val) {
+                                  if (val != null) {
+                                    context.read<PlCreateBloc>().add(
+                                      PlSelectBay(val),
+                                    );
+                                  }
+                                },
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                            GestureDetector(
+                              onTap: () =>
+                                  _showAddBaySheet(context, bayNameController),
+                              child: CircleAvatar(
+                                radius: 18,
+                                backgroundColor: ColorConstants.primary,
+                                child: const Icon(
+                                  Icons.add,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 8),
+                      ],
+
+                      const Spacer(),
+
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: ColorConstants.primary,
+                            padding: const EdgeInsets.symmetric(vertical: 14),
+                          ),
+                          onPressed: () {
+                            context.read<PlCreateBloc>().add(
+                              PlCreateStaff(
+                                name: nameController.text.trim(),
+                                email: emailController.text.trim(),
+                                role: data.selectedRole,
+                                bayId:
+                                    data.selectedRole.toUpperCase() == "WORKER"
+                                    ? data.selectedBayId
+                                    : null,
+                              ),
+                            );
+                          },
+                          child: const Text(
+                            "Create",
+                            style: TextStyle(color: Colors.white),
+                          ),
                         ),
                       ),
                     ],
                   ),
-                ],
-
-                const Spacer(),
-
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: ColorConstants.primary,
-                      padding: const EdgeInsets.symmetric(vertical: 14),
-                    ),
-                    onPressed: () {
-                      context.read<PlCreateBloc>().add(
-                        PlCreateStaff(
-                          name: nameController.text.trim(),
-                          email: emailController.text.trim(),
-                          role: state.selectedRole,
-                          bayId: state.selectedRole == "WORKER"
-                              ? state.selectedBayId
-                              : null,
-                        ),
-                      );
-                    },
-                    child: const Text(
-                      "Create",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
                 ),
-              ],
-            ),
-          ),
         );
       },
     );
@@ -174,7 +204,7 @@ class _PlCreateBody extends StatelessWidget {
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(18)),
       ),
-      builder: (_) => Padding(
+      builder: (sheetContext) => Padding(
         padding: EdgeInsets.fromLTRB(
           16,
           16,
@@ -185,11 +215,10 @@ class _PlCreateBody extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             const Text(
-              "Add Bay",
+              "Add New Bay",
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
             ),
             const SizedBox(height: 20),
-
             CustomTextField(
               controller: bayNameController,
               label: "Bay Name",
@@ -197,21 +226,24 @@ class _PlCreateBody extends StatelessWidget {
               isNumber: false,
             ),
             const SizedBox(height: 16),
-
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
-                  context.read<PlCreateBloc>().add(
-                    PlCreateBay(2, bayNameController.text.trim()),
-                  );
-                  Navigator.pop(context);
+                  final bayName = bayNameController.text.trim();
+                  if (bayName.isNotEmpty) {
+                    context.read<PlCreateBloc>().add(
+                      PlCreateBay(bayName: bayName),
+                    );
+                    bayNameController.clear();
+                    Navigator.pop(sheetContext);
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: ColorConstants.primary,
                 ),
                 child: const Text(
-                  "Create",
+                  "Create Bay",
                   style: TextStyle(color: Colors.white),
                 ),
               ),

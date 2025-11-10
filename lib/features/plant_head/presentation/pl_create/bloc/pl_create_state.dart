@@ -1,49 +1,54 @@
 part of 'pl_create_bloc.dart';
 
-abstract class PlCreateState extends Equatable {
+sealed class PlCreateState extends Equatable {
+  const PlCreateState();
+
   @override
   List<Object?> get props => [];
 }
 
-class PlCreateLoading extends PlCreateState {}
-
-class PlCreateSuccess extends PlCreateState {
-  final String msg;
-
-  PlCreateSuccess({required this.msg});
-}
-
-class PlCreateLoaded extends PlCreateState {
+class PlCreateDataState extends PlCreateState {
+  final bool isLoading;
   final List<BayEntity> bays;
   final String selectedRole;
   final int? selectedBayId;
-  final String? message;
 
-  PlCreateLoaded({
-    required this.bays,
-    required this.selectedRole,
+  const PlCreateDataState({
+    this.isLoading = false,
+    this.bays = const [],
+    this.selectedRole = "CHIEF_SUPERVISOR",
     this.selectedBayId,
-    this.message,
   });
 
-  PlCreateLoaded copyWith({
+  PlCreateDataState copyWith({
+    bool? isLoading,
     List<BayEntity>? bays,
     String? selectedRole,
     int? selectedBayId,
-    String? message,
   }) {
-    return PlCreateLoaded(
+    return PlCreateDataState(
+      isLoading: isLoading ?? this.isLoading,
       bays: bays ?? this.bays,
       selectedRole: selectedRole ?? this.selectedRole,
       selectedBayId: selectedBayId ?? this.selectedBayId,
-      message: message,
     );
   }
+
+  @override
+  List<Object?> get props => [isLoading, bays, selectedRole, selectedBayId];
+}
+
+class PlCreateSuccess extends PlCreateState {
+  final String message;
+  const PlCreateSuccess(this.message);
+
+  @override
+  List<Object?> get props => [message];
 }
 
 class PlCreateFailure extends PlCreateState {
   final String message;
-  PlCreateFailure(this.message);
+  const PlCreateFailure(this.message);
 
   @override
   List<Object?> get props => [message];

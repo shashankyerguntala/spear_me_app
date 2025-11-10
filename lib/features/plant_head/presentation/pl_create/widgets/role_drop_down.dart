@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:spear_me_app/core/constants/color_constants.dart';
 
 class RoleDropdown extends StatelessWidget {
   final String selectedRole;
@@ -13,22 +12,20 @@ class RoleDropdown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const roles = ["CHIEF_SUPERVISOR", "WORKER"];
-
     return DropdownButtonFormField<String>(
       value: selectedRole,
-      items: roles
-          .map(
-            (e) =>
-                DropdownMenuItem(value: e, child: Text(e.replaceAll("_", " "))),
-          )
-          .toList(),
-      onChanged: onRoleChanged,
+      items: const [
+        DropdownMenuItem(
+          value: "CHIEF_SUPERVISOR",
+          child: Text("Chief Supervisor"),
+        ),
+        DropdownMenuItem(value: "WORKER", child: Text("Worker")),
+      ],
+      onChanged: (val) => onRoleChanged(val?.toUpperCase()),
       decoration: InputDecoration(
-        labelText: "Role",
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+        labelText: "Select Role",
       ),
-      dropdownColor: ColorConstants.cardBg,
     );
   }
 }

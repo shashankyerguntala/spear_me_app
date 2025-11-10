@@ -19,6 +19,7 @@ import 'package:spear_me_app/features/owner/presentation/owner_dashboard/bloc/ow
 import 'package:spear_me_app/features/owner/presentation/owner_factories/add_factory/bloc/add_factory_bloc.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_factories/create_plant_head/bloc/create_plant_head_bloc.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_products/owner_products_home/bloc/owner_products_home_bloc.dart';
+import 'package:spear_me_app/features/plant_head/data/data_source/add_data_source.dart';
 import 'package:spear_me_app/features/plant_head/data/repo_impl/add_repo_impl.dart';
 import 'package:spear_me_app/features/plant_head/domain/repository/add_repository.dart';
 import 'package:spear_me_app/features/plant_head/domain/usecases/add_usecase.dart';
@@ -36,7 +37,7 @@ class Di {
     di.registerLazySingleton(() => AuthDataSource(dioClient: di()));
     di.registerLazySingleton(() => OwnerDataSource(dioClient: di()));
     di.registerLazySingleton(() => ProductsDataSource(di()));
-    di.registerLazySingleton(() => AddUsecase(di()));
+    di.registerLazySingleton(() => AddDataSource(di()));
 
     //! Repositories
 
@@ -70,4 +71,3 @@ class Di {
     di.registerCachedFactory(() => PlCreateBloc(di()));
   }
 }
-
