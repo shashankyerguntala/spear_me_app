@@ -8,7 +8,9 @@ import 'package:spear_me_app/features/owner/presentation/owner_employees/screens
 import 'package:spear_me_app/features/owner/presentation/owner_factories/add_factory/screen/add_factory_screen.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_factories/create_plant_head/screens/create_plant_head.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_factories/factory_home/screens/owner_factories.dart';
-import 'package:spear_me_app/features/owner/presentation/owner_products/screens/owner_products.dart';
+import 'package:spear_me_app/features/owner/presentation/owner_products/owner_add_category/screens/owner_add_category.dart';
+import 'package:spear_me_app/features/owner/presentation/owner_products/owner_add_product/screens/owner_add_products.dart';
+import 'package:spear_me_app/features/owner/presentation/owner_products/owner_products_home/screens/owner_products.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_profile/screens/owner_profile_screen.dart';
 
 final GlobalKey<NavigatorState> ownerKey = GlobalKey<NavigatorState>();
@@ -35,7 +37,7 @@ final List<GoRoute> ownerRoutes = <GoRoute>[
     builder: (BuildContext context, GoRouterState state) => OwnerEmployees(),
   ),
   GoRoute(
-    path: RoutesConstants.ownerAddProductsRoute,
+    path: RoutesConstants.ownerAddFactoriesRoute,
     builder: (BuildContext context, GoRouterState state) => AddFactoryScreen(),
   ),
   GoRoute(
@@ -51,5 +53,13 @@ final List<GoRoute> ownerRoutes = <GoRoute>[
     path: RoutesConstants.createPlantHead,
     builder: (BuildContext context, GoRouterState state) =>
         CreatePlantHeadScreen(),
+  ),
+  GoRoute(
+    path: RoutesConstants.ownerAddProducts,
+    builder: (BuildContext context, GoRouterState state) => OwnerAddProducts(),
+  ),
+  GoRoute(
+    path: RoutesConstants.ownerAddCategory,
+    builder: (BuildContext context, GoRouterState state) => OwnerAddCategory(),
   ),
 ];

@@ -19,7 +19,8 @@ class SignInInitial extends SignInState {
 class SignInLoading extends SignInState {}
 
 class SignInSuccess extends SignInState {
-  const SignInSuccess();
+  final String role;
+  const SignInSuccess(this.role);
 
   @override
   List<Object?> get props => <Object?>[];
@@ -37,8 +38,7 @@ class SignInFailure extends SignInState {
 class SignInPasswordVisibilityChanged extends SignInState {
   final bool isPasswordObscured;
 
-  // ignore: avoid_positional_boolean_parameters
-  const SignInPasswordVisibilityChanged(this.isPasswordObscured);
+  const SignInPasswordVisibilityChanged({required this.isPasswordObscured});
 
   @override
   List<Object?> get props => <Object?>[isPasswordObscured];

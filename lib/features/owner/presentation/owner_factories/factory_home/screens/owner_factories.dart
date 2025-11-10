@@ -49,7 +49,7 @@ class _OwnerFactoriesBodyState extends State<_OwnerFactoriesBody> {
       appBar: AppBar(title: const Text('Factories')),
       floatingActionButton: FloatingActionButton.extended(
         backgroundColor: ColorConstants.owner,
-        onPressed: () => context.push(RoutesConstants.ownerAddProductsRoute),
+        onPressed: () => context.push(RoutesConstants.ownerAddFactoriesRoute),
         label: const Text(
           "Add Factory",
           style: TextStyle(color: ColorConstants.surface),

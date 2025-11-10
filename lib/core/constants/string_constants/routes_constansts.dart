@@ -11,8 +11,17 @@ class RoutesConstants {
   static String ownerCentralOfficesRoute = '/owner/central-office';
   static String ownerEmployeesRoute = '/owner/employees';
   static String ownerProductsRoute = '/owner/products';
-  static String ownerAddProductsRoute = '/owner/products/add'; //! add factories
+  static String ownerAddFactoriesRoute = '/owner/factories/add';
   static String ownerAddCentralOfficeRoute = '/owner/central-office/add';
   static String ownerProfileRoute = '/owner/profile';
   static String createPlantHead = '/owner/create-plant-head';
+  static String ownerAddProducts = '/owner/products/add-product';
+  static String ownerAddCategory = '/owner/products/add-category';
+
+  //! plant head routes
+  static String plantHeadHomeRoute = '/plant-head/dashboard';
+  static String plantHeadRequestsRoute = '/plant-head/requests';
+  static String plantHeadCreateRoute = '/plant-head/create';
+  static String plantHeadToolsRoute = '/plant-head/tools';
+  static String plantHeadProfileRoute = '/plant-head/profile';
 }

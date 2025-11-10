@@ -1,62 +1,51 @@
-import 'package:equatable/equatable.dart';
-
-class ProductEntity extends Equatable {
+// product_entity.dart
+class ProductEntity {
   final int id;
   final String name;
-  final String description;
+  final String prodDescription;
   final double price;
   final int rewardPts;
   final String categoryName;
   final int? threshold;
   final String imageUrl;
-  final String? status;
+  final String? isActive;
 
   const ProductEntity({
     required this.id,
     required this.name,
-    required this.description,
+    required this.prodDescription,
     required this.price,
     required this.rewardPts,
     required this.categoryName,
     required this.imageUrl,
     this.threshold,
-    this.status,
+    this.isActive,
   });
 
   ProductEntity copyWith({
     int? id,
     String? name,
-    String? description,
+    String? prodDescription,
     double? price,
     int? rewardPts,
     String? categoryName,
     int? threshold,
     String? imageUrl,
-    String? status,
+    String? isActive,
   }) {
     return ProductEntity(
       id: id ?? this.id,
       name: name ?? this.name,
-      description: description ?? this.description,
+      prodDescription: prodDescription ?? this.prodDescription,
       price: price ?? this.price,
       rewardPts: rewardPts ?? this.rewardPts,
       categoryName: categoryName ?? this.categoryName,
       threshold: threshold ?? this.threshold,
       imageUrl: imageUrl ?? this.imageUrl,
-      status: status ?? this.status,
+      isActive: isActive ?? this.isActive,
     );
   }
-
-  @override
-  List<Object?> get props => [
-    id,
-    name,
-    description,
-    price,
-    rewardPts,
-    categoryName,
-    threshold,
-    imageUrl,
-    status,
-  ];
 }
+
+// paged_products_entity.dart
+

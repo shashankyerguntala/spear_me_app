@@ -15,7 +15,9 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
   SignInBloc(this.authUsecase) : super(const SignInInitial()) {
     on<ShowPasswordEvent>((ShowPasswordEvent event, Emitter<SignInState> emit) {
       isPasswordObscured = !isPasswordObscured;
-      emit(SignInPasswordVisibilityChanged(isPasswordObscured));
+      emit(
+        SignInPasswordVisibilityChanged(isPasswordObscured: isPasswordObscured),
+      );
     });
 
     on<SignInRequested>((
@@ -30,7 +32,7 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
         (Failure fail) => emit(SignInFailure(fail.message)),
         (LoginResponseEntity response) async {
           await AuthLocalStorage.saveToken(response.token);
-          return emit(SignInSuccess());
+          return emit(SignInSuccess(response.role));
         },
       );
     });

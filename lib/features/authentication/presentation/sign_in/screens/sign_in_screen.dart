@@ -8,6 +8,7 @@ import 'package:spear_me_app/core/constants/string_constants/assets_constants.da
 import 'package:spear_me_app/core/constants/string_constants/routes_constansts.dart';
 import 'package:spear_me_app/core/constants/string_constants/string_constants.dart';
 import 'package:spear_me_app/core/di/di.dart';
+import 'package:spear_me_app/features/authentication/data/model/roles_enum.dart';
 import 'package:spear_me_app/features/authentication/presentation/sign_in/bloc/sign_in_bloc.dart';
 import 'package:spear_me_app/features/authentication/presentation/sign_in/widgets/sign_in_form.dart';
 
@@ -43,7 +44,19 @@ class SignInScreen extends StatelessWidget {
             );
 
             if (context.mounted) {
-              context.push(RoutesConstants.ownerHomeRoute);
+              final roleEnum = state.role.toRoleEnum();
+
+              if (roleEnum == RolesEnum.owner) {
+                context.push(RoutesConstants.ownerHomeRoute);
+              } else if (roleEnum == RolesEnum.plantHead) {
+                //! navigate
+                context.push(RoutesConstants.plantHeadHomeRoute);
+              } else if (roleEnum == RolesEnum.plantHead) {
+                // context.push(RoutesConstants.plantHeadHomeRoute);
+              } else {
+                //! navigate
+                // context.push(RoutesConstants.defaultHomeRoute);
+              }
             }
           }
         },
