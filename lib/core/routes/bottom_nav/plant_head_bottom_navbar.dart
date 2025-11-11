@@ -17,7 +17,7 @@ class PlantHeadBottomNavbar extends StatelessWidget {
       RoutesConstants.plantHeadRequestsRoute,
       RoutesConstants.plantHeadCreateRoute,
       RoutesConstants.plantHeadToolsRoute,
-      RoutesConstants.plantHeadProfileRoute,
+      RoutesConstants.plantHeadEmployeesRoute,
     ];
 
     int selectedIndex = tabs.indexWhere((path) => location.startsWith(path));
@@ -29,8 +29,8 @@ class PlantHeadBottomNavbar extends StatelessWidget {
         index: selectedIndex,
         height: 60,
         backgroundColor: Colors.transparent,
-        color: ColorConstants.plantHead,
-        buttonBackgroundColor: ColorConstants.plantHeadLight,
+        color: ColorConstants.primary,
+        buttonBackgroundColor: ColorConstants.primary,
         animationDuration: Duration(milliseconds: 350),
         animationCurve: Curves.linear,
         onTap: (i) => context.go(tabs[i]),

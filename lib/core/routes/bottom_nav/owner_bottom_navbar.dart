@@ -1,4 +1,5 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:spear_me_app/core/constants/color_constants.dart';
@@ -38,8 +39,12 @@ class OwnerBottomNavbar extends StatelessWidget {
           Icon(Icons.dashboard, size: 28, color: ColorConstants.surface),
           Icon(Icons.factory, size: 28, color: ColorConstants.surface),
           Icon(Icons.apartment, size: 28, color: ColorConstants.surface),
-          Icon(Icons.shopping_bag, size: 28, color: ColorConstants.surface),
-          Icon(Icons.people, size: 28, color: ColorConstants.surface),
+          Icon(CupertinoIcons.person, size: 28, color: ColorConstants.surface),
+          Icon(
+            Icons.people_outline_outlined,
+            size: 28,
+            color: ColorConstants.surface,
+          ),
         ],
       ),
     );

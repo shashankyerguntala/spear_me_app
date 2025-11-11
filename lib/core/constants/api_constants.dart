@@ -3,11 +3,10 @@ class ApiConstants {
   //! SPEARE ME APPLICATION
   static const String baseUrl =
       'https://nonsudsing-worked-simona.ngrok-free.dev/';
-  //! login
+  //! AUTHENTICATION
   static const String login = '/api/auth/login';
-
-  //! distributor sign Up
   static const String register = '/api/auth/signup';
+  static const String logout = '/api/auth/logout';
 
   //! owner API
   static const String createCentralOfficer = '/api/owner/add-officer';
@@ -33,4 +32,5 @@ class ApiConstants {
   static const String plantHeadCreateBay = "/api/plant-head/bays";
   static const String plantHeadCreateEmployee = "/api/plant-head/add/employees";
   static const String plantHeadGetBays = "/api/plant-head/get/bays";
+  static const String plantHeadGetEmployees = "/api/plant-head/get/employees";
 }

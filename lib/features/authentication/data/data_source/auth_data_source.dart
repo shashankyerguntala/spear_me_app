@@ -30,12 +30,11 @@ class AuthDataSource {
           },
         );
 
-    // ignore: always_specify_types
     return result.fold((Failure fail) => Left(fail), (
       Map<String, dynamic> data,
     ) {
       final String message = data['message'];
-      // ignore: always_specify_types
+
       return Right(message);
     });
   }
@@ -58,6 +57,20 @@ class AuthDataSource {
       final LoginResponseModel response = LoginResponseModel.fromJson(data);
 
       return Right(response);
+    });
+  }
+
+  //! logout
+  Future<Either<Failure, String>> logout() async {
+    final Either<Failure, Map<String, dynamic>> result = await dioClient
+        .postRequest(ApiConstants.logout);
+
+    return result.fold((Failure fail) => Left(fail), (
+      Map<String, dynamic> data,
+    ) {
+      final String message = data['message'];
+      
+      return Right(message);
     });
   }
 }

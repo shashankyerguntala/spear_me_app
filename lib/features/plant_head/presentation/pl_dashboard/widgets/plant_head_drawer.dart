@@ -45,7 +45,9 @@ class PlantHeadDrawer extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.logout, color: Colors.red),
             title: const Text("Logout", style: TextStyle(color: Colors.red)),
-            onTap: () {},
+            onTap: () {
+              
+            },
           ),
         ],
       ),

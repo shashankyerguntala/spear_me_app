@@ -26,18 +26,26 @@ class PlCreateBloc extends Bloc<PlCreateEvent, PlCreateState> {
 
     final result = await usecase.getBays();
 
-    result.fold((failure) => emit(PlCreateFailure(failure.message)), (bays) {
-      emit(
-        current.copyWith(
-          isLoading: false,
-          bays: bays,
-          selectedBayId: bays.isNotEmpty ? bays.first.id : null,
-        ),
-      );
-      if (bays.isEmpty) {
-        emit(const PlCreateFailure("No bays available"));
-      }
-    });
+    result.fold(
+      (failure) {
+        emit(PlCreateFailure(failure.message));
+        emit(current.copyWith(isLoading: false));
+      },
+      (bays) {
+        emit(
+          current.copyWith(
+            isLoading: false,
+            bays: bays,
+            selectedBayId: bays.isNotEmpty ? bays.first.id : null,
+          ),
+        );
+
+        if (bays.isEmpty) {
+          emit(const PlCreateFailure("No bays available"));
+          emit(current.copyWith(isLoading: false, bays: []));
+        }
+      },
+    );
   }
 
   void _onSelectRole(PlSelectRole event, Emitter<PlCreateState> emit) {
@@ -62,42 +70,45 @@ class PlCreateBloc extends Bloc<PlCreateEvent, PlCreateState> {
     emit(current.copyWith(isLoading: true));
 
     final result = await usecase.createBay(
-      plantHeadId: 2,//! why will i give u ID extract from token 
+      plantHeadId: 2,
       bayName: event.bayName,
     );
 
-    result.fold((failure) => emit(PlCreateFailure(failure.message)), (_) async {
-      final baysResult = await usecase.getBays();
-      baysResult.fold((failure) => emit(PlCreateFailure(failure.message)), (
-        bays,
-      ) {
-        BayEntity updated = bays.last;
-        emit(
-          current.copyWith(
-            isLoading: false,
-            bays: bays,
-            selectedBayId: updated.id,
-          ),
+    result.fold(
+      (failure) {
+        emit(PlCreateFailure(failure.message));
+        emit(current.copyWith(isLoading: false));
+      },
+      (_) async {
+        final baysResult = await usecase.getBays();
+        baysResult.fold(
+          (failure) {
+            emit(PlCreateFailure(failure.message));
+            emit(current.copyWith(isLoading: false));
+          },
+          (bays) {
+            BayEntity updated = bays.last;
+
+            emit(
+              current.copyWith(
+                isLoading: false,
+                bays: bays,
+                selectedBayId: updated.id,
+              ),
+            );
+
+            emit(const PlCreateSuccess("Bay created successfully"));
+            emit(current.copyWith());
+          },
         );
-        emit(const PlCreateSuccess("Bay created successfully"));
-      });
-    });
+      },
+    );
   }
 
   Future<void> _onCreateStaff(
     PlCreateStaff event,
     Emitter<PlCreateState> emit,
   ) async {
-    if (event.name.isEmpty) {
-      return emit(const PlCreateFailure("Name cannot be empty"));
-    }
-    if (event.email.isEmpty) {
-      return emit(const PlCreateFailure("Email cannot be empty"));
-    }
-    if (event.role.toUpperCase() == "WORKER" && event.bayId == null) {
-      return emit(const PlCreateFailure("Please select a bay for worker"));
-    }
-
     final current = state as PlCreateDataState;
     emit(current.copyWith(isLoading: true));
 
@@ -112,9 +123,15 @@ class PlCreateBloc extends Bloc<PlCreateEvent, PlCreateState> {
             email: event.email,
           );
 
-    result.fold((failure) => emit(PlCreateFailure(failure.message)), (message) {
-      emit(current.copyWith(isLoading: false));
-      emit(PlCreateSuccess(message));
-    });
+    result.fold(
+      (failure) {
+        emit(PlCreateFailure(failure.message));
+        emit(current.copyWith(isLoading: false));
+      },
+      (message) {
+        emit(PlCreateSuccess(message));
+        emit(current.copyWith(isLoading: false));
+      },
+    );
   }
 }

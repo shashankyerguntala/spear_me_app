@@ -20,10 +20,15 @@ import 'package:spear_me_app/features/owner/presentation/owner_factories/add_fac
 import 'package:spear_me_app/features/owner/presentation/owner_factories/create_plant_head/bloc/create_plant_head_bloc.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_products/owner_products_home/bloc/owner_products_home_bloc.dart';
 import 'package:spear_me_app/features/plant_head/data/data_source/add_data_source.dart';
+import 'package:spear_me_app/features/plant_head/data/data_source/get_data_source.dart';
 import 'package:spear_me_app/features/plant_head/data/repo_impl/add_repo_impl.dart';
+import 'package:spear_me_app/features/plant_head/data/repo_impl/employee_repo_impl.dart';
 import 'package:spear_me_app/features/plant_head/domain/repository/add_repository.dart';
+import 'package:spear_me_app/features/plant_head/domain/repository/employee_repository.dart';
 import 'package:spear_me_app/features/plant_head/domain/usecases/add_usecase.dart';
+import 'package:spear_me_app/features/plant_head/domain/usecases/employee_usecase.dart';
 import 'package:spear_me_app/features/plant_head/presentation/pl_create/bloc/pl_create_bloc.dart';
+import 'package:spear_me_app/features/plant_head/presentation/pl_employees/bloc/pl_employees_bloc.dart';
 
 final GetIt di = GetIt.instance;
 
@@ -38,6 +43,7 @@ class Di {
     di.registerLazySingleton(() => OwnerDataSource(dioClient: di()));
     di.registerLazySingleton(() => ProductsDataSource(di()));
     di.registerLazySingleton(() => AddDataSource(di()));
+    di.registerLazySingleton(() => GetDataSource(di()));
 
     //! Repositories
 
@@ -51,12 +57,16 @@ class Di {
       () => ProductsRepositoryImpl(di()),
     );
     di.registerLazySingleton<AddRepository>(() => AddRepositoryImpl(di()));
+    di.registerLazySingleton<EmployeeRepository>(
+      () => EmployeeRepositoryImpl(di()),
+    );
 
     //! usecases
     di.registerLazySingleton(() => AuthUsecase(authRepository: di()));
     di.registerLazySingleton(() => OwnerUsecase(ownerRepository: di()));
     di.registerLazySingleton(() => ProductsUsecase(di()));
     di.registerLazySingleton(() => AddUsecase(di()));
+    di.registerLazySingleton(() => EmployeesUsecase(di()));
 
     //! bloc
     di.registerCachedFactory(() => SignInBloc(di()));
@@ -69,5 +79,6 @@ class Di {
     di.registerCachedFactory(() => CreatePlantHeadBloc(usecase: di()));
     di.registerCachedFactory(() => OwnerProductsHomeBloc(di()));
     di.registerCachedFactory(() => PlCreateBloc(di()));
+    di.registerCachedFactory(() => PlEmployeesBloc(di()));
   }
 }

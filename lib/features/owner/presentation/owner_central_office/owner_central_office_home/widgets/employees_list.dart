@@ -1,6 +1,6 @@
 // Reusable Widget: Employee List Section
 import 'package:flutter/material.dart';
-import 'package:spear_me_app/features/owner/presentation/owner_central_office/owner_central_office_home/widgets/employees_card.dart';
+import 'package:spear_me_app/features/owner/presentation/owner_central_office/owner_central_office_home/widgets/owner_employees_card.dart';
 
 class EmployeeListSection extends StatelessWidget {
   final List<Map<String, String>> employees;

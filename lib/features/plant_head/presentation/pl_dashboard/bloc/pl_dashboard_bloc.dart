@@ -6,8 +6,6 @@ part 'pl_dashboard_state.dart';
 
 class PlDashboardBloc extends Bloc<PlDashboardEvent, PlDashboardState> {
   PlDashboardBloc() : super(PlDashboardInitial()) {
-    on<PlDashboardEvent>((event, emit) {
-      // TODO: implement event handler
-    });
+    on<PlDashboardEvent>((event, emit) {});
   }
 }

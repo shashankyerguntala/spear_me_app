@@ -23,4 +23,8 @@ class AuthUsecase {
   ) {
     return authRepository.login(email, password);
   }
+
+  Future<Either<Failure, String>> logout() {
+    return authRepository.logout();
+  }
 }

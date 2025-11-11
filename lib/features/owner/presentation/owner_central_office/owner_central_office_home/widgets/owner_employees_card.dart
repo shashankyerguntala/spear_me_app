@@ -1,7 +1,7 @@
 // Reusable Widget: Employee Card
 import 'package:flutter/material.dart';
 import 'package:spear_me_app/core/constants/color_constants.dart';
-import 'package:spear_me_app/features/owner/presentation/owner_central_office/owner_central_office_home/widgets/modal_sheet.dart';
+import 'package:spear_me_app/features/owner/presentation/owner_central_office/owner_central_office_home/widgets/owner_modal_sheet.dart';
 
 class EmployeeCard extends StatelessWidget {
   final Map<String, String> employee;

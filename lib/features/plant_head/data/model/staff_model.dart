@@ -7,6 +7,7 @@ class StaffModel extends StaffEntity {
     required super.email,
     required super.role,
     required super.factoryName,
+    required super.img,
     super.bayName,
   });
 
@@ -18,6 +19,7 @@ class StaffModel extends StaffEntity {
       role: json["role"],
       factoryName: json["factoryName"],
       bayName: json["bayName"],
+      img: json["img"],
     );
   }
 }

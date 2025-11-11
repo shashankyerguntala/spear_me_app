@@ -26,4 +26,9 @@ class AuthRepoImpl extends AuthRepository {
   ) async {
     return await authDataSource.register(username, email, password, number);
   }
+
+  @override
+  Future<Either<Failure, String>> logout() {
+    return authDataSource.logout();
+  }
 }

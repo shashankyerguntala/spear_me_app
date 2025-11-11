@@ -24,4 +24,5 @@ class RoutesConstants {
   static String plantHeadCreateRoute = '/plant-head/create';
   static String plantHeadToolsRoute = '/plant-head/tools';
   static String plantHeadProfileRoute = '/plant-head/profile';
+  static String plantHeadEmployeesRoute = '/plant-head/employees';
 }
