@@ -92,7 +92,7 @@ final List<GoRoute> ownerRoutes = <GoRoute>[
   GoRoute(
     path: RoutesConstants.ownerToolsRoutes,
     builder: (BuildContext context, GoRouterState state) =>
-        const OwnerToolsScreen(),
+        const ToolsHomeScreen(),
   ),
    GoRoute(
     path: RoutesConstants.ownerAddTools,

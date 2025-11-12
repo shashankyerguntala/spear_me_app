@@ -121,7 +121,7 @@ class ProductsDataSource {
     String? search,
     String? categoryName,
     int page = 0,
-    int size = 20,
+    int size = 10,
   }) async {
     final query = {
       "page": "$page",

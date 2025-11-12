@@ -1,8 +1,29 @@
 part of 'add_tools_bloc.dart';
 
-sealed class AddToolsEvent extends Equatable {
+abstract class AddToolsEvent extends Equatable {
   const AddToolsEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
+}
+
+class FetchToolCategories extends AddToolsEvent {}
+
+class CreateTool extends AddToolsEvent {
+  final String name;
+  final int categoryId;
+  final String type;
+  final String isExpensive;
+  final int threshold;
+
+  const CreateTool({
+    required this.name,
+    required this.categoryId,
+    required this.type,
+    required this.isExpensive,
+    required this.threshold,
+  });
+
+  @override
+  List<Object?> get props => [name, categoryId, type, isExpensive, threshold];
 }

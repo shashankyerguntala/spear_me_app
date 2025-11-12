@@ -26,6 +26,7 @@ import 'package:spear_me_app/features/owner/presentation/owner_merchandise/add_m
 import 'package:spear_me_app/features/owner/presentation/owner_merchandise/merchandise_home/bloc/merchandise_home_bloc.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_products/owner_products_home/bloc/owner_products_home_bloc.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_profile/bloc/owner_profile_bloc.dart';
+import 'package:spear_me_app/features/owner/presentation/owner_tools/tools_home/bloc/tools_bloc.dart';
 import 'package:spear_me_app/features/plant_head/data/data_source/add_data_source.dart';
 import 'package:spear_me_app/features/plant_head/data/data_source/get_data_source.dart';
 import 'package:spear_me_app/features/plant_head/data/repo_impl/add_repo_impl.dart';
@@ -95,5 +96,6 @@ class Di {
     di.registerCachedFactory(() => PlProductsBloc(di()));
     di.registerCachedFactory(() => MerchandiseHomeBloc(di()));
     di.registerCachedFactory(() => AddMerchandiseBloc(di()));
+    di.registerCachedFactory(() => ToolsBloc(di()));
   }
 }
