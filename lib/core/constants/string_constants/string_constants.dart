@@ -65,6 +65,7 @@ class StringConstants {
   static const String addMerchandise = 'Add Merchandise';
   static const String merchandise = "Merchandise";
   static const String noMerchandiseFound = "No merchandise found";
+  static const String pleaseSelectAnImage = "Please select an image";
 
   //! products constants
   static const String noProductsFound = 'No products Found';

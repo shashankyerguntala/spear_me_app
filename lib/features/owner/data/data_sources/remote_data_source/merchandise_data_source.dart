@@ -14,7 +14,7 @@ class MerchandiseDataSource {
   MerchandiseDataSource(this.client);
 
   //! add merchandise
-  Future<Either<Failure, MerchandiseEntity>> addMerchandise({
+  Future<Either<Failure, String>> addMerchandise({
     required String name,
     required int requiredPoints,
     required int availableQuantity,
@@ -35,8 +35,8 @@ class MerchandiseDataSource {
     );
 
     return response.fold((fail) => Left(fail), (data) {
-      if (data["success"] == true && data["data"] != null) {
-        return Right(MerchandiseModel.fromJson(data["data"]));
+      if (data["success"] == true) {
+        return Right(data["message"]);
       } else {
         return Left(Failure(data["message"] ?? "Failed to add merchandise"));
       }
@@ -44,7 +44,7 @@ class MerchandiseDataSource {
   }
 
   //! update merchandise
-  Future<Either<Failure, MerchandiseEntity>> updateMerchandise({
+  Future<Either<Failure, String>> updateMerchandise({
     required int id,
     required String name,
     required int requiredPoints,
@@ -66,10 +66,10 @@ class MerchandiseDataSource {
     );
 
     return response.fold((fail) => Left(fail), (data) {
-      if (data["success"] == true && data["data"] != null) {
-        return Right(MerchandiseModel.fromJson(data["data"]));
+      if (data["success"] == true) {
+        return Right(data["message"]);
       } else {
-        return Left(Failure(data["message"] ?? "Failed to update merchandise"));
+        return Left(Failure(data["message"]));
       }
     });
   }
@@ -109,7 +109,7 @@ class MerchandiseDataSource {
   }
 
   //! restock merchandise
-  
+
   Future<Either<Failure, MerchandiseEntity>> restockMerchandise({
     required int id,
     required int additionalQuantity,

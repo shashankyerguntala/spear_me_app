@@ -12,7 +12,7 @@ class MerchandiseRepositoryImpl implements MerchandiseRepository {
   MerchandiseRepositoryImpl(this.dataSource);
 
   @override
-  Future<Either<Failure, MerchandiseEntity>> addMerchandise({
+  Future<Either<Failure, String>> addMerchandise({
     required String name,
     required int requiredPoints,
     required int availableQuantity,
@@ -27,7 +27,7 @@ class MerchandiseRepositoryImpl implements MerchandiseRepository {
   }
 
   @override
-  Future<Either<Failure, MerchandiseEntity>> updateMerchandise({
+  Future<Either<Failure, String>> updateMerchandise({
     required int id,
     required String name,
     required int requiredPoints,

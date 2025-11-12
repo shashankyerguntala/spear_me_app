@@ -10,7 +10,7 @@ class MerchandiseUsecase {
 
   MerchandiseUsecase(this.repository);
 
-  Future<Either<Failure, MerchandiseEntity>> add({
+  Future<Either<Failure, String>> add({
     required String name,
     required int requiredPoints,
     required int availableQuantity,
@@ -24,7 +24,7 @@ class MerchandiseUsecase {
     );
   }
 
-  Future<Either<Failure, MerchandiseEntity>> update({
+  Future<Either<Failure, String>> update({
     required int id,
     required String name,
     required int requiredPoints,

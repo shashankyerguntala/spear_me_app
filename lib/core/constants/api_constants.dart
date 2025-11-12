@@ -11,7 +11,7 @@ class ApiConstants {
   //! owner API
   static const String createCentralOfficer = '/api/users/add/central-officer';
   static const String createFactory = '/api/users/create/factory';
-  static const String getCentralOffice = '/api/users/get/central-offices';
+  static const String getCentralOffice = '/api/users/get/central-office';
   static const String getFactories = "/api/users/get/factories";
   static const String getEmployees = "/api/users/get/all/employees";
   static const String createPlantHead = "/api/users/create/plant-head";

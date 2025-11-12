@@ -19,6 +19,8 @@ class RoutesConstants {
   static String ownerAddCategory = '/owner/products/add-category';
   static String ownerMerchandise = '/owner/Merchandise';
   static String ownerAddMerchandise = '/owner/Merchandise/add';
+  static String ownerToolsRoutes = '/owner/tools';
+  static String ownerAddTools = '/owner/tools/add';
 
   //! plant head routes
   static String plantHeadHomeRoute = '/plant-head/dashboard';

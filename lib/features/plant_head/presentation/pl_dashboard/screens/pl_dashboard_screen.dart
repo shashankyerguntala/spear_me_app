@@ -57,15 +57,14 @@ class PlDashboardScreen extends StatelessWidget {
                           childAspectRatio: 1.5,
                         ),
                         children: <Widget>[
-                          GestureDetector(
-                            onTap: () => context.go(
-                              RoutesConstants.plantHeadProductsRoute,
+                          StatCard(
+                            label: 'Products',
+                            onTap: () => context.push(
+                              RoutesConstants.ownerProductsRoute,
                             ),
-                            child: StatCard(label: 'Products', onTap: () {  },),
+                            value: '122',
+                            icon: Icons.production_quantity_limits,
                           ),
-                          StatCard(label: 'Factories', onTap: () {  },),
-                          StatCard(label: 'Factories', onTap: () {  },),
-                          StatCard(label: 'Factories', onTap: () {  },),
                         ],
                       ),
 

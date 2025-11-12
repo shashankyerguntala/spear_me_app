@@ -5,14 +5,14 @@ import 'package:spear_me_app/features/owner/domain/entity/merchandise_entity.dar
 import 'package:spear_me_app/features/owner/domain/entity/paginated_merchandise_entity.dart';
 
 abstract class MerchandiseRepository {
-  Future<Either<Failure, MerchandiseEntity>> addMerchandise({
+  Future<Either<Failure, String>> addMerchandise({
     required String name,
     required int requiredPoints,
     required int availableQuantity,
     File? imageFile,
   });
 
-  Future<Either<Failure, MerchandiseEntity>> updateMerchandise({
+  Future<Either<Failure, String>> updateMerchandise({
     required int id,
     required String name,
     required int requiredPoints,

@@ -52,16 +52,21 @@ class OwnerDashboard extends StatelessWidget {
                           crossAxisCount: 2,
                           crossAxisSpacing: 16,
                           mainAxisSpacing: 16,
-                          childAspectRatio: 1.5,
                         ),
                         children: <Widget>[
                           StatCard(
                             label: 'Products',
-                            onTap: () => RoutesConstants.ownerProductsRoute,
+                            onTap: () =>
+                                context.go(RoutesConstants.ownerProductsRoute),
+                            value: '20',
+                            icon: Icons.card_travel,
                           ),
-                          StatCard(label: 'Factories', onTap: () {}),
-                          StatCard(label: 'Factories', onTap: () {}),
-                          StatCard(label: 'Factories', onTap: () {}),
+                          StatCard(
+                            label: 'Tools',
+                            onTap: () => RoutesConstants.ownerProductsRoute,
+                            value: '56',
+                            icon: Icons.card_travel,
+                          ),
                         ],
                       ),
 

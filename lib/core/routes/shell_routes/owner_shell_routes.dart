@@ -14,6 +14,8 @@ import 'package:spear_me_app/features/owner/presentation/owner_products/owner_ad
 import 'package:spear_me_app/features/owner/presentation/owner_products/owner_add_product/screens/owner_add_products.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_products/owner_products_home/screens/owner_products.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_profile/screens/owner_profile_screen.dart';
+import 'package:spear_me_app/features/owner/presentation/owner_tools/add_tools/screens/add_tools_screen.dart';
+import 'package:spear_me_app/features/owner/presentation/owner_tools/tools_home/screens/owner_tools_screen.dart';
 
 final GlobalKey<NavigatorState> ownerKey = GlobalKey<NavigatorState>();
 final List<GoRoute> ownerRoutes = <GoRoute>[
@@ -86,5 +88,15 @@ final List<GoRoute> ownerRoutes = <GoRoute>[
     path: RoutesConstants.ownerAddMerchandise,
     builder: (BuildContext context, GoRouterState state) =>
         const AddMerchandiseScreen(),
+  ),
+  GoRoute(
+    path: RoutesConstants.ownerToolsRoutes,
+    builder: (BuildContext context, GoRouterState state) =>
+        const OwnerToolsScreen(),
+  ),
+   GoRoute(
+    path: RoutesConstants.ownerAddTools,
+    builder: (BuildContext context, GoRouterState state) =>
+        const AddToolsScreen(),
   ),
 ];

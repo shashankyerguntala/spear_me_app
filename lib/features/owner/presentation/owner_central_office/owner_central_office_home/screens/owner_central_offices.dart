@@ -50,37 +50,41 @@ class _CentralOfficeBody extends StatelessWidget {
           }
 
           if (state is OwnerCentralOfficeHomeLoaded) {
-            final office = state.offices.first;
-            final employees = office.officers;
+            if (state.offices.isEmpty) {
+              return Center(child: Text('No central office present'));
+            } else {
+              final office = state.offices.first;
+              final employees = office.officers;
 
-            return SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  OfficeLocationCard(
-                    officeName: "Central Office",
-                    location: office.location,
-                    address: "",
-                    employeeCount: employees.length,
-                  ),
-                  const SizedBox(height: 16),
-                  EmployeeListSection(
-                    employees: employees.map((o) {
-                      return {
-                        'id': o.id.toString(),
-                        'name': o.username,
-                        'position': o.role,
-                        'department': "Delivery",
-                        'email': o.email,
-                        'phone': '123456789',
-                        'imageUrl':
-                            'https://cdn-icons-png.flaticon.com/512/847/847969.png',
-                      };
-                    }).toList(),
-                  ),
-                ],
-              ),
-            );
+              return SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    OfficeLocationCard(
+                      officeName: "Central Office",
+                      location: office.location,
+                      address: "",
+                      employeeCount: employees.length,
+                    ),
+                    const SizedBox(height: 16),
+                    EmployeeListSection(
+                      employees: employees.map((o) {
+                        return {
+                          'id': o.id.toString(),
+                          'name': o.username,
+                          'position': o.role,
+                          'department': "Delivery",
+                          'email': o.email,
+                          'phone': '123456789',
+                          'imageUrl':
+                              'https://cdn-icons-png.flaticon.com/512/847/847969.png',
+                        };
+                      }).toList(),
+                    ),
+                  ],
+                ),
+              );
+            }
           }
 
           return const SizedBox.shrink();

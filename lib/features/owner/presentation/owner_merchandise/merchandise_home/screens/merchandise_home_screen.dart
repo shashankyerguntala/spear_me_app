@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:spear_me_app/core/constants/color_constants.dart';
+import 'package:spear_me_app/core/constants/string_constants/routes_constansts.dart';
 import 'package:spear_me_app/core/constants/string_constants/string_constants.dart';
 import 'package:spear_me_app/core/di/di.dart';
 import 'package:spear_me_app/features/common/widgets/custom_floating_action_button.dart';
@@ -25,7 +27,7 @@ class MerchandiseHomeScreen extends StatelessWidget {
         body: const MerchandiseHomeBody(),
         floatingActionButton: CustomFloatingActionButton(
           label: StringConstants.addMerchandise,
-          onPressed: () {},
+          onPressed: () => context.push(RoutesConstants.ownerAddMerchandise),
         ),
       ),
     );

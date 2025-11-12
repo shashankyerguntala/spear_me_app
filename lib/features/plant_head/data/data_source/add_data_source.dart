@@ -18,7 +18,7 @@ class AddDataSource {
   }) async {
     final response = await dioClient.postRequest(
       ApiConstants.plantHeadCreateBay,
-      queryParameters: {"plantHeadId": plantHeadId.toString()},
+
       data: {"bayName": bayName},
     );
 
