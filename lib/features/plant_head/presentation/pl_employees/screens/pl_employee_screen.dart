@@ -28,11 +28,45 @@ class _PlEmployeeBody extends StatefulWidget {
 
 class _PlEmployeeBodyState extends State<_PlEmployeeBody> {
   final searchController = TextEditingController();
+  late final ScrollController scrollController;
+
+  bool canLoadMore = true;
+
+  @override
+  void initState() {
+    super.initState();
+    scrollController = ScrollController();
+    scrollController.addListener(onScroll);
+  }
 
   @override
   void dispose() {
+    scrollController.dispose();
     searchController.dispose();
     super.dispose();
+  }
+
+  void onScroll() {
+    if (!scrollController.hasClients) {
+      return;
+    }
+
+    final maxScroll = scrollController.position.maxScrollExtent;
+    final current = scrollController.position.pixels;
+
+    if (current >= maxScroll - 100) {
+      final bloc = context.read<PlEmployeesBloc>();
+      final state = bloc.state;
+
+      if (!state.lastPage && !state.isLoadingMore && canLoadMore) {
+        canLoadMore = false;
+        bloc.add(const LoadMoreEmployees());
+
+        Future.delayed(const Duration(seconds: 2), () {
+          canLoadMore = true;
+        });
+      }
+    }
   }
 
   @override
@@ -40,7 +74,11 @@ class _PlEmployeeBodyState extends State<_PlEmployeeBody> {
     return BlocConsumer<PlEmployeesBloc, PlEmployeesState>(
       listener: (context, state) {
         if (state.errorMessage != null) {
-          HelperFunctions.showSnackBar(context, message: state.errorMessage!);
+          HelperFunctions.showSnackBar(
+            context,
+            message: state.errorMessage!,
+            isError: true,
+          );
         }
       },
       builder: (context, state) {
@@ -66,14 +104,16 @@ class _PlEmployeeBodyState extends State<_PlEmployeeBody> {
                 ),
                 const SizedBox(height: 12),
 
-                Row(
-                  children: [
-                    _filterChip(context, state, "ALL"),
-                    const SizedBox(width: 8),
-                    _filterChip(context, state, "WORKER"),
-                    const SizedBox(width: 8),
-                    _filterChip(context, state, "CHIEF_SUPERVISOR"),
-                  ],
+                SingleChildScrollView(
+                  child: Row(
+                    children: [
+                      _filterChip(context, state, "ALL"),
+                      const SizedBox(width: 8),
+                      _filterChip(context, state, "WORKER"),
+                      const SizedBox(width: 8),
+                      _filterChip(context, state, "CHIEF_SUPERVISOR"),
+                    ],
+                  ),
                 ),
                 const SizedBox(height: 16),
 
@@ -83,40 +123,34 @@ class _PlEmployeeBodyState extends State<_PlEmployeeBody> {
                       : state.employees.isEmpty
                       ? const Center(child: Text("No employees found"))
                       : ListView.separated(
-                          itemCount: state.employees.length,
+                          controller: scrollController,
+                          itemCount:
+                              state.employees.length +
+                              (state.isLoadingMore ? 1 : 0),
                           separatorBuilder: (_, __) =>
                               const SizedBox(height: 12),
                           itemBuilder: (_, index) {
+                            if (index == state.employees.length &&
+                                state.isLoadingMore) {
+                              return const Padding(
+                                padding: EdgeInsets.symmetric(vertical: 12),
+                                child: Center(
+                                  child: SizedBox(
+                                    height: 22,
+                                    width: 22,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                    ),
+                                  ),
+                                ),
+                              );
+                            }
+
                             final emp = state.employees[index];
                             return PlEmployeeCard(employee: emp);
                           },
                         ),
                 ),
-
-                if (!state.lastPage)
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: state.isLoadingMore
-                          ? null
-                          : () => context.read<PlEmployeesBloc>().add(
-                              const LoadMoreEmployees(),
-                            ),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: ColorConstants.primary,
-                      ),
-                      child: state.isLoadingMore
-                          ? const SizedBox(
-                              height: 18,
-                              width: 18,
-                              child: CircularProgressIndicator(
-                                strokeWidth: 2,
-                                color: Colors.white,
-                              ),
-                            )
-                          : const Text("Load More"),
-                    ),
-                  ),
               ],
             ),
           ),
@@ -133,12 +167,28 @@ class _PlEmployeeBodyState extends State<_PlEmployeeBody> {
     final isSelected = state.roleFilter == role;
 
     return ChoiceChip(
-      label: Text(role),
+      label: Text(
+        role,
+        style: TextStyle(
+          color: isSelected ? Colors.white : ColorConstants.textSecondary,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
       selected: isSelected,
       onSelected: (_) {
         context.read<PlEmployeesBloc>().add(SelectRole(role));
       },
+
       selectedColor: ColorConstants.primary,
+      backgroundColor: ColorConstants.cardBg,
+
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+
+      side: BorderSide(
+        color: isSelected
+            ? ColorConstants.primary
+            : ColorConstants.textSecondary.withAlpha(120),
+      ),
     );
   }
 }

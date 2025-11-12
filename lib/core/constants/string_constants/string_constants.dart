@@ -60,4 +60,8 @@ class StringConstants {
   static const String addCentralOfficer = 'Add central officer';
   static const String centralOfficeNameCannnotBeEmpty =
       'Central officer name cannot be empty!';
+
+  //! products constants
+  static const String noProductsFound = 'No products Found';
+  static const String failedToFetchProducts = 'Failed to fetch products';
 }

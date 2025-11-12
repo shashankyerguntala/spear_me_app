@@ -4,37 +4,40 @@ class ProductModel extends ProductEntity {
   const ProductModel({
     required super.id,
     required super.name,
-    required super.prodDescription,
     required super.price,
-    required super.rewardPts,
     required super.categoryName,
-    required super.imageUrl,
+    super.prodDescription,
+    super.rewardPts,
     super.threshold,
+    super.currentQty,
+    super.imageUrl,
     super.isActive,
   });
 
   factory ProductModel.fromJson(Map<String, dynamic> json) {
     return ProductModel(
-      id: (json['id'] as num).toInt(),
-      name: json['name'] ?? '',
-      prodDescription: json['prodDescription'] ?? '',
+      id: (json['productId'] as num).toInt(),
+      name: json['productName'] ?? '',
       price: (json['price'] as num?)?.toDouble() ?? 0.0,
-      rewardPts: (json['rewardPts'] as num?)?.toInt() ?? 0,
       categoryName: json['categoryName'] ?? '',
+      rewardPts: (json['rewardPts'] as num?)?.toInt(),
       threshold: (json['threshold'] as num?)?.toInt(),
-      imageUrl: json['imageUrl'] ?? '',
+      currentQty: (json['currentQty'] as num?)?.toInt(),
+      prodDescription: json['prodDescription'],
+      imageUrl: json['imageUrl'],
       isActive: json['isActive'],
     );
   }
 
   Map<String, dynamic> toJson() => {
-    'id': id,
-    'name': name,
+    'productId': id,
+    'productName': name,
     'prodDescription': prodDescription,
     'price': price,
     'rewardPts': rewardPts,
     'categoryName': categoryName,
     'threshold': threshold,
+    'currentQty': currentQty,
     'imageUrl': imageUrl,
     'isActive': isActive,
   };

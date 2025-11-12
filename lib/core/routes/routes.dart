@@ -11,8 +11,10 @@ import 'package:spear_me_app/features/authentication/presentation/sign_up/screen
 // ignore: avoid_classes_with_only_static_members
 class Routes {
   static final GoRouter router = GoRouter(
-    initialLocation: RoutesConstants.plantHeadHomeRoute,
+    initialLocation: RoutesConstants.ownerHomeRoute,
     routes: <RouteBase>[
+      //! redirects in GoRoutes
+
       //! owner shell
       ShellRoute(
         navigatorKey: ownerKey,
@@ -29,6 +31,7 @@ class Routes {
         },
         routes: plantHeadRoutes,
       ),
+      //!common routes
       GoRoute(
         path: RoutesConstants.loginRoute,
         builder: (BuildContext context, GoRouterState state) => SignInScreen(),

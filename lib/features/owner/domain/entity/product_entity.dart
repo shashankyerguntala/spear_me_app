@@ -1,24 +1,25 @@
-// product_entity.dart
 class ProductEntity {
   final int id;
   final String name;
-  final String prodDescription;
+  final String? prodDescription;
   final double price;
-  final int rewardPts;
+  final int? rewardPts;
   final String categoryName;
   final int? threshold;
-  final String imageUrl;
+  final int? currentQty;
+  final String? imageUrl;
   final String? isActive;
 
   const ProductEntity({
     required this.id,
     required this.name,
-    required this.prodDescription,
     required this.price,
-    required this.rewardPts,
     required this.categoryName,
-    required this.imageUrl,
+    this.prodDescription,
+    this.rewardPts,
     this.threshold,
+    this.currentQty,
+    this.imageUrl,
     this.isActive,
   });
 
@@ -30,6 +31,7 @@ class ProductEntity {
     int? rewardPts,
     String? categoryName,
     int? threshold,
+    int? currentQty,
     String? imageUrl,
     String? isActive,
   }) {
@@ -41,11 +43,9 @@ class ProductEntity {
       rewardPts: rewardPts ?? this.rewardPts,
       categoryName: categoryName ?? this.categoryName,
       threshold: threshold ?? this.threshold,
+      currentQty: currentQty ?? this.currentQty,
       imageUrl: imageUrl ?? this.imageUrl,
       isActive: isActive ?? this.isActive,
     );
   }
 }
-
-// paged_products_entity.dart
-

@@ -28,7 +28,11 @@ class PlEmployeeCard extends StatelessWidget {
             CircleAvatar(
               radius: 22,
               backgroundColor: ColorConstants.primary.withAlpha(20),
-              child: employee.img!.isEmpty
+              backgroundImage:
+                  (employee.img != null && employee.img!.isNotEmpty)
+                  ? NetworkImage(employee.img!)
+                  : null,
+              child: (employee.img == null || employee.img!.isEmpty)
                   ? Text(
                       employee.name.isNotEmpty
                           ? employee.name[0].toUpperCase()
@@ -38,8 +42,9 @@ class PlEmployeeCard extends StatelessWidget {
                         color: ColorConstants.primary,
                       ),
                     )
-                  : Image.network(employee.img!),
+                  : null,
             ),
+
             const SizedBox(width: 12),
             Expanded(
               child: Column(

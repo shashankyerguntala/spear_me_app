@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -12,7 +13,7 @@ class OwnerProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => OwnerProfileBloc(di())..add(FetchOwnerProfile()),
+      create: (_) => di<OwnerProfileBloc>()..add(FetchOwnerProfile()),
       child: const _OwnerProfileBody(),
     );
   }
@@ -89,6 +90,7 @@ class _OwnerProfileBody extends StatelessWidget {
                         );
                       }
                     },
+
                     child: Stack(
                       alignment: Alignment.center,
                       children: [
@@ -96,7 +98,7 @@ class _OwnerProfileBody extends StatelessWidget {
                           radius: 60,
                           backgroundColor: Colors.grey.shade300,
                           backgroundImage: profile.imageUrl != null
-                              ? NetworkImage(profile.imageUrl!)
+                              ? CachedNetworkImageProvider(profile.imageUrl!)
                               : null,
                           child: profile.imageUrl == null
                               ? const Icon(
@@ -106,7 +108,7 @@ class _OwnerProfileBody extends StatelessWidget {
                                 )
                               : null,
                         ),
-
+                        //! style from
                         if (isUploading)
                           Container(
                             width: 120,
@@ -115,11 +117,9 @@ class _OwnerProfileBody extends StatelessWidget {
                               shape: BoxShape.circle,
                               color: Colors.black.withAlpha(35),
                             ),
-                            child: const Center(
-                              child: CircularProgressIndicator(
-                                strokeWidth: 3,
-                                color: Colors.white,
-                              ),
+                            child: CircularProgressIndicator(
+                              strokeWidth: 8,
+                              color: Colors.white,
                             ),
                           ),
 
@@ -140,7 +140,7 @@ class _OwnerProfileBody extends StatelessWidget {
                     ),
                   ),
 
-                  const SizedBox(height: 20),     
+                  const SizedBox(height: 20),
 
                   Text(
                     profile.username,

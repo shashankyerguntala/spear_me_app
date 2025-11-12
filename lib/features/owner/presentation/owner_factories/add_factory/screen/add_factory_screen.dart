@@ -32,7 +32,7 @@ class _AddFactoryBody extends StatefulWidget {
 
 class _AddFactoryBodyState extends State<_AddFactoryBody> {
   final bool shoeCreatePlantHead = false;
-  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();//! make the form validations in bloc 
   String? selectedCity;
   final TextEditingController nameController = TextEditingController();
   final TextEditingController cityController = TextEditingController();

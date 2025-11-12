@@ -6,7 +6,7 @@ class HelperFunctions {
   static void showSnackBar(
     BuildContext context, {
     required String message,
-    bool isError = false,
+    required bool isError,
   }) {
     ScaffoldMessenger.of(context)
       ..clearSnackBars()

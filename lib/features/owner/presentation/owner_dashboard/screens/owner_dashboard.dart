@@ -25,7 +25,7 @@ class OwnerDashboard extends StatelessWidget {
               padding: const EdgeInsets.all(12.0),
               child: IconButton(
                 onPressed: () {
-                  context.go(RoutesConstants.ownerProfileRoute);
+                  context.push(RoutesConstants.ownerProfileRoute);
                 },
                 icon: Icon(Icons.person),
               ),

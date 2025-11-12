@@ -43,24 +43,19 @@ class OwnerProfileBloc extends Bloc<OwnerProfileEvent, OwnerProfileState> {
     final uploadResult = await usecase.uploadProfileImage(event.filePath);
 
     await uploadResult.fold(
-      (failure) async {
-        if (!emit.isDone) {
-          emit(OwnerProfileFailure(failure.message));
-        }
+      (failure) {
+        emit(OwnerProfileFailure(failure.message));
       },
+      //! get or else and .isleft
       (message) async {
         final refreshed = await usecase.getOwnerProfile();
 
-        await refreshed.fold(
-          (failure) async {
-            if (!emit.isDone) {
-              emit(OwnerProfileFailure(failure.message));
-            }
+        refreshed.fold(
+          (failure) {
+            emit(OwnerProfileFailure(failure.message));
           },
-          (profile) async {
-            if (!emit.isDone) {
-              emit(OwnerProfileLoaded(profile, message: message));
-            }
+          (profile) {
+            emit(OwnerProfileLoaded(profile, message: message));
           },
         );
       },

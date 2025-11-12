@@ -30,36 +30,49 @@ final List<GoRoute> ownerRoutes = <GoRoute>[
   ),
   GoRoute(
     path: RoutesConstants.ownerProductsRoute,
-    builder: (BuildContext context, GoRouterState state) => OwnerProducts(),
+    builder: (BuildContext context, GoRouterState state) =>
+        const OwnerProducts(),
   ),
   GoRoute(
     path: RoutesConstants.ownerEmployeesRoute,
-    builder: (BuildContext context, GoRouterState state) => OwnerEmployees(),
+    builder: (BuildContext context, GoRouterState state) =>
+        const OwnerEmployees(),
   ),
   GoRoute(
     path: RoutesConstants.ownerAddFactoriesRoute,
-    builder: (BuildContext context, GoRouterState state) => AddFactoryScreen(),
+    builder: (BuildContext context, GoRouterState state) =>
+        const AddFactoryScreen(),
   ),
   GoRoute(
     path: RoutesConstants.ownerAddCentralOfficeRoute,
-    builder: (BuildContext context, GoRouterState state) => AddCentralOffice(),
+    builder: (BuildContext context, GoRouterState state) =>
+        const AddCentralOffice(),
   ),
   GoRoute(
     path: RoutesConstants.ownerProfileRoute,
     builder: (BuildContext context, GoRouterState state) =>
-        OwnerProfileScreen(),
+        const OwnerProfileScreen(),
   ),
   GoRoute(
     path: RoutesConstants.createPlantHead,
     builder: (BuildContext context, GoRouterState state) =>
-        CreatePlantHeadScreen(),
+        const CreatePlantHeadScreen(),
   ),
   GoRoute(
     path: RoutesConstants.ownerAddProducts,
-    builder: (BuildContext context, GoRouterState state) => OwnerAddProducts(),
+    builder: (BuildContext context, GoRouterState state) {
+      final extra = state.extra as Map<String, dynamic>?;
+
+      return OwnerAddProducts(
+        isEdit: extra?['isEdit'] ?? false,
+        product: extra?['product'],
+      );
+    },
   ),
+
   GoRoute(
     path: RoutesConstants.ownerAddCategory,
-    builder: (BuildContext context, GoRouterState state) => OwnerAddCategory(),
+    builder: (BuildContext context, GoRouterState state) =>
+        const OwnerAddCategory(),
   ),
 ];

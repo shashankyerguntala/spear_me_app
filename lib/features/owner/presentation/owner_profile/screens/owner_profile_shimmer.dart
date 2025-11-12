@@ -9,6 +9,7 @@ class OwnerProfileShimmer extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(20),
       child: Column(
+        
         children: [
           Shimmer.fromColors(
             baseColor: Colors.grey.shade300,

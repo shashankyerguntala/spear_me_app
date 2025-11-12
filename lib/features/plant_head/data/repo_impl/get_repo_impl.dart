@@ -1,13 +1,14 @@
 import 'package:dartz/dartz.dart';
 import 'package:spear_me_app/core/network/failure.dart';
+import 'package:spear_me_app/features/owner/domain/entity/product_entity.dart';
 import 'package:spear_me_app/features/plant_head/data/data_source/get_data_source.dart';
 import 'package:spear_me_app/features/plant_head/domain/entity/paginated_staff_entity.dart';
-import 'package:spear_me_app/features/plant_head/domain/repository/employee_repository.dart';
+import 'package:spear_me_app/features/plant_head/domain/repository/get_repository.dart';
 
-class EmployeeRepositoryImpl implements EmployeeRepository {
+class GetRepoImpl implements GetRepository {
   final GetDataSource dataSource;
 
-  EmployeeRepositoryImpl(this.dataSource);
+  GetRepoImpl(this.dataSource);
 
   @override
   Future<Either<Failure, PaginatedStaffEntity>> getEmployees({
@@ -22,5 +23,15 @@ class EmployeeRepositoryImpl implements EmployeeRepository {
       keyword: keyword,
       roleStr: roleStr,
     );
+  }
+
+  @override
+  Future<Either<Failure, List<ProductEntity>>> getProducts() {
+    return dataSource.getProducts();
+  }
+
+  @override
+  Future<Either<Failure, List<ProductEntity>>> getLowStockProducts() {
+    return dataSource.getLowStockProducts();
   }
 }

@@ -36,11 +36,10 @@ class _OwnerAddProductsState extends State<OwnerAddProducts> {
   void initState() {
     super.initState();
 
-    // Pre-fill form if editing
     if (widget.isEdit && widget.product != null) {
       final product = widget.product!;
       nameController.text = product.name;
-      descController.text = product.prodDescription;
+      descController.text = product.prodDescription!;
       priceController.text = product.price.toString();
       rewardController.text = product.rewardPts.toString();
       thresholdController.text = product.threshold?.toString() ?? '';
@@ -80,19 +79,30 @@ class _OwnerAddProductsState extends State<OwnerAddProducts> {
       child: BlocConsumer<OwnerAddProductBloc, OwnerAddProductState>(
         listener: (context, state) {
           if (state is OwnerAddProductFailure) {
-            HelperFunctions.showSnackBar(context, message: state.message);
+            HelperFunctions.showSnackBar(
+              context,
+              message: state.message,
+              isError: true,
+            );
           }
 
           if (state is CategoryFetchFailure) {
-            HelperFunctions.showSnackBar(context, message: state.message);
+            HelperFunctions.showSnackBar(
+              context,
+              message: state.message,
+              isError: true,
+            );
           }
 
           if (state is OwnerAddProductSuccess) {
-            HelperFunctions.showSnackBar(context, message: state.message);
+            HelperFunctions.showSnackBar(
+              context,
+              message: state.message,
+              isError: false,
+            );
             context.go(RoutesConstants.ownerProductsRoute);
           }
 
-          // Auto-select category and image after categories are loaded
           if (state is OwnerAddProductInitial &&
               !state.isFetchingCategories &&
               widget.isEdit &&
@@ -115,7 +125,7 @@ class _OwnerAddProductsState extends State<OwnerAddProducts> {
 
               // Set the image if available
               context.read<OwnerAddProductBloc>().add(
-                ImageSelected(widget.product!.imageUrl),
+                ImageSelected(widget.product!.imageUrl!),
               );
             }
           }
@@ -326,14 +336,22 @@ class _OwnerAddProductsState extends State<OwnerAddProducts> {
   }
 
   String? _getImagePath(OwnerAddProductState state) {
-    if (state is OwnerAddProductInitial) return state.imagePath;
-    if (state is OwnerAddProductLoading) return state.imagePath;
-    if (state is OwnerAddProductFailure) return state.imagePath;
+    if (state is OwnerAddProductInitial) {
+      return state.imagePath;
+    }
+    if (state is OwnerAddProductLoading) {
+      return state.imagePath;
+    }
+    if (state is OwnerAddProductFailure) {
+      return state.imagePath;
+    }
     return null;
   }
 
   ProductCategoryEntity? _getSelectedCategory(OwnerAddProductState state) {
-    if (state is OwnerAddProductInitial) return state.selectedCategory;
+    if (state is OwnerAddProductInitial) {
+      return state.selectedCategory;
+    }
     if (state is OwnerAddProductLoading) return state.selectedCategory;
     if (state is OwnerAddProductFailure) return state.selectedCategory;
     return null;

@@ -5,9 +5,9 @@ import 'package:spear_me_app/core/constants/color_constants.dart';
 import 'package:spear_me_app/core/constants/string_constants/routes_constansts.dart';
 import 'package:spear_me_app/core/di/di.dart';
 import 'package:spear_me_app/core/helper_functions.dart';
-import 'package:spear_me_app/features/owner/domain/entity/product_entity.dart';
+import 'package:spear_me_app/features/common/widgets/product_card.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_products/owner_products_home/bloc/owner_products_home_bloc.dart';
-import 'package:spear_me_app/features/owner/presentation/owner_products/owner_products_home/screens/product_details_sheet.dart';
+import 'package:spear_me_app/features/common/widgets/product_details_sheet.dart';
 
 class OwnerProducts extends StatelessWidget {
   const OwnerProducts({super.key});
@@ -45,11 +45,19 @@ class _OwnerProductsBodyState extends State<_OwnerProductsBody> {
     return BlocListener<OwnerProductsHomeBloc, OwnerProductsHomeState>(
       listener: (context, state) {
         if (state.deleteSuccess != null) {
-          HelperFunctions.showSnackBar(context, message: state.deleteSuccess!);
+          HelperFunctions.showSnackBar(
+            context,
+            message: state.deleteSuccess!,
+            isError: false,
+          );
         }
 
         if (state.deleteError != null) {
-          HelperFunctions.showSnackBar(context, message: state.deleteError!);
+          HelperFunctions.showSnackBar(
+            context,
+            message: state.deleteError!,
+            isError: true,
+          );
         }
       },
       child: Scaffold(
@@ -120,8 +128,8 @@ class _OwnerProductsBodyState extends State<_OwnerProductsBody> {
                         ),
                         const SizedBox(width: 8),
                         GestureDetector(
-                          onTap: () {
-                            final status = context.push<bool>(
+                          onTap: () async {
+                            final status = await context.push<bool>(
                               RoutesConstants.ownerAddCategory,
                             );
 
@@ -156,7 +164,6 @@ class _OwnerProductsBodyState extends State<_OwnerProductsBody> {
                     if (state.isLoading && state.products == null) {
                       return const Center(child: CircularProgressIndicator());
                     }
-
                     if (state.error != null) {
                       return Center(
                         child: Column(
@@ -217,9 +224,23 @@ class _OwnerProductsBodyState extends State<_OwnerProductsBody> {
                               ),
                           itemBuilder: (_, i) {
                             final p = products[i];
-                            return _ProductCard(
+                            return ProductCard(
                               product: p,
-                              onTap: () => _showProductDetail(context, p),
+                              onTap: () => ProductDetailBottomSheet.show(
+                                context,
+                                product: p,
+                                onDelete: () {
+                                  context.read<OwnerProductsHomeBloc>().add(
+                                    DeleteProduct(p.id),
+                                  );
+                                },
+                                onEdit: () {
+                                  context.push(
+                                    RoutesConstants.ownerAddProducts,
+                                    extra: {'isEdit': true, 'product': p},
+                                  );
+                                },
+                              ),
                             );
                           },
                         ),
@@ -265,103 +286,6 @@ class _OwnerProductsBodyState extends State<_OwnerProductsBody> {
             ),
           );
         },
-      ),
-    );
-  }
-
-  void _showProductDetail(BuildContext context, ProductEntity product) {
-    ProductDetailBottomSheet.show(
-      context,
-      product: product,
-      onDelete: () {
-        context.read<OwnerProductsHomeBloc>().add(DeleteProduct(product.id));
-      },
-      onEdit: () {
-        context.push(
-          RoutesConstants.ownerAddProducts,
-          extra: {'isEdit': true, 'product': product},
-        );
-      },
-    );
-  }
-}
-
-class _ProductCard extends StatelessWidget {
-  final ProductEntity product;
-  final VoidCallback onTap;
-
-  const _ProductCard({required this.product, required this.onTap});
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(14),
-      child: Container(
-        decoration: BoxDecoration(
-          color: ColorConstants.cardBg,
-          borderRadius: BorderRadius.circular(14),
-          boxShadow: [
-            BoxShadow(
-              blurRadius: 6,
-              offset: const Offset(2, 4),
-              color: Colors.black.withAlpha(5),
-            ),
-          ],
-        ),
-        child: Column(
-          children: [
-            Expanded(
-              child: ClipRRect(
-                borderRadius: const BorderRadius.vertical(
-                  top: Radius.circular(14),
-                ),
-                child: Image.network(
-                  product.imageUrl ?? "",
-                  width: double.infinity,
-                  fit: BoxFit.cover,
-                  errorBuilder: (_, __, ___) => Container(
-                    color: Colors.grey.shade300,
-                    child: const Icon(
-                      Icons.image_not_supported,
-                      size: 48,
-                      color: Colors.grey,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    product.name,
-                    style: const TextStyle(fontWeight: FontWeight.w700),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  const SizedBox(height: 2),
-                  Text(
-                    product.categoryName,
-                    style: TextStyle(color: Colors.grey.shade600, fontSize: 12),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  const SizedBox(height: 6),
-                  Text(
-                    "₹${product.price.toStringAsFixed(2)}",
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: ColorConstants.primary,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
       ),
     );
   }

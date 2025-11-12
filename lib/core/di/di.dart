@@ -19,15 +19,17 @@ import 'package:spear_me_app/features/owner/presentation/owner_dashboard/bloc/ow
 import 'package:spear_me_app/features/owner/presentation/owner_factories/add_factory/bloc/add_factory_bloc.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_factories/create_plant_head/bloc/create_plant_head_bloc.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_products/owner_products_home/bloc/owner_products_home_bloc.dart';
+import 'package:spear_me_app/features/owner/presentation/owner_profile/bloc/owner_profile_bloc.dart';
 import 'package:spear_me_app/features/plant_head/data/data_source/add_data_source.dart';
 import 'package:spear_me_app/features/plant_head/data/data_source/get_data_source.dart';
 import 'package:spear_me_app/features/plant_head/data/repo_impl/add_repo_impl.dart';
-import 'package:spear_me_app/features/plant_head/data/repo_impl/employee_repo_impl.dart';
+import 'package:spear_me_app/features/plant_head/data/repo_impl/get_repo_impl.dart';
 import 'package:spear_me_app/features/plant_head/domain/repository/add_repository.dart';
-import 'package:spear_me_app/features/plant_head/domain/repository/employee_repository.dart';
+import 'package:spear_me_app/features/plant_head/domain/repository/get_repository.dart';
 import 'package:spear_me_app/features/plant_head/domain/usecases/add_usecase.dart';
-import 'package:spear_me_app/features/plant_head/domain/usecases/employee_usecase.dart';
+import 'package:spear_me_app/features/plant_head/domain/usecases/get_usecase.dart';
 import 'package:spear_me_app/features/plant_head/presentation/pl_create/bloc/pl_create_bloc.dart';
+import 'package:spear_me_app/features/plant_head/presentation/pl_dashboard/pl_products/bloc/pl_products_bloc.dart';
 import 'package:spear_me_app/features/plant_head/presentation/pl_employees/bloc/pl_employees_bloc.dart';
 
 final GetIt di = GetIt.instance;
@@ -57,16 +59,14 @@ class Di {
       () => ProductsRepositoryImpl(di()),
     );
     di.registerLazySingleton<AddRepository>(() => AddRepositoryImpl(di()));
-    di.registerLazySingleton<EmployeeRepository>(
-      () => EmployeeRepositoryImpl(di()),
-    );
+    di.registerLazySingleton<GetRepository>(() => GetRepoImpl(di()));
 
     //! usecases
     di.registerLazySingleton(() => AuthUsecase(authRepository: di()));
     di.registerLazySingleton(() => OwnerUsecase(ownerRepository: di()));
     di.registerLazySingleton(() => ProductsUsecase(di()));
     di.registerLazySingleton(() => AddUsecase(di()));
-    di.registerLazySingleton(() => EmployeesUsecase(di()));
+    di.registerLazySingleton(() => GetUsecase(di()));
 
     //! bloc
     di.registerCachedFactory(() => SignInBloc(di()));
@@ -80,5 +80,7 @@ class Di {
     di.registerCachedFactory(() => OwnerProductsHomeBloc(di()));
     di.registerCachedFactory(() => PlCreateBloc(di()));
     di.registerCachedFactory(() => PlEmployeesBloc(di()));
+    di.registerCachedFactory(() => OwnerProfileBloc(di()));
+    di.registerCachedFactory(() => PlProductsBloc(di()));
   }
 }

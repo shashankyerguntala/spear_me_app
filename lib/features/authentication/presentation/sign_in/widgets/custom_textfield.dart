@@ -30,6 +30,7 @@ class CustomTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      //! use bloc for every validations
       controller: controller,
       keyboardType: keyboardType,
       inputFormatters: isNumber

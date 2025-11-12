@@ -5,21 +5,21 @@ import 'package:spear_me_app/features/owner/domain/entity/product_entity.dart';
 
 class ProductDetailBottomSheet extends StatelessWidget {
   final ProductEntity product;
-  final VoidCallback onDelete;
-  final VoidCallback onEdit;
+  final VoidCallback? onDelete;
+  final VoidCallback? onEdit;
 
   const ProductDetailBottomSheet({
     required this.product,
-    required this.onDelete,
-    required this.onEdit,
     super.key,
+    this.onDelete,
+    this.onEdit,
   });
 
   static void show(
     BuildContext context, {
     required ProductEntity product,
-    required VoidCallback onDelete,
-    required VoidCallback onEdit,
+    VoidCallback? onDelete,
+    VoidCallback? onEdit,
   }) {
     showModalBottomSheet(
       context: context,
@@ -68,7 +68,7 @@ class ProductDetailBottomSheet extends StatelessWidget {
                       ClipRRect(
                         borderRadius: BorderRadius.circular(16),
                         child: Image.network(
-                          product.imageUrl,
+                          product.imageUrl!,
                           width: double.infinity,
                           height: 250,
                           fit: BoxFit.cover,
@@ -134,21 +134,21 @@ class ProductDetailBottomSheet extends StatelessWidget {
 
                       const SizedBox(height: 16),
 
-                      _buildInfoRow(
-                        icon: Icons.stars,
-                        label: "Reward Points",
-                        value: "${product.rewardPts} pts",
-                        color: Colors.amber,
+                      _infoRow(
+                        Icons.stars,
+                        "Reward Points",
+                        "${product.rewardPts} pts",
+                        Colors.amber,
                       ),
 
                       const SizedBox(height: 12),
 
                       if (product.threshold != null)
-                        _buildInfoRow(
-                          icon: Icons.inventory_2,
-                          label: "Stock Threshold",
-                          value: "${product.threshold}",
-                          color: Colors.blue,
+                        _infoRow(
+                          Icons.inventory_2,
+                          "Stock Threshold",
+                          "${product.threshold}",
+                          Colors.blue,
                         ),
 
                       const SizedBox(height: 20),
@@ -162,7 +162,7 @@ class ProductDetailBottomSheet extends StatelessWidget {
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        product.prodDescription,
+                        product.prodDescription ?? '',
                         style: TextStyle(
                           fontSize: 15,
                           color: Colors.grey.shade700,
@@ -172,45 +172,50 @@ class ProductDetailBottomSheet extends StatelessWidget {
 
                       const SizedBox(height: 24),
 
-                      Row(
-                        children: [
-                          Expanded(
-                            child: OutlinedButton.icon(
-                              onPressed: () {
-                                context.pop();
-                                _showDeleteConfirmation(context);
-                              },
-                              icon: const Icon(Icons.delete_outline),
-                              label: const Text("Delete"),
-                              style: OutlinedButton.styleFrom(
-                                foregroundColor: Colors.red,
-                                side: const BorderSide(color: Colors.red),
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 14,
+                      if (onDelete != null || onEdit != null) ...[
+                        Row(
+                          children: [
+                            if (onDelete != null)
+                              Expanded(
+                                child: OutlinedButton.icon(
+                                  onPressed: () {
+                                    context.pop();
+                                    _showDeleteConfirmation(context);
+                                  },
+                                  icon: const Icon(Icons.delete_outline),
+                                  label: const Text("Delete"),
+                                  style: OutlinedButton.styleFrom(
+                                    foregroundColor: Colors.red,
+                                    side: const BorderSide(color: Colors.red),
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 14,
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ),
-                          const SizedBox(width: 12),
-                          Expanded(
-                            child: ElevatedButton.icon(
-                              onPressed: () {
-                                context.pop();
-                                onEdit();
-                              },
-                              icon: const Icon(Icons.edit),
-                              label: const Text("Edit"),
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: ColorConstants.primary,
-                                foregroundColor: Colors.white,
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 14,
+                            if (onDelete != null && onEdit != null)
+                              const SizedBox(width: 12),
+                            if (onEdit != null)
+                              Expanded(
+                                child: ElevatedButton.icon(
+                                  onPressed: () {
+                                    context.pop();
+                                    onEdit?.call();
+                                  },
+                                  icon: const Icon(Icons.edit),
+                                  label: const Text("Edit"),
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: ColorConstants.primary,
+                                    foregroundColor: Colors.white,
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 14,
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ),
-                        ],
-                      ),
+                          ],
+                        ),
+                      ],
                     ],
                   ),
                 ),
@@ -222,12 +227,7 @@ class ProductDetailBottomSheet extends StatelessWidget {
     );
   }
 
-  Widget _buildInfoRow({
-    required IconData icon,
-    required String label,
-    required String value,
-    required Color color,
-  }) {
+  Widget _infoRow(IconData icon, String label, String value, Color color) {
     return Row(
       children: [
         Icon(icon, color: color, size: 20),
@@ -247,11 +247,9 @@ class ProductDetailBottomSheet extends StatelessWidget {
   void _showDeleteConfirmation(BuildContext context) {
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
+      builder: (_) => AlertDialog(
         title: const Text("Delete Product"),
-        content: Text(
-          "Are you sure you want to delete '${product.name}'? This action cannot be undone.",
-        ),
+        content: Text("Are you sure you want to delete '${product.name}'?"),
         actions: [
           TextButton(
             onPressed: () => context.pop(),
@@ -260,7 +258,7 @@ class ProductDetailBottomSheet extends StatelessWidget {
           ElevatedButton(
             onPressed: () {
               context.pop();
-              onDelete();
+              onDelete?.call();
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.red,

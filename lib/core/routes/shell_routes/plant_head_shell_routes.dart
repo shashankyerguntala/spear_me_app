@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:spear_me_app/core/constants/string_constants/routes_constansts.dart';
 import 'package:spear_me_app/features/plant_head/presentation/pl_create/screens/pl_create_screen.dart';
+import 'package:spear_me_app/features/plant_head/presentation/pl_dashboard/pl_products/screens/pl_products_screen.dart';
 import 'package:spear_me_app/features/plant_head/presentation/pl_dashboard/screens/pl_dashboard_screen.dart';
 import 'package:spear_me_app/features/plant_head/presentation/pl_employees/screens/pl_employee_screen.dart';
 import 'package:spear_me_app/features/plant_head/presentation/pl_profile/screens/pl_profile_screen.dart';
@@ -12,26 +13,30 @@ final GlobalKey<NavigatorState> plantHeadKey = GlobalKey<NavigatorState>();
 final List<GoRoute> plantHeadRoutes = <GoRoute>[
   GoRoute(
     path: RoutesConstants.plantHeadHomeRoute,
-    builder: (BuildContext context, GoRouterState state) => PlDashboardScreen(),
+    builder: (BuildContext context, GoRouterState state) => const PlDashboardScreen(),
   ),
   GoRoute(
     path: RoutesConstants.plantHeadCreateRoute,
-    builder: (BuildContext context, GoRouterState state) => PlCreateScreen(),
+    builder: (BuildContext context, GoRouterState state) => const PlCreateScreen(),
   ),
   GoRoute(
     path: RoutesConstants.plantHeadProfileRoute,
-    builder: (BuildContext context, GoRouterState state) => PlProfileScreen(),
+    builder: (BuildContext context, GoRouterState state) => const PlProfileScreen(),
   ),
   GoRoute(
     path: RoutesConstants.plantHeadRequestsRoute,
-    builder: (BuildContext context, GoRouterState state) => PlRequestsScreen(),
+    builder: (BuildContext context, GoRouterState state) =>const PlRequestsScreen(),
   ),
   GoRoute(
     path: RoutesConstants.plantHeadToolsRoute,
-    builder: (BuildContext context, GoRouterState state) => PlToolsScreen(),
+    builder: (BuildContext context, GoRouterState state) => const PlToolsScreen(),
   ),
   GoRoute(
     path: RoutesConstants.plantHeadEmployeesRoute,
-    builder: (BuildContext context, GoRouterState state) => PlEmployeeScreen(),
+    builder: (BuildContext context, GoRouterState state) =>const  PlEmployeeScreen(),
+  ),
+  GoRoute(
+    path: RoutesConstants.plantHeadProductsRoute,
+    builder: (BuildContext context, GoRouterState state) => const PlProductsScreen(),
   ),
 ];
