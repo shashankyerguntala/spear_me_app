@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spear_me_app/core/constants/color_constants.dart';
 import 'package:spear_me_app/core/di/di.dart';
-import 'package:spear_me_app/features/authentication/presentation/sign_in/widgets/custom_textfield.dart';
+import 'package:spear_me_app/features/common/widgets/custom_textfield.dart';
 import 'package:spear_me_app/features/plant_head/presentation/pl_create/bloc/pl_create_bloc.dart';
 import 'package:spear_me_app/features/plant_head/presentation/pl_create/widgets/role_drop_down.dart';
 

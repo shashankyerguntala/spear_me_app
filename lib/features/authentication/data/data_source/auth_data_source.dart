@@ -19,20 +19,17 @@ class AuthDataSource {
     String password,
     int phoneNumber,
   ) async {
-    final Either<Failure, Map<String, dynamic>> result = await dioClient
-        .postRequest(
-          ApiConstants.register,
-          data: <String, dynamic>{
-            "username": username,
-            "email": email,
-            "password": password,
-            "phone": phoneNumber,
-          },
-        );
+    final Either<Failure, dynamic> result = await dioClient.postRequest(
+      ApiConstants.register,
+      data: <String, dynamic>{
+        "username": username,
+        "email": email,
+        "password": password,
+        "phone": phoneNumber,
+      },
+    );
 
-    return result.fold((Failure fail) => Left(fail), (
-      Map<String, dynamic> data,
-    ) {
+    return result.fold((Failure fail) => Left(fail), (data) {
       final String message = data['message'];
 
       return Right(message);
@@ -45,15 +42,12 @@ class AuthDataSource {
     String email,
     String password,
   ) async {
-    final Either<Failure, Map<String, dynamic>> result = await dioClient
-        .postRequest(
-          ApiConstants.login,
-          data: <String, dynamic>{"email": email, "password": password},
-        );
+    final Either<Failure, dynamic> result = await dioClient.postRequest(
+      ApiConstants.login,
+      data: <String, dynamic>{"email": email, "password": password},
+    );
 
-    return result.fold((Failure fail) => Left(fail), (
-      Map<String, dynamic> data,
-    ) {
+    return result.fold((Failure fail) => Left(fail), (data) {
       final LoginResponseModel response = LoginResponseModel.fromJson(data);
 
       return Right(response);
@@ -62,14 +56,13 @@ class AuthDataSource {
 
   //! logout
   Future<Either<Failure, String>> logout() async {
-    final Either<Failure, Map<String, dynamic>> result = await dioClient
-        .postRequest(ApiConstants.logout);
+    final Either<Failure, dynamic> result = await dioClient.postRequest(
+      ApiConstants.logout,
+    );
 
-    return result.fold((Failure fail) => Left(fail), (
-      Map<String, dynamic> data,
-    ) {
+    return result.fold((Failure fail) => Left(fail), (data) {
       final String message = data['message'];
-      
+
       return Right(message);
     });
   }

@@ -37,18 +37,22 @@ class DioClient {
     }
   }
 
-  Future<Either<Failure, Map<String, dynamic>>> postRequest(
+  Future<Either<Failure, dynamic>> postRequest(
     String endpoint, {
-    Map<String, dynamic>? data,
-    Map<String, dynamic>? query,
+    data,
+    Map<String, dynamic>? queryParameters,
+    bool isMultipart = false,
   }) async {
     try {
-      final Response response = await dio.post(
+      final response = await dio.post(
         endpoint,
         data: data,
-        queryParameters: query,
-        options: Options(validateStatus: (int? status) => true),
+        queryParameters: queryParameters,
+        options: isMultipart
+            ? Options(headers: {"Content-Type": "multipart/form-data"})
+            : null,
       );
+
       return Right(response.data);
     } on DioException catch (e) {
       return Left(ErrorHandler.handle(e));

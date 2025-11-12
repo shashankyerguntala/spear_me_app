@@ -4,7 +4,7 @@ import 'package:lottie/lottie.dart';
 import 'package:spear_me_app/core/constants/color_constants.dart';
 import 'package:spear_me_app/core/constants/string_constants/assets_constants.dart';
 import 'package:spear_me_app/core/di/di.dart';
-import 'package:spear_me_app/features/authentication/presentation/sign_in/widgets/custom_textfield.dart';
+import 'package:spear_me_app/features/common/widgets/custom_textfield.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_factories/create_plant_head/bloc/create_plant_head_bloc.dart';
 
 class CreatePlantHeadScreen extends StatelessWidget {

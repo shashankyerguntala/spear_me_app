@@ -61,11 +61,11 @@ class PlDashboardScreen extends StatelessWidget {
                             onTap: () => context.go(
                               RoutesConstants.plantHeadProductsRoute,
                             ),
-                            child: StatCard(label: 'Products'),
+                            child: StatCard(label: 'Products', onTap: () {  },),
                           ),
-                          StatCard(label: 'Factories'),
-                          StatCard(label: 'Factories'),
-                          StatCard(label: 'Factories'),
+                          StatCard(label: 'Factories', onTap: () {  },),
+                          StatCard(label: 'Factories', onTap: () {  },),
+                          StatCard(label: 'Factories', onTap: () {  },),
                         ],
                       ),
 

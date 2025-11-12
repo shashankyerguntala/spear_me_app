@@ -7,7 +7,7 @@ import 'package:spear_me_app/core/constants/string_constants/assets_constants.da
 import 'package:spear_me_app/core/constants/string_constants/routes_constansts.dart';
 import 'package:spear_me_app/core/constants/string_constants/string_constants.dart';
 import 'package:spear_me_app/core/di/di.dart';
-import 'package:spear_me_app/features/authentication/presentation/sign_in/widgets/custom_textfield.dart';
+import 'package:spear_me_app/features/common/widgets/custom_textfield.dart';
 import 'package:spear_me_app/features/owner/data/data_sources/local_data_source/city_list.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_factories/add_factory/bloc/add_factory_bloc.dart';
 

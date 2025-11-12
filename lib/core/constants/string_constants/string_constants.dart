@@ -61,6 +61,11 @@ class StringConstants {
   static const String centralOfficeNameCannnotBeEmpty =
       'Central officer name cannot be empty!';
 
+  //!   MERCHANDISE
+  static const String addMerchandise = 'Add Merchandise';
+  static const String merchandise = "Merchandise";
+  static const String noMerchandiseFound = "No merchandise found";
+
   //! products constants
   static const String noProductsFound = 'No products Found';
   static const String failedToFetchProducts = 'Failed to fetch products';

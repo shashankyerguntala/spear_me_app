@@ -6,18 +6,23 @@ import 'package:spear_me_app/features/authentication/domain/repository/auth_repo
 import 'package:spear_me_app/features/authentication/domain/usecase/auth_usecase.dart';
 import 'package:spear_me_app/features/authentication/presentation/sign_in/bloc/sign_in_bloc.dart';
 import 'package:spear_me_app/features/authentication/presentation/sign_up/bloc/sign_up_bloc.dart';
+import 'package:spear_me_app/features/owner/data/data_sources/remote_data_source/merchandise_data_source.dart';
 import 'package:spear_me_app/features/owner/data/data_sources/remote_data_source/owner_data_source.dart';
 import 'package:spear_me_app/features/owner/data/data_sources/remote_data_source/products_data_source.dart';
+import 'package:spear_me_app/features/owner/data/repo_impl/merchandise_repo_impl.dart';
 import 'package:spear_me_app/features/owner/data/repo_impl/owner_repo_impl.dart';
 import 'package:spear_me_app/features/owner/data/repo_impl/product_repo_impl.dart';
+import 'package:spear_me_app/features/owner/domain/repository/merchandise_repository.dart';
 import 'package:spear_me_app/features/owner/domain/repository/owner_repository.dart';
 import 'package:spear_me_app/features/owner/domain/repository/product_repository.dart';
+import 'package:spear_me_app/features/owner/domain/usecase/merchandise_usecase.dart';
 import 'package:spear_me_app/features/owner/domain/usecase/owner_usecase.dart';
 import 'package:spear_me_app/features/owner/domain/usecase/product_usecase.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_central_office/owner_central_office_home/bloc/owner_central_office_home_bloc.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_dashboard/bloc/owner_home_bloc.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_factories/add_factory/bloc/add_factory_bloc.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_factories/create_plant_head/bloc/create_plant_head_bloc.dart';
+import 'package:spear_me_app/features/owner/presentation/owner_merchandise/merchandise_home/bloc/merchandise_home_bloc.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_products/owner_products_home/bloc/owner_products_home_bloc.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_profile/bloc/owner_profile_bloc.dart';
 import 'package:spear_me_app/features/plant_head/data/data_source/add_data_source.dart';
@@ -46,6 +51,7 @@ class Di {
     di.registerLazySingleton(() => ProductsDataSource(di()));
     di.registerLazySingleton(() => AddDataSource(di()));
     di.registerLazySingleton(() => GetDataSource(di()));
+    di.registerLazySingleton(() => MerchandiseDataSource(di()));
 
     //! Repositories
 
@@ -60,6 +66,9 @@ class Di {
     );
     di.registerLazySingleton<AddRepository>(() => AddRepositoryImpl(di()));
     di.registerLazySingleton<GetRepository>(() => GetRepoImpl(di()));
+    di.registerLazySingleton<MerchandiseRepository>(
+      () => MerchandiseRepositoryImpl(di()),
+    );
 
     //! usecases
     di.registerLazySingleton(() => AuthUsecase(authRepository: di()));
@@ -67,6 +76,7 @@ class Di {
     di.registerLazySingleton(() => ProductsUsecase(di()));
     di.registerLazySingleton(() => AddUsecase(di()));
     di.registerLazySingleton(() => GetUsecase(di()));
+    di.registerLazySingleton(() => MerchandiseUsecase(di()));
 
     //! bloc
     di.registerCachedFactory(() => SignInBloc(di()));
@@ -82,5 +92,6 @@ class Di {
     di.registerCachedFactory(() => PlEmployeesBloc(di()));
     di.registerCachedFactory(() => OwnerProfileBloc(di()));
     di.registerCachedFactory(() => PlProductsBloc(di()));
+    di.registerCachedFactory(() => MerchandiseHomeBloc(di()));
   }
 }

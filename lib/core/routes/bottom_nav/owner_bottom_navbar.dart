@@ -1,5 +1,4 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:spear_me_app/core/constants/color_constants.dart';
@@ -15,10 +14,10 @@ class OwnerBottomNavbar extends StatelessWidget {
 
     final tabs = [
       RoutesConstants.ownerHomeRoute,
-      '/owner/factories',
-      '/owner/central-office',
-      '/owner/products',
-      '/owner/employees',
+      RoutesConstants.ownerFactoriesRoute,
+      RoutesConstants.ownerCentralOfficesRoute,
+      RoutesConstants.ownerMerchandise,
+      RoutesConstants.ownerEmployeesRoute,
     ];
 
     int selectedIndex = tabs.indexWhere((path) => location.startsWith(path));
@@ -33,13 +32,13 @@ class OwnerBottomNavbar extends StatelessWidget {
         color: ColorConstants.primary,
         buttonBackgroundColor: ColorConstants.primaryLight,
         animationDuration: Duration(milliseconds: 350),
-        animationCurve: Curves.linear,
+        animationCurve: Curves.easeIn,
         onTap: (i) => context.go(tabs[i]),
         items: const [
           Icon(Icons.dashboard, size: 28, color: ColorConstants.surface),
           Icon(Icons.factory, size: 28, color: ColorConstants.surface),
           Icon(Icons.apartment, size: 28, color: ColorConstants.surface),
-          Icon(CupertinoIcons.person, size: 28, color: ColorConstants.surface),
+          Icon(Icons.inventory_2, size: 28, color: ColorConstants.surface),
           Icon(
             Icons.people_outline_outlined,
             size: 28,

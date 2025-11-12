@@ -17,7 +17,6 @@ class ApiConstants {
   static const String createPlantHead = "/api/users/create/plant-head";
   static const String getProfile = "/api/users/get/profile";
   static const String uploadProfileImage = '/api/users/profile/upload-image';
-  static const String ownerAddMerchandise = '/api/owner/add/merchandise';
   //!get merchandise missing,update merchandise mssing,delete mercandise ,restock merchandise
 
   //! owner products API's
@@ -29,6 +28,13 @@ class ApiConstants {
   static const String uploadProduct = '/api/products/upload';
   static const String getProducts = '/api/products';
   static const String deleteProduct = '/api/products/delete';
+
+  //! OWNER MERCHANDISE API'S
+  static const String addMerchandise = '/api/users/add/merchandise';
+  static const String updateMerchandise = '/api/users/update/merchandise';
+  static const String deleteMerchandise = '/api/users/delete/merchandise';
+  static const String getAllMerchandise = '/api/users/all/merchandise';
+  static const String restockMerchandise = '/api/owner/restock';
 
   //! plant head api's
   static const String plantHeadCreateBay = "/api/users/create/bay";

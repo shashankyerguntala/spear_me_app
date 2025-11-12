@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:spear_me_app/core/constants/color_constants.dart';
 import 'package:spear_me_app/core/constants/string_constants/string_constants.dart';
-import 'package:spear_me_app/features/authentication/presentation/sign_in/widgets/custom_textfield.dart';
+import 'package:spear_me_app/features/common/widgets/custom_textfield.dart';
 
 class SignUpForm extends StatelessWidget {
   final GlobalKey<FormState> formKey;

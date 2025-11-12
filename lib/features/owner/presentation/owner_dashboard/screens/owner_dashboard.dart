@@ -55,10 +55,13 @@ class OwnerDashboard extends StatelessWidget {
                           childAspectRatio: 1.5,
                         ),
                         children: <Widget>[
-                          StatCard(label: 'Factories'),
-                          StatCard(label: 'Factories'),
-                          StatCard(label: 'Factories'),
-                          StatCard(label: 'Factories'),
+                          StatCard(
+                            label: 'Products',
+                            onTap: () => RoutesConstants.ownerProductsRoute,
+                          ),
+                          StatCard(label: 'Factories', onTap: () {}),
+                          StatCard(label: 'Factories', onTap: () {}),
+                          StatCard(label: 'Factories', onTap: () {}),
                         ],
                       ),
 

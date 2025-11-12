@@ -24,15 +24,14 @@ class OwnerDataSource {
     String email,
     int number,
   ) async {
-    final Either<Failure, Map<String, dynamic>> response = await dioClient
-        .postRequest(
-          ApiConstants.createCentralOfficer,
-          data: {
-            "centralOfficerEmail": email,
-            "centralOfficeHeadName": name,
-            "phone": number,
-          },
-        );
+    final Either<Failure, dynamic> response = await dioClient.postRequest(
+      ApiConstants.createCentralOfficer,
+      data: {
+        "centralOfficerEmail": email,
+        "centralOfficeHeadName": name,
+        "phone": number,
+      },
+    );
 
     return response.fold((fail) => Left(fail), (data) {
       final message = data['message'];
@@ -51,7 +50,7 @@ class OwnerDataSource {
     String address,
     String email,
   ) async {
-    final Either<Failure, Map<String, dynamic>> response = await dioClient
+    final Either<Failure, dynamic> response = await dioClient
         .postRequest(
           ApiConstants.createFactory,
           data: {
