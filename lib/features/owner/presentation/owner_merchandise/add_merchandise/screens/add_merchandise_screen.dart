@@ -149,7 +149,7 @@ class _AddMerchandiseScreenState extends State<AddMerchandiseScreen> {
                       controller: nameController,
                       label: "Merchandise Name",
                       validatorMsg: "Please enter merchandise name",
-                      isNumber: false,
+                      isNumber: false, isPhoneNumber: false,
                     ),
                     const SizedBox(height: 16),
 
@@ -157,8 +157,8 @@ class _AddMerchandiseScreenState extends State<AddMerchandiseScreen> {
                       controller: pointsController,
                       label: "Required Points",
                       validatorMsg: "Please enter required points",
-                      isNumber: false,
-                      keyboardType: TextInputType.number,
+                      isNumber: true,
+                      keyboardType: TextInputType.number, isPhoneNumber: false,
                     ),
                     const SizedBox(height: 16),
 
@@ -166,8 +166,8 @@ class _AddMerchandiseScreenState extends State<AddMerchandiseScreen> {
                       controller: qtyController,
                       label: "Available Quantity",
                       validatorMsg: "Please enter available quantity",
-                      isNumber: false,
-                      keyboardType: TextInputType.number,
+                      isNumber: true,
+                      keyboardType: TextInputType.number, isPhoneNumber: false,
                     ),
                     const SizedBox(height: 28),
 

@@ -7,6 +7,7 @@ import 'package:spear_me_app/features/owner/presentation/owner_dashboard/screens
 import 'package:spear_me_app/features/owner/presentation/owner_employees/screens/owner_employees.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_factories/add_factory/screen/add_factory_screen.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_factories/create_plant_head/screens/create_plant_head.dart';
+import 'package:spear_me_app/features/owner/presentation/owner_factories/factory_details/screens/factory_details_screen.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_factories/factory_home/screens/owner_factories.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_merchandise/add_merchandise/screens/add_merchandise_screen.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_merchandise/merchandise_home/screens/merchandise_home_screen.dart';
@@ -22,81 +23,104 @@ final List<GoRoute> ownerRoutes = <GoRoute>[
   GoRoute(
     path: RoutesConstants.ownerHomeRoute,
     builder: (BuildContext context, GoRouterState state) => OwnerDashboard(),
+    routes: [
+      GoRoute(
+        path: 'profile',
+        builder: (BuildContext context, GoRouterState state) =>
+            const OwnerProfileScreen(),
+      ),
+    ],
   ),
+
   GoRoute(
     path: RoutesConstants.ownerFactoriesRoute,
     builder: (BuildContext context, GoRouterState state) => OwnerFactories(),
+    routes: [
+      GoRoute(
+        path: 'add',
+        builder: (BuildContext context, GoRouterState state) =>
+            const AddFactoryScreen(),
+      ),
+      GoRoute(
+        path: 'details/:id',
+        builder: (BuildContext context, GoRouterState state) {
+          final id = int.parse(state.pathParameters['id']!);
+          return FactoryDetailsScreen(factoryId: id);
+        },
+      ),
+      GoRoute(
+        path: 'create-plant-head',
+        builder: (BuildContext context, GoRouterState state) =>
+            const CreatePlantHeadScreen(),
+      ),
+    ],
   ),
+
   GoRoute(
     path: RoutesConstants.ownerCentralOfficesRoute,
     builder: (BuildContext context, GoRouterState state) =>
         CentralOfficeScreen(),
+    routes: [
+      GoRoute(
+        path: 'add',
+        builder: (BuildContext context, GoRouterState state) =>
+            const AddCentralOffice(),
+      ),
+    ],
   ),
+
   GoRoute(
-    path: RoutesConstants.ownerProductsRoute,
+    path: RoutesConstants.ownerMerchandise,
     builder: (BuildContext context, GoRouterState state) =>
-        const OwnerProducts(),
+        const MerchandiseHomeScreen(),
+    routes: [
+      GoRoute(
+        path: 'add',
+        builder: (BuildContext context, GoRouterState state) =>
+            const AddMerchandiseScreen(),
+      ),
+    ],
   ),
+
   GoRoute(
     path: RoutesConstants.ownerEmployeesRoute,
     builder: (BuildContext context, GoRouterState state) =>
         const OwnerEmployees(),
   ),
-  GoRoute(
-    path: RoutesConstants.ownerAddFactoriesRoute,
-    builder: (BuildContext context, GoRouterState state) =>
-        const AddFactoryScreen(),
-  ),
-  GoRoute(
-    path: RoutesConstants.ownerAddCentralOfficeRoute,
-    builder: (BuildContext context, GoRouterState state) =>
-        const AddCentralOffice(),
-  ),
-  GoRoute(
-    path: RoutesConstants.ownerProfileRoute,
-    builder: (BuildContext context, GoRouterState state) =>
-        const OwnerProfileScreen(),
-  ),
-  GoRoute(
-    path: RoutesConstants.createPlantHead,
-    builder: (BuildContext context, GoRouterState state) =>
-        const CreatePlantHeadScreen(),
-  ),
-  GoRoute(
-    path: RoutesConstants.ownerAddProducts,
-    builder: (BuildContext context, GoRouterState state) {
-      final extra = state.extra as Map<String, dynamic>?;
-
-      return OwnerAddProducts(
-        isEdit: extra?['isEdit'] ?? false,
-        product: extra?['product'],
-      );
-    },
-  ),
 
   GoRoute(
-    path: RoutesConstants.ownerAddCategory,
+    path: RoutesConstants.ownerProductsRoute,
     builder: (BuildContext context, GoRouterState state) =>
-        const OwnerAddCategory(),
+        const OwnerProducts(),
+    routes: [
+      GoRoute(
+        path: 'add',
+        builder: (BuildContext context, GoRouterState state) {
+          final extra = state.extra as Map<String, dynamic>?;
+          return OwnerAddProducts(
+            isEdit: extra?['isEdit'] ?? false,
+            product: extra?['product'],
+          );
+        },
+      ),
+      GoRoute(
+        path: 'add-category',
+        builder: (BuildContext context, GoRouterState state) =>
+            const OwnerAddCategory(),
+      ),
+    ],
   ),
-  GoRoute(
-    path: RoutesConstants.ownerMerchandise,
-    builder: (BuildContext context, GoRouterState state) =>
-        const MerchandiseHomeScreen(),
-  ),
-  GoRoute(
-    path: RoutesConstants.ownerAddMerchandise,
-    builder: (BuildContext context, GoRouterState state) =>
-        const AddMerchandiseScreen(),
-  ),
+
   GoRoute(
     path: RoutesConstants.ownerToolsRoutes,
     builder: (BuildContext context, GoRouterState state) =>
         const ToolsHomeScreen(),
-  ),
-   GoRoute(
-    path: RoutesConstants.ownerAddTools,
-    builder: (BuildContext context, GoRouterState state) =>
-        const AddToolsScreen(),
+    routes: [
+      GoRoute(
+        path: 'add',
+        builder: (BuildContext context, GoRouterState state) =>
+            const AddToolsScreen(),
+      ),
+    ],
   ),
 ];

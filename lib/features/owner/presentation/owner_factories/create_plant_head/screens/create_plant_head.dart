@@ -79,14 +79,14 @@ class _CreatePlantHeadBodyState extends State<_CreatePlantHeadBody> {
                     controller: usernameController,
                     label: "Username",
                     validatorMsg: "Username cannot be empty",
-                    isNumber: false,
+                    isNumber: false, isPhoneNumber: false,
                   ),
                   CustomTextField(
                     controller: emailController,
                     label: "Email",
                     validatorMsg: "Email cannot be empty",
                     keyboardType: TextInputType.emailAddress,
-                    isNumber: false,
+                    isNumber: false, isPhoneNumber: false,
                   ),
                   SizedBox(
                     width: double.infinity,

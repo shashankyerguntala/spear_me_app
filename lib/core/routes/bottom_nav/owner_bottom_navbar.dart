@@ -22,7 +22,6 @@ class OwnerBottomNavbar extends StatelessWidget {
 
     int selectedIndex = tabs.indexWhere((path) => location.startsWith(path));
     selectedIndex = selectedIndex == -1 ? 0 : selectedIndex;
-
     return Scaffold(
       body: child,
       bottomNavigationBar: CurvedNavigationBar(

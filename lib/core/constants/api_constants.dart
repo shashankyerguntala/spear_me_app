@@ -17,6 +17,9 @@ class ApiConstants {
   static const String createPlantHead = "/api/users/create/plant-head";
   static const String getProfile = "/api/users/get/profile";
   static const String uploadProfileImage = '/api/users/profile/upload-image';
+  static const String factoryDetails = '/api/users/factory/details';
+  static const String deleteEmployee = '/api/users/delete/employee';
+
   //!get merchandise missing,update merchandise mssing,delete mercandise ,restock merchandise
 
   //! owner products API's

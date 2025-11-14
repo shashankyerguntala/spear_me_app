@@ -5,6 +5,7 @@ import 'package:spear_me_app/core/network/dio_client.dart';
 import 'package:spear_me_app/core/network/failure.dart';
 import 'package:spear_me_app/features/owner/data/models/api_response_model.dart';
 import 'package:spear_me_app/features/owner/data/models/central_office_model.dart';
+import 'package:spear_me_app/features/owner/data/models/factory_details_model.dart';
 import 'package:spear_me_app/features/owner/data/models/owner_data_model.dart';
 import 'package:spear_me_app/features/owner/data/models/paged_employees_model.dart';
 import 'package:spear_me_app/features/owner/data/models/paged_factory_model.dart';
@@ -50,17 +51,16 @@ class OwnerDataSource {
     String address,
     String email,
   ) async {
-    final Either<Failure, dynamic> response = await dioClient
-        .postRequest(
-          ApiConstants.createFactory,
-          data: {
-            "name": name,
-            "city": city,
-            "address": address,
-            "centralOfficeId": 1,
-            "plantHeadEmail": email,
-          },
-        );
+    final Either<Failure, dynamic> response = await dioClient.postRequest(
+      ApiConstants.createFactory,
+      data: {
+        "name": name,
+        "city": city,
+        "address": address,
+        "centralOfficeId": 1,
+        "plantHeadEmail": email,
+      },
+    );
 
     return response.fold((fail) => Left(fail), (data) {
       final message = data['message'];
@@ -187,6 +187,43 @@ class OwnerDataSource {
     return result.fold((fail) => Left(fail), (data) {
       final message = data['message'] ?? 'Image uploaded successfully';
       return Right(message);
+    });
+  }
+
+  //! get factory details
+  Future<Either<Failure, FactoryDetailsModel>> getFactoryDetails({
+    required int factoryId,
+  }) async {
+    final result = await dioClient.getRequest(
+      ApiConstants.factoryDetails,
+      queryParameters: {'factoryId': factoryId},
+    );
+
+    return result.fold((failure) => Left(failure), (data) {
+      final parsed = ApiResponseModel<FactoryDetailsModel>.fromJson(
+        data,
+        (obj) => FactoryDetailsModel.fromJson(obj),
+      );
+      return Right(parsed.data);
+    });
+  }
+
+  //! delete employee
+  Future<Either<Failure, String>> deleteEmployee({
+    required int employeeId,
+  }) async {
+    final result = await dioClient.deleteRequest(
+      '${ApiConstants.deleteEmployee}/$employeeId',
+    );
+
+    return result.fold((fail) => Left(fail), (data) {
+      final message = data['message'];
+
+      if (data['success'] == true) {
+        return Right(message);
+      } else {
+        return Left(Failure(message));
+      }
     });
   }
 }

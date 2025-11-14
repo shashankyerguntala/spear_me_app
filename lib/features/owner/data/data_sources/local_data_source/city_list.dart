@@ -1,4 +1,4 @@
-const List<String> citiesList = [
+const List<String> locations = [
   "Pune",
   "Mumbai",
   "Hyderabad",

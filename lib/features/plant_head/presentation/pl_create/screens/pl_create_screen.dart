@@ -89,6 +89,7 @@ class _PlCreateBodyState extends State<_PlCreateBody> {
                         label: "Name",
                         validatorMsg: "Name cannot be empty",
                         isNumber: false,
+                        isPhoneNumber: false,
                       ),
                       const SizedBox(height: 16),
                       CustomTextField(
@@ -97,6 +98,7 @@ class _PlCreateBodyState extends State<_PlCreateBody> {
                         keyboardType: TextInputType.emailAddress,
                         validatorMsg: "Email cannot be empty",
                         isNumber: false,
+                        isPhoneNumber: false,
                       ),
                       const SizedBox(height: 16),
                       RoleDropdown(
@@ -223,6 +225,7 @@ class _PlCreateBodyState extends State<_PlCreateBody> {
               label: "Bay Name",
               validatorMsg: "Cannot be empty",
               isNumber: false,
+              isPhoneNumber: false,
             ),
             const SizedBox(height: 16),
             SizedBox(

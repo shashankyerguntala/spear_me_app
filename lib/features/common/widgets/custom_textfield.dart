@@ -10,13 +10,16 @@ class CustomTextField extends StatelessWidget {
   final TextInputType keyboardType;
   final bool obscureText;
   final bool emailValidator;
-  final bool isNumber;
+  final bool isPhoneNumber;
   final Widget? suffixIcon;
+  final bool isNumber;
+  final bool? isStrongPass;
 
   const CustomTextField({
     required this.controller,
     required this.label,
     required this.validatorMsg,
+    required this.isPhoneNumber,
     required this.isNumber,
     this.keyboardType = TextInputType.text,
     this.obscureText = false,
@@ -25,15 +28,15 @@ class CustomTextField extends StatelessWidget {
     this.suffixIcon,
 
     super.key,
+    this.isStrongPass = false,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      //! use bloc for every validations
       controller: controller,
       keyboardType: keyboardType,
-      inputFormatters: isNumber
+      inputFormatters: isPhoneNumber && isNumber
           ? <TextInputFormatter>[
               FilteringTextInputFormatter.digitsOnly,
               LengthLimitingTextInputFormatter(10),
@@ -42,7 +45,7 @@ class CustomTextField extends StatelessWidget {
       autovalidateMode: AutovalidateMode.onUserInteraction,
       obscureText: obscureText,
       decoration: InputDecoration(
-        prefixIcon: isNumber
+        prefixIcon: isPhoneNumber
             ? SizedBox(
                 width: 60,
                 child: Row(
@@ -83,14 +86,40 @@ class CustomTextField extends StatelessWidget {
       ),
 
       validator: (String? value) {
-        if (value == null || value.isEmpty) {
+        if (value == null || value.trim().isEmpty) {
           return validatorMsg;
         }
-        if (label == StringConstants.usernameLabel && value.length < 4) {
-          return StringConstants.usernameShort;
-        }
-        if (label == StringConstants.passwordLabel && value.length < 6) {
-          return StringConstants.passwordShort;
+
+        final input = value.trim();
+
+        if (label.toLowerCase().contains('email')) {
+          final emailRegex = RegExp(StringConstants.emailRegex);
+          if (!emailRegex.hasMatch(input)) {
+            return StringConstants.validEmail;
+          }
+        } else if (label.toLowerCase().contains('password')) {
+          if (input.length < 6) {
+            return StringConstants.passwordShort;
+          }
+
+          if (isStrongPass == true) {
+            final strongPasswordRegex = RegExp(StringConstants.passwordRegex);
+            if (!strongPasswordRegex.hasMatch(input)) {
+              return StringConstants.strongPassword;
+            }
+          }
+        } else if (label.toLowerCase().contains('username')) {
+          if (input.length < 4) {
+            return StringConstants.usernameFourCharacters;
+          }
+        } else if (isNumber) {
+          final numValue = num.tryParse(input);
+          if (numValue == null) {
+            return StringConstants.validNumber;
+          }
+          if (numValue < 0) {
+            return StringConstants.negativeNumbersNotAllowed;
+          }
         }
 
         return null;

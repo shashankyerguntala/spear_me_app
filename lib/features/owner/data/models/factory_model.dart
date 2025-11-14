@@ -6,6 +6,7 @@ class FactoryModel extends FactoryEntity {
     required super.city,
     required super.address,
     required super.plantHeadEmail,
+    required super.factoryId,
   });
 
   factory FactoryModel.fromJson(Map<String, dynamic> json) {
@@ -14,6 +15,7 @@ class FactoryModel extends FactoryEntity {
       city: json['city'] ?? '',
       address: json['address'] ?? '',
       plantHeadEmail: json['plantHeadEmail'] ?? '',
+      factoryId: json['factoryId'],
     );
   }
 }

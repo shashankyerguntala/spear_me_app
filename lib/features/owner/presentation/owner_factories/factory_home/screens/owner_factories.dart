@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-
 import 'package:spear_me_app/core/constants/color_constants.dart';
 import 'package:spear_me_app/core/constants/string_constants/routes_constansts.dart';
+import 'package:spear_me_app/features/owner/data/data_sources/local_data_source/city_list.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_factories/factory_home/screens/owner_factory_shimmer.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_factories/factory_home/widgets/factory_card.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_factories/factory_home/bloc/owner_factories_bloc.dart';
@@ -32,16 +32,6 @@ class _OwnerFactoriesBody extends StatefulWidget {
 class _OwnerFactoriesBodyState extends State<_OwnerFactoriesBody> {
   final TextEditingController searchController = TextEditingController();
   String selectedLocation = "";
-
-  final List<String> locations = const [
-    "Pune",
-    "Hyderabad",
-    "Mumbai",
-    "Delhi",
-    "Aurangabad",
-    "Bangalore",
-    "Surat",
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -102,20 +92,19 @@ class _OwnerFactoriesBodyState extends State<_OwnerFactoriesBody> {
 
                   if (state is OwnerFactoriesLoaded) {
                     final factories = state.factories;
-
-                    return Column(
-                      children: [
-                        Expanded(
-                          child: ListView.builder(
-                            itemCount: factories.length,
-                            itemBuilder: (_, i) => FactoryCard(
-                              name: factories[i].name,
-                              location: factories[i].city,
-                              isActive: true,
-                            ),
-                          ),
+                    //! if error wrap with expanded
+                    return ListView.builder(
+                      itemCount: factories.length,
+                      itemBuilder: (_, i) => GestureDetector(
+                        onTap: () => context.push(
+                          '${RoutesConstants.ownerFactoriesRoute}/details/${factories[i].factoryId}',
                         ),
-                      ],
+                        child: FactoryCard(
+                          name: factories[i].name,
+                          location: factories[i].city,
+                          isActive: true,
+                        ),
+                      ),
                     );
                   }
 

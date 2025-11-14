@@ -15,6 +15,20 @@ class StringConstants {
   static const String signUpButton = 'Sign Up';
   static const String createAccount = ' Please create a new account';
   static const String loginToContinue = 'Please login to continue';
+  static const String signingYouIn = ' SIGNING YOU IN . . .';
+  static const String emailRegex =
+      r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$';
+  static const String validEmail = 'Please enter a valid email address';
+  static const String passwordRegex =
+      r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
+  static const String strongPassword =
+      'Password must be 8+ chars, with upper, lower, number & special char';
+  static const String usernameFourCharacters =
+      'Username must be at least 4 characters';
+  static const String validNumber = 'Please enter a valid number';
+  static const String negativeNumbersNotAllowed =
+      'Negative numbers are not allowed';
+
   //! sign up constants
   static const String usernameEmpty = 'Enter a username';
   static const String usernameShort = 'Username must be at least 4 characters';

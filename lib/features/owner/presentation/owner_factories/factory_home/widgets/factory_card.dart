@@ -50,6 +50,7 @@ class FactoryCard extends StatelessWidget {
               ],
             ),
           ),
+          Icon(Icons.arrow_forward),
         ],
       ),
     );

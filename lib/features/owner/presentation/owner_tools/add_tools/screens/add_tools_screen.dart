@@ -107,7 +107,7 @@ class _AddToolsBodyState extends State<_AddToolsBody> {
                     controller: _nameController,
                     label: "Tool Name",
                     validatorMsg: "Please enter tool name",
-                    isNumber: false,
+                    isNumber: false, isPhoneNumber: false,
                   ),
 
                   DropdownButtonFormField<int>(
@@ -177,7 +177,7 @@ class _AddToolsBodyState extends State<_AddToolsBody> {
                     label: "Threshold Quantity",
                     validatorMsg: "Enter valid threshold value",
                     isNumber: true,
-                    keyboardType: TextInputType.number,
+                    keyboardType: TextInputType.number, isPhoneNumber: false,
                   ),
 
                   const SizedBox(height: 20),

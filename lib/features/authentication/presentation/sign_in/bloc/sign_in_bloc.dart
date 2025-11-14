@@ -25,7 +25,6 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
       Emitter<SignInState> emit,
     ) async {
       emit(SignInLoading());
-
       final Either<Failure, LoginResponseEntity> result = await authUsecase
           .login(event.email, event.password);
       return await result.fold(

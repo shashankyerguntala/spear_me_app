@@ -42,13 +42,7 @@ class AddToolsBloc extends Bloc<AddToolsEvent, AddToolsState> {
     CreateTool event,
     Emitter<AddToolsState> emit,
   ) async {
-    emit(
-      state.copyWith(
-        isSubmitting: true,
-        errorMessage: null,
-        successMessage: null,
-      ),
-    );
+    emit(state.copyWith(isSubmitting: true));
 
     final result = await usecase.createTool(
       name: event.name,

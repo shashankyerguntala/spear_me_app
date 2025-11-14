@@ -85,13 +85,13 @@ class _AddCentralOfficerBodyState extends State<_AddCentralOfficerBody> {
                       label: "Central Officer Email",
                       validatorMsg: "Email cannot be empty",
                       keyboardType: TextInputType.emailAddress,
-                      isNumber: false,
+                      isNumber: false, isPhoneNumber: false,
                     ),
                     CustomTextField(
                       controller: headNameController,
                       label: "Central Office Head Name",
                       validatorMsg: "Name cannot be empty",
-                      isNumber: false,
+                      isNumber: false, isPhoneNumber: false,
                     ),
 
                     CustomTextField(
@@ -99,7 +99,7 @@ class _AddCentralOfficerBodyState extends State<_AddCentralOfficerBody> {
                       label: "Phone Number",
                       validatorMsg: "Phone cannot be empty",
                       keyboardType: TextInputType.number,
-                      isNumber: true,
+                      isNumber: true, isPhoneNumber: true,
                     ),
 
                     SizedBox(

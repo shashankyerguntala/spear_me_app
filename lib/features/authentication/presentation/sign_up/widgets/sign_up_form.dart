@@ -45,7 +45,7 @@ class SignUpForm extends StatelessWidget {
               label: StringConstants.usernameLabel,
               validatorMsg: StringConstants.usernameEmpty,
               keyboardType: TextInputType.name,
-              isNumber: false,
+              isNumber: false, isPhoneNumber: false,
             ),
 
             CustomTextField(
@@ -54,14 +54,14 @@ class SignUpForm extends StatelessWidget {
               validatorMsg: StringConstants.emailEmpty,
               keyboardType: TextInputType.emailAddress,
               emailValidator: true,
-              isNumber: false,
+              isNumber: false, isPhoneNumber: false,
             ),
             CustomTextField(
               controller: numberController,
               label: StringConstants.numberLabel,
               validatorMsg: StringConstants.passwordEmpty,
               keyboardType: TextInputType.number,
-              isNumber: true,
+              isNumber: true, isPhoneNumber: true,
             ),
             CustomTextField(
               controller: passwordController,
@@ -76,7 +76,7 @@ class SignUpForm extends StatelessWidget {
                   color: ColorConstants.primaryLight,
                 ),
                 onPressed: onPasswordVisibilityToggle,
-              ),
+              ), isPhoneNumber: false,
             ),
 
             Row(

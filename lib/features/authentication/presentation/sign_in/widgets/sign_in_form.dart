@@ -38,7 +38,7 @@ class SignInForm extends StatelessWidget {
             controller: emailController,
             label: StringConstants.emailLabel,
             validatorMsg: StringConstants.emailEmpty,
-            keyboardType: TextInputType.emailAddress, isNumber: false,
+            keyboardType: TextInputType.emailAddress, isNumber: false, isPhoneNumber: false,
           ),
           const SizedBox(height: 16),
 
@@ -54,7 +54,7 @@ class SignInForm extends StatelessWidget {
                 color: ColorConstants.warning,
               ),
               onPressed: onPasswordVisibilityToggle,
-            ),
+            ), isPhoneNumber: false,
           ),
           const SizedBox(height: 24),
 

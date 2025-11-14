@@ -32,7 +32,8 @@ class _AddFactoryBody extends StatefulWidget {
 
 class _AddFactoryBodyState extends State<_AddFactoryBody> {
   final bool shoeCreatePlantHead = false;
-  final GlobalKey<FormState> formKey = GlobalKey<FormState>();//! make the form validations in bloc 
+  final GlobalKey<FormState> formKey =
+      GlobalKey<FormState>(); //! make the form validations in bloc
   String? selectedCity;
   final TextEditingController nameController = TextEditingController();
   final TextEditingController cityController = TextEditingController();
@@ -90,11 +91,12 @@ class _AddFactoryBodyState extends State<_AddFactoryBody> {
                       label: "Factory Name",
                       validatorMsg: "Factory name cannot be empty",
                       isNumber: false,
+                      isPhoneNumber: false,
                     ),
                     DropdownButtonFormField<String>(
                       dropdownColor: ColorConstants.cardBg,
                       value: selectedCity,
-                      items: citiesList
+                      items: locations
                           .map(
                             (city) => DropdownMenuItem(
                               value: city,
@@ -124,6 +126,7 @@ class _AddFactoryBodyState extends State<_AddFactoryBody> {
                       label: "Address",
                       validatorMsg: "Address cannot be empty",
                       isNumber: false,
+                      isPhoneNumber: false,
                     ),
                     CustomTextField(
                       controller: plantHeadEmailController,
@@ -131,6 +134,7 @@ class _AddFactoryBodyState extends State<_AddFactoryBody> {
                       validatorMsg: "Email cannot be empty",
                       keyboardType: TextInputType.emailAddress,
                       isNumber: false,
+                      isPhoneNumber: false,
                     ),
 
                     SizedBox(
