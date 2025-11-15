@@ -8,7 +8,7 @@ class ColorConstants {
   static const Color secondaryLight = Color(0xFFFCD34D);
   static const Color accent = Color(0xFF10B981);
 
-  static const Color scaffoldBg = Color.fromARGB(255, 253, 253, 253);
+  static const Color scaffoldBg = Color.fromARGB(250, 250, 250, 250);
   static const Color cardBg = Colors.white;
   static const Color surface = Colors.white;
 

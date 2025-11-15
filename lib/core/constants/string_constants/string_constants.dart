@@ -17,6 +17,7 @@ class StringConstants {
   static const String logoutSuccessful = 'Logout Successful';
   static const String doyouReallyWantToLogOut =
       'Do you really want to log out?';
+  static const String doyouReallyWantToDelete = 'Do you really want to Delete?';
 
   static const String createAccount = ' Please create a new account';
   static const String loginToContinue = 'Please login to continue';
@@ -96,6 +97,9 @@ class StringConstants {
   static const String pleaseSelectAnImage = "Please select an image";
   static const String searchEmployees = 'Search employees...';
   static const String searchMerchandise = 'Search merchandise...';
+  static const String edit = 'Edit';
+  static const String delete = 'Delete';
+  static const String editMerchandise = 'Edit Merchandise';
 
   //! products constants
   static const String noProductsFound = 'No products Found';

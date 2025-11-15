@@ -14,6 +14,7 @@ class AddMerchandiseBloc
   AddMerchandiseBloc(this.usecase) : super(AddMerchandiseInitial()) {
     on<UploadMerchandiseImage>(_onUploadImage);
     on<SubmitMerchandise>(_onSubmitMerchandise);
+    on<UpdateMerchandise>(_onUpdateMerchandise);
   }
 
   Future<void> _onUploadImage(
@@ -43,6 +44,26 @@ class AddMerchandiseBloc
     result.fold(
       (Failure fail) => emit(AddMerchandiseFailure(fail.message)),
       (String message) => emit(AddMerchandiseSuccess(message)),
+    );
+  }
+
+  Future<void> _onUpdateMerchandise(
+    UpdateMerchandise event,
+    Emitter<AddMerchandiseState> emit,
+  ) async {
+    emit(AddMerchandiseLoading());
+
+    final result = await usecase.update(
+      id: event.id,
+      name: event.name,
+      requiredPoints: event.requiredPoints,
+      availableQuantity: event.availableQuantity,
+      imageFile: event.imagePath != null ? File(event.imagePath!) : null,
+    );
+
+    result.fold(
+      (fail) => emit(AddMerchandiseFailure(fail.message)),
+      (msg) => emit(AddMerchandiseSuccess(msg)),
     );
   }
 }

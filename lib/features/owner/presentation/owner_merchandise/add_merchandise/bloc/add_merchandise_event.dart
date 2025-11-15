@@ -37,3 +37,28 @@ class SubmitMerchandise extends AddMerchandiseEvent {
     imagePath,
   ];
 }
+
+class UpdateMerchandise extends AddMerchandiseEvent {
+  final int id;
+  final String name;
+  final int requiredPoints;
+  final int availableQuantity;
+  final String? imagePath;
+
+  const UpdateMerchandise({
+    required this.id,
+    required this.name,
+    required this.requiredPoints,
+    required this.availableQuantity,
+    this.imagePath,
+  });
+
+  @override
+  List<Object?> get props => [
+    id,
+    name,
+    requiredPoints,
+    availableQuantity,
+    imagePath,
+  ];
+}

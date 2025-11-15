@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:spear_me_app/core/constants/string_constants/routes_constansts.dart';
 import 'package:spear_me_app/core/constants/string_constants/string_constants.dart';
 import 'package:spear_me_app/core/helper_functions.dart';
+import 'package:spear_me_app/features/common/widgets/confirmation_dialogue.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_merchandise/merchandise_home/bloc/merchandise_home_bloc.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_merchandise/merchandise_home/widgets/merchandise_card.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_merchandise/merchandise_home/widgets/merchandise_grid_shimmer.dart';
@@ -48,8 +51,15 @@ class _MerchandiseHomeBodyState extends State<MerchandiseHomeBody> {
             message: state.errorMessage!,
             isError: true,
           );
+        } else if (state.successMessage != null) {
+          HelperFunctions.showSnackBar(
+            context,
+            message: state.successMessage!,
+            isError: false,
+          );
         }
       },
+
       builder: (context, state) {
         if (state.isLoading && state.items.isEmpty) {
           return const MerchandiseGridShimmer();
@@ -87,9 +97,9 @@ class _MerchandiseHomeBodyState extends State<MerchandiseHomeBody> {
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
-                          mainAxisSpacing: 14,
-                          crossAxisSpacing: 14,
-                          childAspectRatio: 0.78,
+                          mainAxisSpacing: 12,
+                          crossAxisSpacing: 12,
+                          childAspectRatio: 0.55,
                         ),
                     itemBuilder: (context, index) {
                       if (index == state.items.length && state.isLoadingMore) {
@@ -100,9 +110,25 @@ class _MerchandiseHomeBodyState extends State<MerchandiseHomeBody> {
                           ),
                         );
                       }
-
                       final merchandise = state.items[index];
-                      return MerchandiseCard(merchandise: merchandise);
+                      return MerchandiseCard(
+                        onDelete: () => ConfirmationDialog.show(
+                          context: context,
+                          title: StringConstants.delete,
+                          message: StringConstants.doyouReallyWantToDelete,
+                          onConfirm: () =>
+                              context.read<MerchandiseHomeBloc>().add(
+                                DeleteMerchandise(
+                                  merchandiseId: merchandise.id,
+                                ),
+                              ),
+                        ),
+                        onEdit: () => context.push(
+                          RoutesConstants.ownerAddMerchandise,
+                          extra: merchandise,
+                        ),
+                        merchandise: merchandise,
+                      );
                     },
                   ),
                 ),

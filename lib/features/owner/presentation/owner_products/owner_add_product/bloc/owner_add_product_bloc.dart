@@ -11,7 +11,7 @@ class OwnerAddProductBloc
   final ProductsUsecase usecase;
 
   OwnerAddProductBloc({required this.usecase})
-      : super(const OwnerAddProductInitial()) {
+    : super(const OwnerAddProductInitial()) {
     on<FetchCategoriesRequested>(_onFetchCategoriesRequested);
     on<ImageSelected>(_onImageSelected);
     on<CategorySelected>(_onCategorySelected);
@@ -28,17 +28,16 @@ class OwnerAddProductBloc
 
       final result = await usecase.getCategories();
 
-      result.fold(
-        (failure) => emit(CategoryFetchFailure(failure.message)),
-        (categories) {
-          emit(
-            currentState.copyWith(
-              categories: categories,
-              isFetchingCategories: false,
-            ),
-          );
-        },
-      );
+      result.fold((failure) => emit(CategoryFetchFailure(failure.message)), (
+        categories,
+      ) {
+        emit(
+          currentState.copyWith(
+            categories: categories,
+            isFetchingCategories: false,
+          ),
+        );
+      });
     }
   }
 
@@ -84,7 +83,6 @@ class OwnerAddProductBloc
     AddProductRequested event,
     Emitter<OwnerAddProductState> emit,
   ) async {
-    // Preserve current selections during loading
     List<ProductCategoryEntity> categories = [];
     String? currentImagePath;
     ProductCategoryEntity? currentCategory;

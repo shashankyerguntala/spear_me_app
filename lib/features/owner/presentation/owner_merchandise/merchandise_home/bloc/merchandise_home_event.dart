@@ -41,6 +41,12 @@ class SortMerchandise extends MerchandiseHomeEvent {
   List<Object?> get props => [sortBy, ascending];
 }
 
-class ResetMerchandiseFilters extends MerchandiseHomeEvent {
-  const ResetMerchandiseFilters();
+class ResetMerchandiseFilters extends MerchandiseHomeEvent {}
+
+
+
+class DeleteMerchandise extends MerchandiseHomeEvent {
+  final int merchandiseId;
+
+  const DeleteMerchandise({required this.merchandiseId});
 }

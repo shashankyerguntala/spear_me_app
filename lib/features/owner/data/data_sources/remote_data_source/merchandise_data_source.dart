@@ -84,9 +84,9 @@ class MerchandiseDataSource {
 
     return response.fold((fail) => Left(fail), (data) {
       if (data["success"] == true) {
-        return Right(data["message"] ?? "Merchandise deleted successfully");
+        return Right(data["message"] );
       } else {
-        return Left(Failure(data["message"] ?? "Failed to delete merchandise"));
+        return Left(Failure(data["message"]));
       }
     });
   }

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:spear_me_app/core/network/debouncer.dart';
@@ -29,8 +30,12 @@ class MerchandiseHomeBloc
     );
 
     on<UpdateCategoryFilter>(_onUpdateCategoryFilter);
+
     on<SortMerchandise>(_onSortMerchandise);
-    on<ResetMerchandiseFilters>(_onResetMerchandiseFilters);
+
+    on<ResetMerchandiseFilters>(_onResetFilters);
+
+    on<DeleteMerchandise>(_deleteMerchandise);
   }
 
   Future<void> _onFetchMerchandise(
@@ -40,27 +45,27 @@ class MerchandiseHomeBloc
     emit(state.copyWith(isLoading: true));
 
     final result = await usecase.getAllMerchandise(
-      search: state.searchQuery.trim().isEmpty
-          ? null
-          : state.searchQuery.trim(),
+      search: state.searchQuery.isEmpty ? null : state.searchQuery.trim(),
       page: 0,
       size: 10,
-      sort: state.sortBy,
+      sort: state.sortBy.isEmpty ? null : state.sortBy,
       asc: state.ascending,
     );
 
     result.fold(
       (failure) =>
           emit(state.copyWith(isLoading: false, errorMessage: failure.message)),
-      (paged) => emit(
-        state.copyWith(
-          isLoading: false,
-          items: paged.content,
-          page: 0,
-          totalPages: paged.totalPages,
-          hasMoreData: paged.pageNumber < paged.totalPages - 1,
-        ),
-      ),
+      (paged) {
+        emit(
+          state.copyWith(
+            isLoading: false,
+            items: paged.content,
+            page: 0,
+            totalPages: paged.totalPages,
+            hasMoreData: paged.pageNumber < (paged.totalPages - 1),
+          ),
+        );
+      },
     );
   }
 
@@ -68,7 +73,7 @@ class MerchandiseHomeBloc
     LoadMoreMerchandise event,
     Emitter<MerchandiseHomeState> emit,
   ) async {
-    if (state.isLoadingMore || !state.hasMoreData) {
+    if (!state.hasMoreData || state.isLoadingMore) {
       return;
     }
 
@@ -77,12 +82,10 @@ class MerchandiseHomeBloc
     final nextPage = state.page + 1;
 
     final result = await usecase.getAllMerchandise(
-      search: state.searchQuery.trim().isEmpty
-          ? null
-          : state.searchQuery.trim(),
+      search: state.searchQuery.isEmpty ? null : state.searchQuery.trim(),
       page: nextPage,
       size: 10,
-      sort: state.sortBy,
+      sort: state.sortBy.isEmpty ? null : state.sortBy,
       asc: state.ascending,
     );
 
@@ -91,16 +94,13 @@ class MerchandiseHomeBloc
         state.copyWith(isLoadingMore: false, errorMessage: failure.message),
       ),
       (paged) {
-        final updated = List<MerchandiseEntity>.from(state.items)
-          ..addAll(paged.content);
-
         emit(
           state.copyWith(
             isLoadingMore: false,
-            items: updated,
+            items: [...state.items, ...paged.content],
             page: nextPage,
             totalPages: paged.totalPages,
-            hasMoreData: nextPage < paged.totalPages - 1,
+            hasMoreData: nextPage < (paged.totalPages - 1),
           ),
         );
       },
@@ -133,11 +133,37 @@ class MerchandiseHomeBloc
     add(const FetchMerchandise());
   }
 
-  void _onResetMerchandiseFilters(
+  void _onResetFilters(
     ResetMerchandiseFilters event,
     Emitter<MerchandiseHomeState> emit,
   ) {
-    emit(const MerchandiseHomeInitial());
+    emit(
+      state.copyWith(
+        searchQuery: '',
+        selectedCategory: '',
+        sortBy: '',
+        ascending: true,
+        page: 0,
+      ),
+    );
     add(const FetchMerchandise());
+  }
+
+  Future<void> _deleteMerchandise(
+    DeleteMerchandise event,
+    Emitter<MerchandiseHomeState> emit,
+  ) async {
+    emit(state.copyWith(isLoading: true));
+
+    final result = await usecase.delete(event.merchandiseId);
+
+    result.fold(
+      (fail) =>
+          emit(state.copyWith(isLoading: false, errorMessage: fail.message)),
+      (msg) {
+        emit(state.copyWith(isLoading: false, successMessage: msg));
+        add(const FetchMerchandise());
+      },
+    );
   }
 }

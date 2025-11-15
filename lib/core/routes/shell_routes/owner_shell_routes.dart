@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:spear_me_app/core/constants/string_constants/routes_constansts.dart';
+import 'package:spear_me_app/core/di/di.dart';
+import 'package:spear_me_app/features/owner/domain/entity/merchandise_entity.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_central_office/add_central_office/screens/add_central_officer.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_central_office/owner_central_office_home/screens/owner_central_offices.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_dashboard/screens/owner_dashboard.dart';
@@ -10,6 +13,7 @@ import 'package:spear_me_app/features/owner/presentation/owner_factories/create_
 import 'package:spear_me_app/features/owner/presentation/owner_factories/factory_details/screens/factory_details_screen.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_factories/factory_home/screens/owner_factories.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_merchandise/add_merchandise/screens/add_merchandise_screen.dart';
+import 'package:spear_me_app/features/owner/presentation/owner_merchandise/merchandise_home/bloc/merchandise_home_bloc.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_merchandise/merchandise_home/screens/merchandise_home_screen.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_products/owner_add_category/screens/owner_add_category.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_products/owner_add_product/screens/owner_add_products.dart';
@@ -68,13 +72,22 @@ final List<GoRoute> ownerRoutes = <GoRoute>[
 
   GoRoute(
     path: RoutesConstants.ownerMerchandise,
-    builder: (BuildContext context, GoRouterState state) =>
-        const MerchandiseHomeScreen(),
+    builder: (BuildContext context, GoRouterState state) => BlocProvider(
+      create: (context) => di<MerchandiseHomeBloc>(),
+      child: const MerchandiseHomeScreen(),
+    ),
     routes: [
       GoRoute(
         path: 'add',
-        builder: (BuildContext context, GoRouterState state) =>
-            const AddMerchandiseScreen(),
+        builder: (BuildContext context, GoRouterState state) {
+          if (state.extra != null) {
+            return AddMerchandiseScreen(
+              merchandise: state.extra! as MerchandiseEntity,
+            );
+          } else {
+            return AddMerchandiseScreen();
+          }
+        },
       ),
     ],
   ),

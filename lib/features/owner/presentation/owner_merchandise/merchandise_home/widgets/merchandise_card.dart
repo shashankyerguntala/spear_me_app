@@ -1,12 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:spear_me_app/features/owner/domain/entity/merchandise_entity.dart';
 import 'package:spear_me_app/core/constants/color_constants.dart';
+import 'package:spear_me_app/core/constants/string_constants/string_constants.dart';
+import 'package:spear_me_app/features/owner/domain/entity/merchandise_entity.dart';
+import 'package:spear_me_app/features/owner/presentation/owner_merchandise/merchandise_home/widgets/action_button.dart';
 
 class MerchandiseCard extends StatelessWidget {
   final MerchandiseEntity merchandise;
   final VoidCallback? onTap;
+  final VoidCallback? onEdit;
+  final VoidCallback? onDelete;
 
-  const MerchandiseCard({required this.merchandise, super.key, this.onTap});
+  const MerchandiseCard({
+    required this.merchandise,
+    super.key,
+    this.onTap,
+    this.onEdit,
+    this.onDelete,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +53,7 @@ class MerchandiseCard extends StatelessWidget {
                 ),
               ),
             ),
+
             Padding(
               padding: const EdgeInsets.all(10),
               child: Column(
@@ -57,13 +68,44 @@ class MerchandiseCard extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                   const SizedBox(height: 4),
-                  Text(
-                    "Pts: ${merchandise.requiredPoints}",
-                    style: const TextStyle(fontSize: 12, color: Colors.grey),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Pts: ${merchandise.requiredPoints}",
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: Colors.grey,
+                        ),
+                      ),
+                      Text(
+                        "Qty: ${merchandise.availableQuantity}",
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ],
                   ),
-                  Text(
-                    "Qty: ${merchandise.availableQuantity}",
-                    style: const TextStyle(fontSize: 12, color: Colors.grey),
+                  const SizedBox(height: 10),
+
+                  Column(
+                    spacing: 8,
+                    children: [
+                      ActionButton(
+                        icon: Icons.edit_outlined,
+
+                        label: StringConstants.edit,
+                        color: ColorConstants.primary,
+                        onPressed: onEdit,
+                      ),
+                      ActionButton(
+                        icon: Icons.delete_outline_rounded,
+                        label: StringConstants.delete,
+                        color: ColorConstants.error,
+                        onPressed: onDelete,
+                      ),
+                    ],
                   ),
                 ],
               ),
