@@ -8,18 +8,39 @@ abstract class MerchandiseHomeEvent extends Equatable {
 }
 
 class FetchMerchandise extends MerchandiseHomeEvent {
-  final String? search;
-  final String? filter;
-  final String? sort;
-  final bool isLoadMore;
+  const FetchMerchandise();
+}
 
-  const FetchMerchandise({
-    this.search,
-    this.filter,
-    this.sort,
-    this.isLoadMore = false,
-  });
+class LoadMoreMerchandise extends MerchandiseHomeEvent {
+  const LoadMoreMerchandise();
+}
+
+class UpdateSearchQuery extends MerchandiseHomeEvent {
+  final String query;
+  const UpdateSearchQuery(this.query);
 
   @override
-  List<Object?> get props => [search, filter, sort, isLoadMore];
+  List<Object?> get props => [query];
+}
+
+class UpdateCategoryFilter extends MerchandiseHomeEvent {
+  final String category;
+  const UpdateCategoryFilter(this.category);
+
+  @override
+  List<Object?> get props => [category];
+}
+
+class SortMerchandise extends MerchandiseHomeEvent {
+  final String sortBy;
+  final bool ascending;
+
+  const SortMerchandise({required this.sortBy, required this.ascending});
+
+  @override
+  List<Object?> get props => [sortBy, ascending];
+}
+
+class ResetMerchandiseFilters extends MerchandiseHomeEvent {
+  const ResetMerchandiseFilters();
 }

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spear_me_app/core/constants/string_constants/string_constants.dart';
 import 'package:spear_me_app/core/helper_functions.dart';
-import 'package:spear_me_app/features/common/widgets/search_field_widget.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_merchandise/merchandise_home/bloc/merchandise_home_bloc.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_merchandise/merchandise_home/widgets/merchandise_card.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_merchandise/merchandise_home/widgets/merchandise_grid_shimmer.dart';
@@ -21,15 +20,14 @@ class _MerchandiseHomeBodyState extends State<MerchandiseHomeBody> {
   @override
   void initState() {
     super.initState();
+    context.read<MerchandiseHomeBloc>().add(const FetchMerchandise());
     _scrollController.addListener(_onScroll);
   }
 
   void _onScroll() {
     if (_scrollController.position.pixels >=
         _scrollController.position.maxScrollExtent - 100) {
-      context.read<MerchandiseHomeBloc>().add(
-        const FetchMerchandise(isLoadMore: true),
-      );
+      context.read<MerchandiseHomeBloc>().add(const LoadMoreMerchandise());
     }
   }
 
@@ -61,30 +59,15 @@ class _MerchandiseHomeBodyState extends State<MerchandiseHomeBody> {
           return Center(child: Text(state.errorMessage!));
         }
 
-        if (state.items.isEmpty) {
+        if (!state.isLoading && state.items.isEmpty) {
           return const Center(child: Text(StringConstants.noMerchandiseFound));
         }
 
         return Padding(
           padding: const EdgeInsets.all(16),
           child: Column(
+            spacing: 12,
             children: [
-              SearchField(
-                controller: _searchController,
-                hintText: StringConstants.searchMerchandise,
-                onChanged: (value) {
-                  context.read<MerchandiseHomeBloc>().add(
-                    FetchMerchandise(search: value),
-                  );
-                },
-                onClear: () {
-                  context.read<MerchandiseHomeBloc>().add(
-                    const FetchMerchandise(search: ''),
-                  );
-                },
-              ),
-              const SizedBox(height: 12),
-
               Expanded(
                 child: RefreshIndicator(
                   color: Theme.of(context).primaryColor,

@@ -50,10 +50,21 @@ class MerchandiseRepositoryImpl implements MerchandiseRepository {
 
   @override
   Future<Either<Failure, PaginatedMerchandiseEntity>> getAllMerchandise({
-    int page = 0,
-    int size = 10,
+    required int page,
+    required int size,
+    String? search,
+    String? role,
+    String? sort,
+    bool? asc,
   }) {
-    return dataSource.getAllMerchandise(page: page, size: size);
+    return dataSource.getAllMerchandise(
+      page: page,
+      size: size,
+      search: search,
+      role: role,
+      sort: sort,
+      ascending: asc,
+    );
   }
 
   @override

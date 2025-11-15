@@ -44,11 +44,22 @@ class MerchandiseUsecase {
     return repository.deleteMerchandise(id);
   }
 
-  Future<Either<Failure, PaginatedMerchandiseEntity>> getAll({
-    int page = 0,
-    int size = 10,
+  Future<Either<Failure, PaginatedMerchandiseEntity>> getAllMerchandise({
+    required int page,
+    required int size,
+    String? search,
+    String? role,
+    String? sort,
+    bool? asc,
   }) {
-    return repository.getAllMerchandise(page: page, size: size);
+    return repository.getAllMerchandise(
+      search: search,
+      role: role,
+      page: page,
+      size: size,
+      sort: sort,
+      asc: asc,
+    );
   }
 
   Future<Either<Failure, MerchandiseEntity>> restock({

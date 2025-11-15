@@ -12,18 +12,19 @@ class PaginatedMerchandiseModel extends PaginatedMerchandiseEntity {
   });
 
   factory PaginatedMerchandiseModel.fromJson(Map<String, dynamic> json) {
-    final data = json['data'];
-    final contentList = (data['content'] as List<dynamic>)
-        .map((e) => MerchandiseModel.fromJson(e))
-        .toList();
+    final contentList =
+        (json['content'] as List<dynamic>?)
+            ?.map((e) => MerchandiseModel.fromJson(e))
+            .toList() ??
+        [];
 
     return PaginatedMerchandiseModel(
       content: contentList,
-      pageNumber: data['number'] ?? 0,
-      pageSize: data['size'] ?? 0,
-      totalPages: data['totalPages'] ?? 0,
-      totalElements: data['totalElements'] ?? 0,
-      last: data['last'] ?? true,
+      pageNumber: json['number'] ?? 0,
+      pageSize: json['size'] ?? 0,
+      totalPages: json['totalPages'] ?? 0,
+      totalElements: json['totalElements'] ?? 0,
+      last: json['last'] ?? true,
     );
   }
 }

@@ -23,8 +23,12 @@ abstract class MerchandiseRepository {
   Future<Either<Failure, String>> deleteMerchandise(int id);
 
   Future<Either<Failure, PaginatedMerchandiseEntity>> getAllMerchandise({
-    int page,
-    int size,
+    required int page,
+    required int size,
+    String? search,
+    String? role,
+    String? sort,
+    bool? asc,
   });
 
   Future<Either<Failure, MerchandiseEntity>> restockMerchandise({

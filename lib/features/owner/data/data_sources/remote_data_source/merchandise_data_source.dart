@@ -4,9 +4,11 @@ import 'package:dio/dio.dart';
 import 'package:spear_me_app/core/constants/api_constants.dart';
 import 'package:spear_me_app/core/network/dio_client.dart';
 import 'package:spear_me_app/core/network/failure.dart';
+import 'package:spear_me_app/features/owner/data/models/api_response_model.dart';
 import 'package:spear_me_app/features/owner/data/models/merchandise_model.dart';
 import 'package:spear_me_app/features/owner/data/models/paginated_merchandise_model.dart';
 import 'package:spear_me_app/features/owner/domain/entity/merchandise_entity.dart';
+import 'package:spear_me_app/features/owner/domain/entity/paginated_merchandise_entity.dart';
 
 class MerchandiseDataSource {
   final DioClient client;
@@ -90,21 +92,34 @@ class MerchandiseDataSource {
   }
 
   //! get all merchandise
-  Future<Either<Failure, PaginatedMerchandiseModel>> getAllMerchandise({
-    int page = 0,
-    int size = 10,
+  Future<Either<Failure, PaginatedMerchandiseEntity>> getAllMerchandise({
+    required int page,
+    required int size,
+    String? search,
+    String? role,
+    String? sort,
+    bool? ascending,
   }) async {
-    final response = await client.getRequest(
+    final queryParameters = {
+      "search": search,
+      "role": role,
+      "page": page,
+      "size": size,
+      if (sort != null) "sort": sort,
+      if (ascending != null) "asc": ascending.toString(),
+    };
+
+    final result = await client.getRequest(
       ApiConstants.getAllMerchandise,
-      queryParameters: {"page": page, "size": size},
+      queryParameters: queryParameters,
     );
 
-    return response.fold((fail) => Left(fail), (data) {
-      if (data["success"] == true && data["data"] != null) {
-        return Right(PaginatedMerchandiseModel.fromJson(data));
-      } else {
-        return Left(Failure(data["message"] ?? "Failed to fetch merchandise"));
-      }
+    return result.fold((failure) => left(failure), (data) {
+      final parsed = ApiResponseModel<PaginatedMerchandiseEntity>.fromJson(
+        data,
+        (obj) => PaginatedMerchandiseModel.fromJson(obj),
+      );
+      return right(parsed.data);
     });
   }
 

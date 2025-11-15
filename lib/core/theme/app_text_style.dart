@@ -6,19 +6,19 @@ class AppTextStyles {
   static final TextStyle headlineLarge = GoogleFonts.poppins(
     fontSize: 28,
     fontWeight: FontWeight.w700,
-    color: ColorConstants.textPrimary,
+    color: ColorConstants.primary,
   );
 
   static final TextStyle headlineMedium = GoogleFonts.poppins(
     fontSize: 22,
     fontWeight: FontWeight.w600,
-    color: ColorConstants.textPrimary,
+    color: ColorConstants.primary,
   );
 
   static final TextStyle bodyLarge = GoogleFonts.poppins(
     fontSize: 16,
     fontWeight: FontWeight.w400,
-    color: ColorConstants.textPrimary,
+    color: ColorConstants.primary,
   );
 
   static final TextStyle bodyMedium = GoogleFonts.poppins(
