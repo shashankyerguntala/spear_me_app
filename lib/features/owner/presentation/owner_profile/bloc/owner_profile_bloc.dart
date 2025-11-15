@@ -1,5 +1,9 @@
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:spear_me_app/core/shared_prefs/auth_local_storage.dart';
+import 'package:spear_me_app/features/authentication/domain/usecase/auth_usecase.dart';
 import 'package:spear_me_app/features/owner/domain/entity/owner_entity.dart';
 import 'package:spear_me_app/features/owner/domain/usecase/owner_usecase.dart';
 
@@ -8,10 +12,13 @@ part 'owner_profile_state.dart';
 
 class OwnerProfileBloc extends Bloc<OwnerProfileEvent, OwnerProfileState> {
   final OwnerUsecase usecase;
+  final AuthUsecase authUsecase;
 
-  OwnerProfileBloc(this.usecase) : super(OwnerProfileInitial()) {
+  OwnerProfileBloc(this.usecase, this.authUsecase)
+    : super(OwnerProfileInitial()) {
     on<FetchOwnerProfile>(_onFetchOwnerProfile);
     on<UpdateProfileImage>(_onUpdateProfileImage);
+    on<LogoutEvent>(_logoutEvent);
   }
 
   Future<void> _onFetchOwnerProfile(
@@ -60,5 +67,14 @@ class OwnerProfileBloc extends Bloc<OwnerProfileEvent, OwnerProfileState> {
         );
       },
     );
+  }
+
+  Future<void> _logoutEvent(
+    LogoutEvent event,
+    Emitter<OwnerProfileState> emit,
+  ) async {
+    await authUsecase.logout();
+    await AuthLocalStorage.clearToken();
+    emit(LogoutSuccessful());
   }
 }

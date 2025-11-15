@@ -46,7 +46,6 @@ class _SignInScreenState extends State<SignInScreen> {
       create: (_) => di<SignInBloc>(),
       child: BlocConsumer<SignInBloc, SignInState>(
         buildWhen: (previous, current) => current is! SignInSuccess,
-
         listener: (context, state) {
           if (state is SignInSuccess) {
             HelperFunctions.showSnackBar(
@@ -55,15 +54,14 @@ class _SignInScreenState extends State<SignInScreen> {
               isError: false,
             );
 
+            final roleEnum = state.role.toRoleEnum();
+            final route = switch (roleEnum) {
+              RolesEnum.owner => RoutesConstants.ownerHomeRoute,
+              RolesEnum.plantHead => RoutesConstants.plantHeadHomeRoute,
+              _ => RoutesConstants.loginRoute,
+            };
+
             if (context.mounted) {
-              final roleEnum = state.role.toRoleEnum();
-
-              final route = switch (roleEnum) {
-                RolesEnum.owner => RoutesConstants.ownerHomeRoute,
-                RolesEnum.plantHead => RoutesConstants.plantHeadHomeRoute,
-                _ => RoutesConstants.loginRoute,
-              };
-
               context.go(route);
             }
           } else if (state is SignInFailure) {
@@ -74,9 +72,11 @@ class _SignInScreenState extends State<SignInScreen> {
             );
           }
         },
-
         builder: (context, state) {
-          final bool isLoading = state is SignInLoading;
+          if (state is SignInLoading) {
+            return const LoadingScreen();
+          }
+
           // ignore: avoid_bool_literals_in_conditional_expressions
           final bool obscurePassword = state is SignInPasswordVisibilityChanged
               ? state.isPasswordObscured
@@ -85,79 +85,70 @@ class _SignInScreenState extends State<SignInScreen> {
           return Scaffold(
             backgroundColor: ColorConstants.scaffoldBg,
             body: SafeArea(
-              child: Stack(
-                children: [
-                  SingleChildScrollView(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 20,
-                        vertical: 16,
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 16,
+                ),
+                child: Column(
+                  children: [
+                    Lottie.asset(AssetsConstants.loginAsset),
+                    const SizedBox(height: 20),
+                    Text(
+                      StringConstants.welcomeBack,
+                      style: TextStyle(
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                        color: ColorConstants.primary,
                       ),
-                      child: Column(
-                        children: <Widget>[
-                          Lottie.asset(AssetsConstants.loginAsset),
-                          const SizedBox(height: 20),
-                          Text(
-                            StringConstants.welcomeBack,
-                            style: TextStyle(
-                              fontSize: 28,
-                              fontWeight: FontWeight.bold,
-                              color: ColorConstants.primary,
-                            ),
-                          ),
-                          const SizedBox(height: 6),
-                          Text(
-                            StringConstants.loginToContinue,
-                            style: TextStyle(
-                              fontSize: 15,
-                              color: ColorConstants.textSecondary,
-                            ),
-                          ),
-                          const SizedBox(height: 26),
-                          Container(
-                            padding: const EdgeInsets.all(20),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(16),
-                              boxShadow: <BoxShadow>[
-                                BoxShadow(
-                                  color: Colors.black.withAlpha(4),
-                                  blurRadius: 10,
-                                  spreadRadius: 2,
-                                  offset: const Offset(0, 4),
-                                ),
-                              ],
-                            ),
-                            child: SignInForm(
-                              formKey: formKey,
-                              emailController: emailController,
-                              passwordController: passwordController,
-                              obscurePassword: obscurePassword,
-                              onPasswordVisibilityToggle: () {
-                                context.read<SignInBloc>().add(
-                                  ShowPasswordEvent(),
-                                );
-                              },
-                              onSubmit: () {
-                                if (formKey.currentState!.validate()) {
-                                  context.read<SignInBloc>().add(
-                                    SignInRequested(
-                                      email: emailController.text.trim(),
-                                      password: passwordController.text.trim(),
-                                    ),
-                                  );
-                                }
-                              },
-                              isLoading: isLoading,
-                            ),
+                    ),
+                    const SizedBox(height: 6),
+                    Text(
+                      StringConstants.loginToContinue,
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: ColorConstants.textSecondary,
+                      ),
+                    ),
+                    const SizedBox(height: 26),
+                    Container(
+                      padding: const EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(16),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withAlpha(4),
+                            blurRadius: 10,
+                            spreadRadius: 2,
+                            offset: const Offset(0, 4),
                           ),
                         ],
                       ),
+                      child: SignInForm(
+                        formKey: formKey,
+                        emailController: emailController,
+                        passwordController: passwordController,
+                        obscurePassword: obscurePassword,
+                        onPasswordVisibilityToggle: () {
+                          context.read<SignInBloc>().add(ShowPasswordEvent());
+                        },
+                        onSubmit: () {
+                          FocusScope.of(context).unfocus();
+                          if (formKey.currentState!.validate()) {
+                            context.read<SignInBloc>().add(
+                              SignInRequested(
+                                email: emailController.text.trim(),
+                                password: passwordController.text.trim(),
+                              ),
+                            );
+                          }
+                        },
+                        isLoading: false,
+                      ),
                     ),
-                  ),
-
-                  if (isLoading) LoadingScreen(),
-                ],
+                  ],
+                ),
               ),
             ),
           );

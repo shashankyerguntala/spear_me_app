@@ -93,7 +93,7 @@ class Di {
     di.registerCachedFactory(() => OwnerProductsHomeBloc(di()));
     di.registerCachedFactory(() => PlCreateBloc(di()));
     di.registerCachedFactory(() => PlEmployeesBloc(di()));
-    di.registerCachedFactory(() => OwnerProfileBloc(di()));
+    di.registerCachedFactory(() => OwnerProfileBloc(di(), di()));
     di.registerCachedFactory(() => PlProductsBloc(di()));
     di.registerCachedFactory(() => MerchandiseHomeBloc(di()));
     di.registerCachedFactory(() => AddMerchandiseBloc(di()));

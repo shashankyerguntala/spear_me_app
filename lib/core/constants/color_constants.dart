@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 
 class ColorConstants {
   static const Color primary = Color(0xFF1E3A8A);
-  static const Color primaryLight = Color(0xFF3B82F6);
+  static const Color primaryLight = Color.fromARGB(255, 90, 153, 255);
   static const Color primaryDark = Color(0xFF1E40AF);
   static const Color secondary = Color(0xFFF59E0B);
   static const Color secondaryLight = Color(0xFFFCD34D);
   static const Color accent = Color(0xFF10B981);
 
-  static const Color scaffoldBg = Color(0xFFF3F4F6);
+  static const Color scaffoldBg = Color.fromARGB(255, 253, 253, 253);
   static const Color cardBg = Colors.white;
   static const Color surface = Colors.white;
 

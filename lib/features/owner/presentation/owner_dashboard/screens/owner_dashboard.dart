@@ -5,9 +5,12 @@ import 'package:lottie/lottie.dart';
 import 'package:spear_me_app/core/constants/color_constants.dart';
 import 'package:spear_me_app/core/constants/string_constants/assets_constants.dart';
 import 'package:spear_me_app/core/constants/string_constants/routes_constansts.dart';
+import 'package:spear_me_app/core/constants/string_constants/string_constants.dart';
+import 'package:spear_me_app/features/common/widgets/profile_icon.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_dashboard/bloc/owner_home_bloc.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_dashboard/widgets/bar_chart_widget.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_dashboard/widgets/stat_card.dart';
+import 'package:spear_me_app/features/owner/presentation/owner_profile/screens/owner_profile_screen.dart';
 
 class OwnerDashboard extends StatelessWidget {
   const OwnerDashboard({super.key});
@@ -20,14 +23,22 @@ class OwnerDashboard extends StatelessWidget {
           OwnerHomeBloc()..add(OwnerInitialEvent()),
       child: Scaffold(
         appBar: AppBar(
+          centerTitle: true,
+          title: Text(
+            StringConstants.dashboard,
+            style: TextStyle(
+              color: ColorConstants.primary,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
           actions: <Widget>[
             Padding(
               padding: const EdgeInsets.all(12.0),
-              child: IconButton(
-                onPressed: () {
-                  context.push(RoutesConstants.ownerProfileRoute);
-                },
-                icon: Icon(Icons.person),
+              child: ProfileIcon(
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => OwnerProfileScreen()),
+                ),
               ),
             ),
           ],
@@ -49,20 +60,21 @@ class OwnerDashboard extends StatelessWidget {
                         shrinkWrap: true,
                         physics: NeverScrollableScrollPhysics(),
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          childAspectRatio: 0.91,
                           crossAxisCount: 2,
                           crossAxisSpacing: 16,
                           mainAxisSpacing: 16,
                         ),
                         children: <Widget>[
                           StatCard(
-                            label: 'Products',
+                            label: StringConstants.products,
                             onTap: () =>
                                 context.go(RoutesConstants.ownerProductsRoute),
                             value: '20',
                             icon: Icons.card_travel,
                           ),
                           StatCard(
-                            label: 'Tools',
+                            label: StringConstants.tools,
                             onTap: () => RoutesConstants.ownerProductsRoute,
                             value: '56',
                             icon: Icons.card_travel,

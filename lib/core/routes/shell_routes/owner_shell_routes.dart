@@ -23,15 +23,12 @@ final List<GoRoute> ownerRoutes = <GoRoute>[
   GoRoute(
     path: RoutesConstants.ownerHomeRoute,
     builder: (BuildContext context, GoRouterState state) => OwnerDashboard(),
-    routes: [
-      GoRoute(
-        path: RoutesConstants.ownerProfileRoute,
-        builder: (BuildContext context, GoRouterState state) =>
-            const OwnerProfileScreen(),
-      ),
-    ],
   ),
-
+  GoRoute(
+    path: RoutesConstants.ownerProfileRoute,
+    builder: (BuildContext context, GoRouterState state) =>
+        const OwnerProfileScreen(),
+  ),
   GoRoute(
     path: RoutesConstants.ownerFactoriesRoute,
     builder: (BuildContext context, GoRouterState state) => OwnerFactories(),

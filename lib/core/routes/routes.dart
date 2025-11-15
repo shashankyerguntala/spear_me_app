@@ -13,7 +13,7 @@ class Routes {
   static final GoRouter router = GoRouter(
     initialLocation: RoutesConstants.loginRoute,
     routes: <RouteBase>[
-      //! redirects in GoRoutes
+      //! redirects in GoRouter
 
       //! owner shell
       ShellRoute(

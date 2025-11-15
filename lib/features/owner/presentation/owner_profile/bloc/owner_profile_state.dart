@@ -37,3 +37,5 @@ class OwnerProfileUploading extends OwnerProfileState {
   @override
   List<Object?> get props => [profile];
 }
+
+class LogoutSuccessful extends OwnerProfileState {}

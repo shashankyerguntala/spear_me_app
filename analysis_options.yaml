@@ -11,6 +11,7 @@ analyzer:
   errors:
     avoid_dynamic_calls: ignore
     always_specify_types: ignore
+    avoid_classes_with_only_static_members: ignore
 include: package:flutter_lints/flutter.yaml
 
 linter:

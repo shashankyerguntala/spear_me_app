@@ -13,6 +13,11 @@ class StringConstants {
   static const String emailLabel = 'Email';
   static const String passwordLabel = 'Password';
   static const String signUpButton = 'Sign Up';
+  static const String logout = 'Logout';
+  static const String logoutSuccessful = 'Logout Successful';
+  static const String doyouReallyWantToLogOut =
+      'Do you really want to log out?';
+
   static const String createAccount = ' Please create a new account';
   static const String loginToContinue = 'Please login to continue';
   static const String signingYouIn = ' SIGNING YOU IN . . .';
@@ -56,6 +61,8 @@ class StringConstants {
   static const String factories = 'Factories';
   static const String employees = 'Employees';
   static const String products = 'Products';
+  static const String profile = 'Profile';
+  static const String tools = 'Tools';
 
   static const String removeEmployee = 'Remove Employee';
   static const String remove = 'Remove';

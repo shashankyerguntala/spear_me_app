@@ -83,10 +83,10 @@ class EmployeeCard extends StatelessWidget {
             IconButton(
               onPressed: onFireEmployee,
               icon: const Icon(Icons.person_remove_outlined),
-              color: Colors.red,
+              color: ColorConstants.error,
               tooltip: StringConstants.removeEmployee,
               style: IconButton.styleFrom(
-                backgroundColor: Colors.red.withAlpha(10),
+                backgroundColor: ColorConstants.error.withAlpha(10),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),

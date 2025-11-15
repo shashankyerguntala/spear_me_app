@@ -16,3 +16,5 @@ class UpdateProfileImage extends OwnerProfileEvent {
   @override
   List<Object?> get props => [filePath];
 }
+
+class LogoutEvent extends OwnerProfileEvent {}

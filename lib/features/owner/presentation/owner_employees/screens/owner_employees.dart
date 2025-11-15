@@ -4,8 +4,9 @@ import 'package:spear_me_app/core/constants/string_constants/string_constants.da
 import 'package:spear_me_app/core/di/di.dart';
 import 'package:spear_me_app/core/helper_functions.dart';
 import 'package:spear_me_app/features/common/widgets/confirmation_dialogue.dart';
-import 'package:spear_me_app/features/common/widgets/filter_option.dart';
-import 'package:spear_me_app/features/common/widgets/filter_drop_down.dart';
+import 'package:spear_me_app/features/common/widgets/filter_sort_section.dart';
+import 'package:spear_me_app/features/owner/data/data_sources/local_data_source/roles_list.dart';
+import 'package:spear_me_app/features/owner/data/data_sources/local_data_source/sort_options.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_employees/bloc/owner_employees_bloc.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_employees/widgets/employee_card.dart';
 import 'package:spear_me_app/features/common/widgets/search_field_widget.dart';
@@ -66,36 +67,6 @@ class _OwnerEmployeesBodyState extends State<_OwnerEmployeesBody> {
 
   @override
   Widget build(BuildContext context) {
-    final roleOptions = const [
-      FilterOption(value: '', label: 'All Roles', icon: Icons.groups),
-      FilterOption(
-        value: 'PLANT_HEAD',
-        label: 'Plant Head',
-        icon: Icons.factory,
-      ),
-      FilterOption(
-        value: 'DISTRIBUTOR',
-        label: 'Distributor',
-        icon: Icons.local_shipping,
-      ),
-      FilterOption(
-        value: 'CENTRAL_OFFICE',
-        label: 'Central Office',
-        icon: Icons.business,
-      ),
-      FilterOption(
-        value: 'OWNER',
-        label: 'Owner',
-        icon: Icons.admin_panel_settings,
-      ),
-    ];
-
-    final sortOptions = const [
-      FilterOption(value: 'name', label: 'Name', icon: Icons.sort_by_alpha),
-      FilterOption(value: 'role', label: 'Role', icon: Icons.badge),
-      FilterOption(value: 'id', label: 'ID', icon: Icons.numbers),
-    ];
-
     return Scaffold(
       appBar: AppBar(
         title: const Text(StringConstants.employees),
@@ -141,65 +112,23 @@ class _OwnerEmployeesBodyState extends State<_OwnerEmployeesBody> {
                       },
                     ),
                     const SizedBox(height: 12),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Flexible(
-                          flex: 3,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Text(
-                                StringConstants.filterByRole,
-                                style: TextStyle(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              const SizedBox(height: 6),
-                              FilterDropdown(
-                                selectedValue: state.selectedRole,
-                                options: roleOptions,
-                                onChanged: (role) {
-                                  context.read<OwnerEmployeesBloc>().add(
-                                    UpdateRoleFilter(role: role),
-                                  );
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(width: 12),
-                        Flexible(
-                          flex: 2,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Text(
-                                StringConstants.sortBy,
-                                style: TextStyle(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              const SizedBox(height: 6),
-                              FilterDropdown(
-                                selectedValue: state.sortBy,
-                                options: sortOptions,
-                                onChanged: (sort) {
-                                  context.read<OwnerEmployeesBloc>().add(
-                                    SortEmployees(
-                                      sortBy: sort,
-                                      ascending: true,
-                                    ),
-                                  );
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
+                    FilterSortSection(
+                      selectedFilterValue: state.selectedRole,
+                      selectedSortValue: state.sortBy,
+                      filterOptions: roleOptions,
+                      sortOptions: sortOptions,
+                      onFilterChanged: (role) {
+                        context.read<OwnerEmployeesBloc>().add(
+                          UpdateRoleFilter(role: role),
+                        );
+                      },
+                      onSortChanged: (sort) {
+                        context.read<OwnerEmployeesBloc>().add(
+                          SortEmployees(sortBy: sort, ascending: true),
+                        );
+                      },
+                      filterLabel: StringConstants.filterByRole,
+                      sortLabel: StringConstants.sortBy,
                     ),
                   ],
                 ),
