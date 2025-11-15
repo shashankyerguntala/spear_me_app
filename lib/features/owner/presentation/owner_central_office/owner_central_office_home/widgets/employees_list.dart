@@ -28,7 +28,7 @@ class EmployeeListSection extends StatelessWidget {
             physics: const NeverScrollableScrollPhysics(),
             itemCount: employees.length,
             itemBuilder: (context, index) {
-              return EmployeeCard(employee: employees[index]);
+              return OwnerEmployeesCard(employee: employees[index]);
             },
           ),
         ],

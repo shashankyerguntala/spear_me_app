@@ -57,6 +57,13 @@ class StringConstants {
   static const String employees = 'Employees';
   static const String products = 'Products';
 
+  static const String removeEmployee = 'Remove Employee';
+  static const String remove = 'Remove';
+  static String removeEmployeeMsg(String username) =>
+      'Are you sure you want to remove $username from your team? This action cannot be undone.';
+  static const String filterByRole = "Filter by Role:";
+  static const String sortBy = 'Sort by';
+
   //!owner-factories
 
   static const String factoryName = 'Factory Name';
@@ -80,6 +87,8 @@ class StringConstants {
   static const String merchandise = "Merchandise";
   static const String noMerchandiseFound = "No merchandise found";
   static const String pleaseSelectAnImage = "Please select an image";
+  static const String searchEmployees = 'Search employees...';
+  static const String searchMerchandise = 'Search merchandise...';
 
   //! products constants
   static const String noProductsFound = 'No products Found';

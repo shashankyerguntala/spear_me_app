@@ -118,17 +118,23 @@ class OwnerDataSource {
   Future<Either<Failure, PagedEmployeesEntity>> getEmployees({
     required int page,
     required int size,
-    required String? search,
-    required String? role,
+    String? search,
+    String? role,
+    String? sort,
+    bool? ascending,
   }) async {
+    final queryParameters = {
+      "search": search,
+      "role": role,
+      "page": page,
+      "size": size,
+      if (sort != null) "sort": sort,
+      if (ascending != null) "asc": ascending.toString(),
+    };
+
     final result = await dioClient.getRequest(
       ApiConstants.getEmployees,
-      queryParameters: {
-        "search": search,
-        "role": role,
-        "page": page,
-        "size": size,
-      },
+      queryParameters: queryParameters,
     );
 
     return result.fold((failure) => left(failure), (data) {

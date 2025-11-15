@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:spear_me_app/core/constants/color_constants.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_central_office/owner_central_office_home/widgets/owner_modal_sheet.dart';
 
-class EmployeeCard extends StatelessWidget {
+class OwnerEmployeesCard extends StatelessWidget {
   final Map<String, String> employee;
 
-  const EmployeeCard({required this.employee, super.key});
+  const OwnerEmployeesCard({required this.employee, super.key});
 
   @override
   Widget build(BuildContext context) {

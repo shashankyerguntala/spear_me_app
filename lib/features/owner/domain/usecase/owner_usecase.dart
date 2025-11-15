@@ -57,12 +57,16 @@ class OwnerUsecase {
 
     String? search,
     String? role,
+    String? sort,
+    bool? asc,
   }) {
     return ownerRepository.getEmployees(
       search: search,
       role: role,
       page: page,
       size: size,
+      sort: sort,
+      asc: asc,
     );
   }
 

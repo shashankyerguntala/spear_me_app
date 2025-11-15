@@ -8,29 +8,53 @@ abstract class OwnerEmployeesEvent extends Equatable {
 }
 
 class FetchEmployees extends OwnerEmployeesEvent {
-  final String? search;
-  final String? role;
-  final int? factoryId;
-  final int page;
-  final int size;
-  final String? sortBy;
-  final String? sortDirection;
+  const FetchEmployees();
+}
 
-  const FetchEmployees({
-    this.search,
-    this.role,
-    this.factoryId,
-    this.page = 0,
-    this.size = 20,
-    this.sortBy,
-    this.sortDirection,
-  });
+class LoadMoreEmployees extends OwnerEmployeesEvent {
+  const LoadMoreEmployees();
+}
+
+class UpdateSearchQuery extends OwnerEmployeesEvent {
+  final String query;
+
+  const UpdateSearchQuery({required this.query});
 
   @override
-  List<Object?> get props =>
-      [search, role, factoryId, page, size, sortBy, sortDirection];
+  List<Object?> get props => [query];
+}
+
+class UpdateRoleFilter extends OwnerEmployeesEvent {
+  final String role;
+
+  const UpdateRoleFilter({required this.role});
+
+  @override
+  List<Object?> get props => [role];
+}
+
+class FireEmployee extends OwnerEmployeesEvent {
+  final int employeeId;
+
+  const FireEmployee(this.employeeId);
+
+  @override
+  List<Object?> get props => [employeeId];
 }
 
 class ResetFilters extends OwnerEmployeesEvent {
   const ResetFilters();
+}
+
+class SortEmployees extends OwnerEmployeesEvent {
+  final String sortBy;
+  final bool ascending;
+
+  const SortEmployees({
+    required this.sortBy,
+    required this.ascending,
+  });
+
+  @override
+  List<Object?> get props => [sortBy, ascending];
 }

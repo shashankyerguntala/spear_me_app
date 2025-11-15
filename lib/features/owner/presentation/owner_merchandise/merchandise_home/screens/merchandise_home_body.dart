@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spear_me_app/core/constants/string_constants/string_constants.dart';
 import 'package:spear_me_app/core/helper_functions.dart';
+import 'package:spear_me_app/features/common/widgets/search_field_widget.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_merchandise/merchandise_home/bloc/merchandise_home_bloc.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_merchandise/merchandise_home/widgets/merchandise_card.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_merchandise/merchandise_home/widgets/merchandise_grid_shimmer.dart';
@@ -14,18 +15,18 @@ class MerchandiseHomeBody extends StatefulWidget {
 }
 
 class _MerchandiseHomeBodyState extends State<MerchandiseHomeBody> {
-  final searchController = TextEditingController();
-  final scrollController = ScrollController();
+  final TextEditingController _searchController = TextEditingController();
+  final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
-    scrollController.addListener(_onScroll);
+    _scrollController.addListener(_onScroll);
   }
 
   void _onScroll() {
-    if (scrollController.position.pixels >=
-        scrollController.position.maxScrollExtent - 100) {
+    if (_scrollController.position.pixels >=
+        _scrollController.position.maxScrollExtent - 100) {
       context.read<MerchandiseHomeBloc>().add(
         const FetchMerchandise(isLoadMore: true),
       );
@@ -34,8 +35,8 @@ class _MerchandiseHomeBodyState extends State<MerchandiseHomeBody> {
 
   @override
   void dispose() {
-    searchController.dispose();
-    scrollController.dispose();
+    _searchController.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
 
@@ -68,17 +69,36 @@ class _MerchandiseHomeBodyState extends State<MerchandiseHomeBody> {
           padding: const EdgeInsets.all(16),
           child: Column(
             children: [
-              _buildSearchBar(context),
+              SearchField(
+                controller: _searchController,
+                hintText: StringConstants.searchMerchandise,
+                onChanged: (value) {
+                  context.read<MerchandiseHomeBloc>().add(
+                    FetchMerchandise(search: value),
+                  );
+                },
+                onClear: () {
+                  context.read<MerchandiseHomeBloc>().add(
+                    const FetchMerchandise(search: ''),
+                  );
+                },
+              ),
               const SizedBox(height: 12),
+
               Expanded(
                 child: RefreshIndicator(
+                  color: Theme.of(context).primaryColor,
+                  backgroundColor: Colors.white,
+                  strokeWidth: 3.0,
+                  edgeOffset: 10,
+                  triggerMode: RefreshIndicatorTriggerMode.anywhere,
                   onRefresh: () async {
                     context.read<MerchandiseHomeBloc>().add(
                       const FetchMerchandise(),
                     );
                   },
                   child: GridView.builder(
-                    controller: scrollController,
+                    controller: _scrollController,
                     itemCount:
                         state.items.length + (state.isLoadingMore ? 1 : 0),
                     gridDelegate:
@@ -97,6 +117,7 @@ class _MerchandiseHomeBodyState extends State<MerchandiseHomeBody> {
                           ),
                         );
                       }
+
                       final merchandise = state.items[index];
                       return MerchandiseCard(merchandise: merchandise);
                     },
@@ -105,22 +126,6 @@ class _MerchandiseHomeBodyState extends State<MerchandiseHomeBody> {
               ),
             ],
           ),
-        );
-      },
-    );
-  }
-
-  Widget _buildSearchBar(BuildContext context) {
-    return TextField(
-      controller: searchController,
-      decoration: InputDecoration(
-        hintText: "Search merchandise...",
-        prefixIcon: const Icon(Icons.search),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-      ),
-      onChanged: (value) {
-        context.read<MerchandiseHomeBloc>().add(
-          FetchMerchandise(search: value),
         );
       },
     );

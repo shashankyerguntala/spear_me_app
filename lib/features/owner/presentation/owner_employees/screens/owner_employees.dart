@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:spear_me_app/core/constants/string_constants/string_constants.dart';
 import 'package:spear_me_app/core/di/di.dart';
+import 'package:spear_me_app/core/helper_functions.dart';
+import 'package:spear_me_app/features/common/widgets/confirmation_dialogue.dart';
+import 'package:spear_me_app/features/common/widgets/filter_option.dart';
+import 'package:spear_me_app/features/common/widgets/filter_drop_down.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_employees/bloc/owner_employees_bloc.dart';
+import 'package:spear_me_app/features/owner/presentation/owner_employees/widgets/employee_card.dart';
+import 'package:spear_me_app/features/common/widgets/search_field_widget.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_employees/screens/owner_employees_shimmer.dart';
 
 class OwnerEmployees extends StatelessWidget {
@@ -25,141 +32,258 @@ class _OwnerEmployeesBody extends StatefulWidget {
 }
 
 class _OwnerEmployeesBodyState extends State<_OwnerEmployeesBody> {
-  final TextEditingController searchController = TextEditingController();
-  String selectedRole = "";
-  final int factoryId = 3;
+  final TextEditingController _searchController = TextEditingController();
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_onScroll);
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    _scrollController.removeListener(_onScroll);
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _onScroll() {
+    if (_isBottom) {
+      context.read<OwnerEmployeesBloc>().add(const LoadMoreEmployees());
+    }
+  }
+
+  bool get _isBottom {
+    if (!_scrollController.hasClients) {
+      return false;
+    }
+    final maxScroll = _scrollController.position.maxScrollExtent;
+    final currentScroll = _scrollController.offset;
+    return currentScroll >= (maxScroll * 0.9);
+  }
 
   @override
   Widget build(BuildContext context) {
+    final roleOptions = const [
+      FilterOption(value: '', label: 'All Roles', icon: Icons.groups),
+      FilterOption(
+        value: 'PLANT_HEAD',
+        label: 'Plant Head',
+        icon: Icons.factory,
+      ),
+      FilterOption(
+        value: 'DISTRIBUTOR',
+        label: 'Distributor',
+        icon: Icons.local_shipping,
+      ),
+      FilterOption(
+        value: 'CENTRAL_OFFICE',
+        label: 'Central Office',
+        icon: Icons.business,
+      ),
+      FilterOption(
+        value: 'OWNER',
+        label: 'Owner',
+        icon: Icons.admin_panel_settings,
+      ),
+    ];
+
+    final sortOptions = const [
+      FilterOption(value: 'name', label: 'Name', icon: Icons.sort_by_alpha),
+      FilterOption(value: 'role', label: 'Role', icon: Icons.badge),
+      FilterOption(value: 'id', label: 'ID', icon: Icons.numbers),
+    ];
+
     return Scaffold(
-      appBar: AppBar(title: const Text("Employees")),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            TextField(
-              controller: searchController,
-              onChanged: (value) {
-                context.read<OwnerEmployeesBloc>().add(
-                  FetchEmployees(
-                    search: value.trim(),
-                    role: selectedRole.isEmpty ? null : selectedRole,
-                    factoryId: factoryId,
-                  ),
-                );
-              },
-              decoration: InputDecoration(
-                hintText: 'Search employees...',
-                prefixIcon: const Icon(Icons.search),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-              ),
-            ),
-
-            const SizedBox(height: 12),
-
-            Row(
-              children: [
-                const Text("Filter by Role: "),
-                const SizedBox(width: 8),
-                DropdownButton<String>(
-                  value: selectedRole.isEmpty ? null : selectedRole,
-                  hint: const Text("All Roles"),
-                  items: const [
-                    DropdownMenuItem(value: "", child: Text("All Roles")),
-                    DropdownMenuItem(
-                      value: "PLANT_HEAD",
-                      child: Text("Plant Head"),
+      appBar: AppBar(
+        title: const Text(StringConstants.employees),
+        elevation: 0,
+      ),
+      body: BlocConsumer<OwnerEmployeesBloc, OwnerEmployeesState>(
+        listener: (context, state) {
+          if (state.errorMessage != null) {
+            HelperFunctions.showSnackBar(
+              context,
+              message: state.errorMessage!,
+              isError: true,
+            );
+          }
+          if (state.successMessage != null) {
+            HelperFunctions.showSnackBar(
+              context,
+              message: state.successMessage!,
+              isError: false,
+            );
+          }
+        },
+        builder: (context, state) {
+          return Column(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(16),
+                color: Colors.white,
+                child: Column(
+                  children: [
+                    SearchField(
+                      controller: _searchController,
+                      onChanged: (value) {
+                        context.read<OwnerEmployeesBloc>().add(
+                          UpdateSearchQuery(query: value),
+                        );
+                      },
+                      onClear: () {
+                        _searchController.clear();
+                        context.read<OwnerEmployeesBloc>().add(
+                          const UpdateSearchQuery(query: ''),
+                        );
+                      },
                     ),
-                    DropdownMenuItem(
-                      value: "DISTRIBUTOR",
-                      child: Text("Distributor"),
-                    ),
-                    DropdownMenuItem(
-                      value: "CENTRAL_OFFICE",
-                      child: Text("Central Office"),
-                    ),
-                    DropdownMenuItem(value: "OWNER", child: Text("Owner")),
-                  ],
-                  onChanged: (value) {
-                    setState(() => selectedRole = value ?? "");
-                    context.read<OwnerEmployeesBloc>().add(
-                      FetchEmployees(
-                        search: searchController.text.trim(),
-                        role: selectedRole.isEmpty ? null : selectedRole,
-                        factoryId: factoryId,
-                      ),
-                    );
-                  },
-                ),
-              ],
-            ),
-
-            const SizedBox(height: 16),
-
-            Expanded(
-              child: BlocBuilder<OwnerEmployeesBloc, OwnerEmployeesState>(
-                builder: (context, state) {
-                  if (state is OwnerEmployeesLoading) {
-                    return const OwnerEmployeesShimmer();
-                  }
-
-                  if (state is OwnerEmployeesFailure) {
-                    return Center(
-                      child: Text(
-                        state.message,
-                        style: const TextStyle(color: Colors.red),
-                      ),
-                    );
-                  }
-
-                  if (state is OwnerEmployeesLoaded) {
-                    final employees = state.employees;
-
-                    if (employees.isEmpty) {
-                      return const Center(child: Text("No Employees Found"));
-                    }
-
-                    return Column(
+                    const SizedBox(height: 12),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Expanded(
-                          child: ListView.builder(
-                            itemCount: employees.length,
-                            itemBuilder: (_, i) {
-                              final emp = employees[i];
-                              return Card(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12),
+                        Flexible(
+                          flex: 3,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                StringConstants.filterByRole,
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w500,
                                 ),
-                                child: ListTile(
-                                  leading: CircleAvatar(
-                                    backgroundColor: Colors.grey.shade300,
-                                    child: Text(
-                                      emp.username.isNotEmpty
-                                          ? emp.username[0].toUpperCase()
-                                          : "U",
+                              ),
+                              const SizedBox(height: 6),
+                              FilterDropdown(
+                                selectedValue: state.selectedRole,
+                                options: roleOptions,
+                                onChanged: (role) {
+                                  context.read<OwnerEmployeesBloc>().add(
+                                    UpdateRoleFilter(role: role),
+                                  );
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        Flexible(
+                          flex: 2,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                StringConstants.sortBy,
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              const SizedBox(height: 6),
+                              FilterDropdown(
+                                selectedValue: state.sortBy,
+                                options: sortOptions,
+                                onChanged: (sort) {
+                                  context.read<OwnerEmployeesBloc>().add(
+                                    SortEmployees(
+                                      sortBy: sort,
+                                      ascending: true,
                                     ),
-                                  ),
-                                  title: Text(emp.username),
-                                  subtitle: Text(emp.email),
-                                  trailing: Text(emp.role),
-                                ),
-                              );
-                            },
+                                  );
+                                },
+                              ),
+                            ],
                           ),
                         ),
                       ],
-                    );
-                  }
-
-                  return const SizedBox.shrink();
-                },
+                    ),
+                  ],
+                ),
               ),
+              Expanded(child: _buildEmployeeList(context, state)),
+            ],
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _buildEmployeeList(BuildContext context, OwnerEmployeesState state) {
+    if (state.isLoading && state.employees.isEmpty || state.isFiringEmployee) {
+      return const OwnerEmployeesShimmer();
+    }
+
+    if (state.employees.isEmpty) {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.person_search, size: 64, color: Colors.grey[400]),
+            const SizedBox(height: 16),
+            Text(
+              'No Employees Found',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w500,
+                color: Colors.grey[600],
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'Try adjusting your search or filters',
+              style: TextStyle(fontSize: 14, color: Colors.grey[500]),
             ),
           ],
         ),
-      ),
+      );
+    }
+
+    return Stack(
+      children: [
+        RefreshIndicator(
+          onRefresh: () async {
+            context.read<OwnerEmployeesBloc>().add(const FetchEmployees());
+          },
+          child: ListView.builder(
+            controller: _scrollController,
+            padding: const EdgeInsets.all(16),
+            itemCount: state.employees.length + (state.hasMoreData ? 1 : 0),
+            itemBuilder: (context, index) {
+              if (index >= state.employees.length) {
+                return const Center(
+                  child: Padding(
+                    padding: EdgeInsets.all(16.0),
+                    child: CircularProgressIndicator(),
+                  ),
+                );
+              }
+
+              final employee = state.employees[index];
+              return EmployeeCard(
+                employee: employee,
+                onFireEmployee: () => ConfirmationDialog.show(
+                  context: context,
+                  title: StringConstants.removeEmployee,
+                  message: StringConstants.removeEmployeeMsg(employee.username),
+                  confirmText: StringConstants.remove,
+                  confirmColor: Colors.red,
+                  icon: Icons.warning_amber_rounded,
+                  iconColor: Colors.red,
+                  onConfirm: () {
+                    context.read<OwnerEmployeesBloc>().add(
+                      FireEmployee(employee.id),
+                    );
+                  },
+                ),
+              );
+            },
+          ),
+        ),
+      ],
     );
   }
 }

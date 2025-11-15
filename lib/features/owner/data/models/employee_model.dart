@@ -13,7 +13,7 @@ class EmployeeModel extends EmployeeEntity {
 
   factory EmployeeModel.fromJson(Map<String, dynamic> json) {
     return EmployeeModel(
-      id: json['id'] as int,
+      id: json['id'] ?? 0,//! DEFAULT VALUES 
       username: json['username'] as String,
       email: json['email'] as String,
       role: json['role'] as String,

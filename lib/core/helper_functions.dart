@@ -27,4 +27,26 @@ class HelperFunctions {
         ),
       );
   }
+
+  static Color getRoleColor(String role) {
+    switch (role.toUpperCase()) {
+      case 'OWNER':
+        return Colors.purple;
+      case 'PLANT_HEAD':
+        return Colors.blue;
+      case 'DISTRIBUTOR':
+        return Colors.orange;
+      case 'CENTRAL_OFFICE':
+        return Colors.green;
+      default:
+        return Colors.grey;
+    }
+  }
+
+  static String formatRole(String role) {
+    return role
+        .split('_')
+        .map((word) => word[0].toUpperCase() + word.substring(1).toLowerCase())
+        .join(' ');
+  }
 }

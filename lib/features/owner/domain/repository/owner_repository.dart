@@ -33,6 +33,8 @@ abstract class OwnerRepository {
     required int size,
     String? search,
     String? role,
+    String? sort,
+    bool? asc,
   });
 
   Future<Either<Failure, OwnerProfileEntity>> getOwnerProfile();

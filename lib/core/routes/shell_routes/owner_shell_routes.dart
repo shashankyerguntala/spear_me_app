@@ -25,7 +25,7 @@ final List<GoRoute> ownerRoutes = <GoRoute>[
     builder: (BuildContext context, GoRouterState state) => OwnerDashboard(),
     routes: [
       GoRoute(
-        path: 'profile',
+        path: RoutesConstants.ownerProfileRoute,
         builder: (BuildContext context, GoRouterState state) =>
             const OwnerProfileScreen(),
       ),

@@ -55,15 +55,18 @@ class OwnerRepoImpl extends OwnerRepository {
   Future<Either<Failure, PagedEmployeesEntity>> getEmployees({
     required int page,
     required int size,
-
     String? search,
     String? role,
+    String? sort,
+    bool? asc,
   }) {
     return ownerDataSource.getEmployees(
       page: page,
       size: size,
       search: search,
       role: role,
+      sort: sort,
+      ascending: asc,
     );
   }
 

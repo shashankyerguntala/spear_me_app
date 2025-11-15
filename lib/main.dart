@@ -18,9 +18,32 @@ class MyApp extends StatelessWidget {
       routerConfig: Routes.router,
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        appBarTheme: AppBarTheme(color: ColorConstants.scaffoldBg),
+        useMaterial3: true,
+        fontFamily: GoogleFonts.poppins().fontFamily,
         scaffoldBackgroundColor: ColorConstants.scaffoldBg,
-        textTheme: GoogleFonts.poppinsTextTheme(),
+        primaryColor: ColorConstants.primary,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: ColorConstants.primary,
+          primary: ColorConstants.primary,
+          secondary: ColorConstants.secondary,
+          surface: ColorConstants.surface,
+          error: ColorConstants.error,
+          onPrimary: ColorConstants.textOnPrimary,
+          onSurface: ColorConstants.textPrimary,
+        ),
+        appBarTheme: const AppBarTheme(
+          color: ColorConstants.primary,
+          foregroundColor: ColorConstants.textOnPrimary,
+          elevation: 0,
+          centerTitle: true,
+        ),
+        textTheme: GoogleFonts.poppinsTextTheme().apply(
+          bodyColor: ColorConstants.textPrimary,
+          displayColor: ColorConstants.textPrimary,
+        ),
+        progressIndicatorTheme: const ProgressIndicatorThemeData(
+          color: ColorConstants.primaryLight,
+        ),
       ),
     );
   }

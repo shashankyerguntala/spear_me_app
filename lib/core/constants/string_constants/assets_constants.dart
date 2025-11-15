@@ -4,4 +4,6 @@ class AssetsConstants {
   static String dashboardLoadingAsset =
       'assets/animations/dashboard_loading.json';
   static String loginLoadingAsset = 'assets/animations/login_loading.json';
+  static String defaultProfileImage =
+      'https://cdn-icons-png.flaticon.com/512/149/149071.png';
 }
