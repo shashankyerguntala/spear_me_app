@@ -1,15 +1,19 @@
-// Reusable Widget: Employee Card
 import 'package:flutter/material.dart';
 import 'package:spear_me_app/core/constants/color_constants.dart';
+import 'package:spear_me_app/core/constants/string_constants/string_constants.dart';
+import 'package:spear_me_app/features/owner/domain/entity/central_officer_entity.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_central_office/owner_central_office_home/widgets/owner_modal_sheet.dart';
 
 class OwnerEmployeesCard extends StatelessWidget {
-  final Map<String, String> employee;
+  final OfficerEntity employee;
 
   const OwnerEmployeesCard({required this.employee, super.key});
 
   @override
   Widget build(BuildContext context) {
+    final imageUrl = StringConstants.defaultProfileImage;
+    final department = StringConstants.delivery;
+
     return Card(
       color: ColorConstants.scaffoldBg,
       margin: const EdgeInsets.only(bottom: 12),
@@ -29,37 +33,45 @@ class OwnerEmployeesCard extends StatelessWidget {
           padding: const EdgeInsets.all(16),
           child: Row(
             children: [
-              CircleAvatar(
-                radius: 30,
-                backgroundImage: NetworkImage(employee['imageUrl']!),
-              ),
+              CircleAvatar(radius: 30, backgroundImage: NetworkImage(imageUrl)),
               const SizedBox(width: 16),
+
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      employee['name']!,
+                      employee.username,
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
-                        color: Colors.black87,
+                        color: ColorConstants.textPrimary,
                       ),
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      employee['position']!,
-                      style: TextStyle(fontSize: 14, color: Colors.grey[700]),
+                      employee.role,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        color: ColorConstants.textSecondary,
+                      ),
                     ),
                     const SizedBox(height: 2),
                     Text(
-                      employee['department']!,
-                      style: TextStyle(fontSize: 12, color: Colors.grey[500]),
+                      department,
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: ColorConstants.textSecondary,
+                      ),
                     ),
                   ],
                 ),
               ),
-              Icon(Icons.chevron_right, color: Colors.grey[400]),
+
+              const Icon(
+                Icons.chevron_right,
+                color: ColorConstants.textSecondary,
+              ),
             ],
           ),
         ),

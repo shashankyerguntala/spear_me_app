@@ -66,7 +66,7 @@ class _AddCentralOfficerBodyState extends State<_AddCentralOfficerBody> {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(state.message),
-                  backgroundColor: Colors.red,
+                  backgroundColor: ColorConstants.error,
                 ),
               );
             }
@@ -82,24 +82,24 @@ class _AddCentralOfficerBodyState extends State<_AddCentralOfficerBody> {
                   children: [
                     CustomTextField(
                       controller: emailController,
-                      label: "Central Officer Email",
-                      validatorMsg: "Email cannot be empty",
+                      label: StringConstants.centralOfficerEmail,
+                      validatorMsg: StringConstants.emailCannotBeEmpty,
                       keyboardType: TextInputType.emailAddress,
-                      isNumber: false, isPhoneNumber: false,
                     ),
+
                     CustomTextField(
                       controller: headNameController,
-                      label: "Central Office Head Name",
-                      validatorMsg: "Name cannot be empty",
-                      isNumber: false, isPhoneNumber: false,
+                      label: StringConstants.centralOfficeHeadName,
+                      validatorMsg: StringConstants.nameCannotBeEmpty,
                     ),
 
                     CustomTextField(
                       controller: phoneController,
-                      label: "Phone Number",
-                      validatorMsg: "Phone cannot be empty",
+                      label: StringConstants.phoneNumber,
+                      validatorMsg: StringConstants.phoneCannotBeEmpty,
                       keyboardType: TextInputType.number,
-                      isNumber: true, isPhoneNumber: true,
+                      isNumber: true,
+                      isPhoneNumber: true,
                     ),
 
                     SizedBox(
@@ -123,7 +123,7 @@ class _AddCentralOfficerBodyState extends State<_AddCentralOfficerBody> {
                         },
                         child: const Text(
                           StringConstants.createCentralOffice,
-                          style: TextStyle(color: Colors.white),
+                          style: TextStyle(color: ColorConstants.textOnPrimary),
                         ),
                       ),
                     ),

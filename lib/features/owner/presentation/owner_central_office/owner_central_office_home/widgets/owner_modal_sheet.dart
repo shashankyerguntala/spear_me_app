@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:spear_me_app/core/constants/color_constants.dart';
+import 'package:spear_me_app/core/constants/string_constants/string_constants.dart';
+import 'package:spear_me_app/features/owner/domain/entity/central_officer_entity.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_central_office/owner_central_office_home/widgets/detail_item.dart';
 
 class EmployeeDetailsModal extends StatelessWidget {
-  final Map<String, String> employee;
+  final OfficerEntity employee;
 
   const EmployeeDetailsModal({required this.employee, super.key});
 
@@ -34,51 +36,64 @@ class EmployeeDetailsModal extends StatelessWidget {
                     borderRadius: BorderRadius.circular(2),
                   ),
                 ),
+
                 CircleAvatar(
                   radius: 60,
-                  backgroundImage: NetworkImage(employee['imageUrl']!),
+                  backgroundImage: NetworkImage(
+                    StringConstants.defaultProfileImage,
+                  ),
                 ),
+
                 const SizedBox(height: 20),
+
                 Text(
-                  employee['name']!,
+                  employee.username,
                   style: const TextStyle(
                     fontSize: 26,
                     fontWeight: FontWeight.bold,
-                    color: Colors.black87,
+                    color: ColorConstants.textPrimary,
                   ),
                   textAlign: TextAlign.center,
                 ),
+
                 const SizedBox(height: 8),
+
                 Text(
-                  employee['position']!,
-                  style: TextStyle(
+                  employee.role,
+                  style: const TextStyle(
                     fontSize: 18,
-                    color: Colors.blue[700],
+                    color: ColorConstants.primaryDark,
                     fontWeight: FontWeight.w500,
                   ),
                   textAlign: TextAlign.center,
                 ),
+
                 const SizedBox(height: 32),
+
                 DetailItem(
                   icon: Icons.badge,
-                  label: 'Employee ID',
-                  value: employee['id']!,
+                  label: StringConstants.employeeId,
+                  value: employee.id.toString(),
                 ),
+
                 DetailItem(
                   icon: Icons.business_center,
-                  label: 'Department',
-                  value: employee['department']!,
+                  label: StringConstants.department,
+                  value: StringConstants.delivery,
                 ),
+
                 DetailItem(
                   icon: Icons.email,
-                  label: 'Email',
-                  value: employee['email']!,
+                  label: StringConstants.emailLabel,
+                  value: employee.email,
                 ),
+
                 DetailItem(
                   icon: Icons.phone,
-                  label: 'Phone',
-                  value: employee['phone']!,
+                  label: StringConstants.phoneNumber,
+                  value: StringConstants.defaultPhoneNumber,
                 ),
+
                 const SizedBox(height: 24),
               ],
             ),

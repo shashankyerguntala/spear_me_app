@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:spear_me_app/core/constants/color_constants.dart';
 import 'package:spear_me_app/core/constants/string_constants/routes_constansts.dart';
-import 'package:spear_me_app/features/owner/data/data_sources/local_data_source/city_list.dart';
-import 'package:spear_me_app/features/owner/presentation/owner_factories/factory_home/screens/owner_factory_shimmer.dart';
-import 'package:spear_me_app/features/owner/presentation/owner_factories/factory_home/widgets/factory_card.dart';
-import 'package:spear_me_app/features/owner/presentation/owner_factories/factory_home/bloc/owner_factories_bloc.dart';
+import 'package:spear_me_app/core/constants/string_constants/string_constants.dart';
 import 'package:spear_me_app/core/di/di.dart';
+import 'package:spear_me_app/features/common/widgets/custom_floating_action_button.dart';
+import 'package:spear_me_app/features/owner/presentation/owner_factories/factory_home/bloc/owner_factories_bloc.dart';
+import 'package:spear_me_app/features/owner/presentation/owner_factories/factory_home/widgets/factory_list.dart';
+import 'package:spear_me_app/features/owner/presentation/owner_factories/factory_home/widgets/filters_section.dart';
 
 class OwnerFactories extends StatelessWidget {
   const OwnerFactories({super.key});
@@ -16,130 +16,68 @@ class OwnerFactories extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) =>
-          OwnerFactoriesBloc(ownerUsecase: di())..add(const FetchFactories()),
-      child: const _OwnerFactoriesBody(),
+          OwnerFactoriesBloc(usecase: di())..add(const FetchFactories()),
+      child: const _OwnerFactoriesView(),
     );
   }
 }
 
-class _OwnerFactoriesBody extends StatefulWidget {
-  const _OwnerFactoriesBody();
+class _OwnerFactoriesView extends StatefulWidget {
+  const _OwnerFactoriesView();
 
   @override
-  State<_OwnerFactoriesBody> createState() => _OwnerFactoriesBodyState();
+  State<_OwnerFactoriesView> createState() => _OwnerFactoriesViewState();
 }
 
-class _OwnerFactoriesBodyState extends State<_OwnerFactoriesBody> {
-  final TextEditingController searchController = TextEditingController();
-  String selectedLocation = "";
+class _OwnerFactoriesViewState extends State<_OwnerFactoriesView> {
+  final TextEditingController _searchController = TextEditingController();
+  final ScrollController _scroll = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    _scroll.addListener(_onScroll);
+  }
+
+  @override
+  void dispose() {
+    _scroll.removeListener(_onScroll);
+    _scroll.dispose();
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  void _onScroll() {
+    if (!_scroll.hasClients) {
+      return;
+    }
+
+    final max = _scroll.position.maxScrollExtent;
+    final offset = _scroll.offset;
+
+    if (offset >= max * 0.9) {
+      context.read<OwnerFactoriesBloc>().add(const LoadMoreFactories());
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Factories')),
-      floatingActionButton: FloatingActionButton.extended(
-        backgroundColor: ColorConstants.owner,
+      appBar: AppBar(title: const Text(StringConstants.factories)),
+      floatingActionButton: CustomFloatingActionButton(
+        label: StringConstants.addFactory,
         onPressed: () => context.push(RoutesConstants.ownerAddFactoriesRoute),
-        label: const Text(
-          "Add Factory",
-          style: TextStyle(color: ColorConstants.surface),
-        ),
-        icon: const Icon(Icons.add, color: ColorConstants.surface),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
+          spacing: 16,
           children: [
-            TextField(
-              controller: searchController,
-              onChanged: (value) {
-                context.read<OwnerFactoriesBloc>().add(
-                  FetchFactories(search: value.trim()),
-                );
-              },
-              decoration: InputDecoration(
-                hintText: 'Search factories...',
-                prefixIcon: const Icon(Icons.search),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-              ),
-            ),
+            FiltersSection(searchController: _searchController),
 
-            const SizedBox(height: 12),
-
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: locations
-                    .map((city) => _buildFilterChip(city))
-                    .toList(),
-              ),
-            ),
-
-            const SizedBox(height: 16),
-
-            Expanded(
-              child: BlocBuilder<OwnerFactoriesBloc, OwnerFactoriesState>(
-                builder: (context, state) {
-                  if (state is OwnerFactoriesLoading) {
-                    return OwnerFactoriesShimmer();
-                  }
-
-                  if (state is OwnerFactoriesFailure) {
-                    return Center(child: Text(state.message));
-                  }
-
-                  if (state is OwnerFactoriesLoaded) {
-                    final factories = state.factories;
-                    //! if error wrap with expanded
-                    return ListView.builder(
-                      itemCount: factories.length,
-                      itemBuilder: (_, i) => GestureDetector(
-                        onTap: () => context.push(
-                          '${RoutesConstants.ownerFactoriesRoute}/details/${factories[i].factoryId}',
-                        ),
-                        child: FactoryCard(
-                          name: factories[i].name,
-                          location: factories[i].city,
-                          isActive: true,
-                        ),
-                      ),
-                    );
-                  }
-
-                  return const SizedBox.shrink();
-                },
-              ),
-            ),
+            Expanded(child: FactoriesList(scrollController: _scroll)),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget _buildFilterChip(String city) {
-    final bool isSelected = selectedLocation == city;
-
-    return Padding(
-      padding: const EdgeInsets.only(right: 8),
-      child: ChoiceChip(
-        label: Text(city),
-        selected: isSelected,
-        selectedColor: ColorConstants.owner,
-        labelStyle: TextStyle(
-          color: isSelected ? Colors.white : Colors.black,
-          fontWeight: FontWeight.w600,
-        ),
-        onSelected: (_) {
-          setState(() {
-            selectedLocation = isSelected ? "" : city;
-          });
-
-          context.read<OwnerFactoriesBloc>().add(
-            FetchFactories(search: selectedLocation),
-          );
-        },
       ),
     );
   }

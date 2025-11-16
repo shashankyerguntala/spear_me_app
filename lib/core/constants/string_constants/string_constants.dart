@@ -55,6 +55,7 @@ class StringConstants {
   static const String numberLabel = 'Mobile Number';
   static const String numberEmpty = 'Number cannot be empty';
   static const String nineOne = "+91";
+  static const String editFactory = "Edit Factory";
 
   //! O W N E R
   static const String ownerLabel = 'Owner';
@@ -69,7 +70,8 @@ class StringConstants {
   static const String remove = 'Remove';
   static String removeEmployeeMsg(String username) =>
       'Are you sure you want to remove $username from your team? This action cannot be undone.';
-  static const String filterByRole = "Filter by Role:";
+  static const String filterByRole = "Filter by Role";
+  static const String filterByCity = "Filter by city";
   static const String sortBy = 'Sort by';
 
   //!owner-factories
@@ -81,6 +83,9 @@ class StringConstants {
   static const String addFactory = 'Add Factory';
   static const String factoryNameCannnotBeEmpty =
       'Factory name cannot be empty!';
+  static const String createPlantHead = "Create Plant Head";
+  static const String noFactoryFound = "No factory found";
+  static const String tryAdjustingSearch = 'Try adjusting search/filters';
 
   //! owner-central-office
   static const String centralOfficerName = 'Central officer Name';
@@ -104,4 +109,43 @@ class StringConstants {
   //! products constants
   static const String noProductsFound = 'No products Found';
   static const String failedToFetchProducts = 'Failed to fetch products';
+
+  static const String factoryDetails = 'Factory Details';
+  static const String unnamedFactory = 'Unnamed Factory';
+  static const String unknown = 'Unknown';
+
+  static const String totalEmployees = 'Total Employees: ';
+  static const String unknownTool = 'Unknown Tool';
+  static const String available = 'Available: ';
+
+  static const String unknownProduct = 'Unknown Product';
+  static const String produced = 'Produced: ';
+
+  static const String city = 'City';
+  static const String cityRequired = 'City required';
+
+  static const String address = 'Address';
+  static const String addressCannotBeEmpty = 'Address cannot be empty';
+
+  static const String plantHeadEmail = 'Plant Head Email';
+  static const String plantHeadEmailCannotBeEmpty = 'Email cannot be empty';
+
+  static const String emailCannotBeEmpty = 'Email cannot be empty';
+
+  static const String centralOfficeHeadName = 'Central Office Head Name';
+  static const String nameCannotBeEmpty = 'Name cannot be empty';
+
+  static const String phoneNumber = 'Phone Number';
+  static const String phoneCannotBeEmpty = 'Phone cannot be empty';
+  static const String centralOffice = 'Central Office';
+  static const String noCentralOfficePresent = 'No central office present';
+
+  static const String delivery = 'Delivery';
+
+  static const String unknownAddress = '';
+  static const String defaultProfileImage =
+      'https://cdn-icons-png.flaticon.com/512/847/847969.png';
+  static const String defaultPhoneNumber = '123456789';
+  static const String employeeId = 'Employee ID';
+  static const String department = 'Department';
 }

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:spear_me_app/core/constants/string_constants/routes_constansts.dart';
 import 'package:spear_me_app/core/di/di.dart';
+import 'package:spear_me_app/features/owner/domain/entity/factory_details_entity.dart';
 import 'package:spear_me_app/features/owner/domain/entity/merchandise_entity.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_central_office/add_central_office/screens/add_central_officer.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_central_office/owner_central_office_home/screens/owner_central_offices.dart';
@@ -38,10 +39,17 @@ final List<GoRoute> ownerRoutes = <GoRoute>[
     builder: (BuildContext context, GoRouterState state) => OwnerFactories(),
     routes: [
       GoRoute(
-        path: 'add',
-        builder: (BuildContext context, GoRouterState state) =>
-            const AddFactoryScreen(),
+        path: RoutesConstants.ownerAddFactoriesRoute,
+        builder: (context, state) {
+          final extras = state.extra as Map<String, dynamic>?;
+
+          final isEdit = extras?['isEdit'] as bool? ?? false;
+          final factory = extras?['factory'] as FactoryDetailsEntity?;
+
+          return AddFactoryScreen(isEdit: isEdit, factory: factory);
+        },
       ),
+
       GoRoute(
         path: 'details/:id',
         builder: (BuildContext context, GoRouterState state) {

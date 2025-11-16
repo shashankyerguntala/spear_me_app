@@ -1,9 +1,11 @@
-// Reusable Widget: Employee List Section
 import 'package:flutter/material.dart';
+import 'package:spear_me_app/core/constants/string_constants/string_constants.dart';
+import 'package:spear_me_app/features/owner/domain/entity/central_officer_entity.dart';
+
 import 'package:spear_me_app/features/owner/presentation/owner_central_office/owner_central_office_home/widgets/owner_employees_card.dart';
 
 class EmployeeListSection extends StatelessWidget {
-  final List<Map<String, String>> employees;
+  final List<OfficerEntity> employees;
 
   const EmployeeListSection({required this.employees, super.key});
 
@@ -15,7 +17,7 @@ class EmployeeListSection extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
-            'Employees',
+            StringConstants.employees,
             style: TextStyle(
               fontSize: 22,
               fontWeight: FontWeight.bold,
@@ -23,6 +25,7 @@ class EmployeeListSection extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 12),
+
           ListView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),

@@ -10,6 +10,7 @@ class AddFactoryBloc extends Bloc<AddFactoryEvent, AddFactoryState> {
 
   AddFactoryBloc(this.ownerUsecase) : super(AddFactoryInitial()) {
     on<AddFactoryRequested>(_onAddFactoryRequested);
+    on<UpdateFactoryRequested>(_onUpdateFactoryRequested);
   }
 
   Future<void> _onAddFactoryRequested(
@@ -27,14 +28,36 @@ class AddFactoryBloc extends Bloc<AddFactoryEvent, AddFactoryState> {
 
     result.fold((failure) {
       final isPlantHeadMissing = failure.message.contains(
-        "Please create a Plant Head ",
+        "Please create a Plant Head",
       );
+
       emit(
         AddFactoryFailure(
           failure.message,
           allowAddPlantHead: isPlantHeadMissing,
         ),
       );
-    }, (success) => emit(AddFactorySuccess(success)));
+    }, (message) => emit(AddFactorySuccess(message)));
+  }
+
+  Future<void> _onUpdateFactoryRequested(
+    UpdateFactoryRequested event,
+    Emitter<AddFactoryState> emit,
+  ) async {
+    emit(AddFactoryLoading());
+
+    final payload = {
+      "name": event.name,
+      "city": event.city,
+      "address": event.address,
+      "plantHeadEmail": event.email,
+    };
+
+    final result = await ownerUsecase.updateFactory(event.factoryId, payload);
+
+    result.fold(
+      (failure) => emit(AddFactoryFailure(failure.message)),
+      (message) => emit(AddFactorySuccess(message)),
+    );
   }
 }

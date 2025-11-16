@@ -5,6 +5,7 @@ import 'package:lottie/lottie.dart';
 import 'package:spear_me_app/core/constants/color_constants.dart';
 import 'package:spear_me_app/core/constants/string_constants/assets_constants.dart';
 import 'package:spear_me_app/core/constants/string_constants/routes_constansts.dart';
+import 'package:spear_me_app/core/constants/string_constants/string_constants.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_dashboard/bloc/owner_home_bloc.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_dashboard/widgets/bar_chart_widget.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_dashboard/widgets/stat_card.dart';
@@ -54,11 +55,11 @@ class PlDashboardScreen extends StatelessWidget {
                           crossAxisCount: 2,
                           crossAxisSpacing: 16,
                           mainAxisSpacing: 16,
-                          childAspectRatio: 1.5,
+                          childAspectRatio: 0.55,
                         ),
                         children: <Widget>[
                           StatCard(
-                            label: 'Products',
+                            label: StringConstants.products,
                             onTap: () => context.push(
                               RoutesConstants.ownerProductsRoute,
                             ),

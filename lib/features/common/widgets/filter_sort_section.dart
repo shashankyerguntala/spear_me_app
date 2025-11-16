@@ -28,48 +28,22 @@ class FilterSortSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
-      padding: const EdgeInsets.symmetric(vertical: 8),
       child: Row(
+        spacing: 16,
         children: [
-          _buildDropdownColumn(
-            context,
-            title: filterLabel,
-            child: FilterDropdown(
-              selectedValue: selectedFilterValue,
-              options: filterOptions,
-              onChanged: onFilterChanged,
-            ),
+          FilterDropdown(
+            selectedValue: selectedFilterValue,
+            options: filterOptions,
+            onChanged: onFilterChanged,
           ),
-          const SizedBox(width: 16),
-          _buildDropdownColumn(
-            context,
-            title: sortLabel,
-            child: FilterDropdown(
-              selectedValue: selectedSortValue,
-              options: sortOptions,
-              onChanged: onSortChanged,
-            ),
+
+          FilterDropdown(
+            selectedValue: selectedSortValue,
+            options: sortOptions,
+            onChanged: onSortChanged,
           ),
         ],
       ),
-    );
-  }
-
-  Widget _buildDropdownColumn(
-    BuildContext context, {
-    required String title,
-    required Widget child,
-  }) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          title,
-          style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500),
-        ),
-        const SizedBox(height: 6),
-        child,
-      ],
     );
   }
 }

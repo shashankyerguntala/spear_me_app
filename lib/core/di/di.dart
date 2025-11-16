@@ -98,8 +98,6 @@ class Di {
     di.registerCachedFactory(() => MerchandiseHomeBloc(usecase: di()));
     di.registerCachedFactory(() => AddMerchandiseBloc(di()));
     di.registerCachedFactory(() => ToolsBloc(di()));
-    di.registerCachedFactory(
-      () => FactoryDetailsBloc(getFactoryDetailsUsecase: di()),
-    );
+    di.registerCachedFactory(() => FactoryDetailsBloc(usecase: di()));
   }
 }

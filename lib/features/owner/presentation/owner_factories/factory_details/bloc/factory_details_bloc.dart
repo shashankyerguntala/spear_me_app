@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:dartz/dartz.dart';
@@ -10,11 +12,11 @@ part 'factory_details_state.dart';
 
 class FactoryDetailsBloc
     extends Bloc<FactoryDetailsEvent, FactoryDetailsState> {
-  final OwnerUsecase getFactoryDetailsUsecase;
+  final OwnerUsecase usecase;
 
-  FactoryDetailsBloc({required this.getFactoryDetailsUsecase})
-    : super(FactoryDetailsInitial()) {
+  FactoryDetailsBloc({required this.usecase}) : super(FactoryDetailsInitial()) {
     on<FetchFactoryDetailsEvent>(_onFetchFactoryDetails);
+    on<DeleteFactoryEvent>(deleteFactoryEvent);
   }
 
   Future<void> _onFetchFactoryDetails(
@@ -23,12 +25,26 @@ class FactoryDetailsBloc
   ) async {
     emit(FactoryDetailsLoading());
 
-    final Either<Failure, FactoryDetailsEntity> result =
-        await getFactoryDetailsUsecase.getFactoryDetails(event.factoryId);
+    final Either<Failure, FactoryDetailsEntity> result = await usecase
+        .getFactoryDetails(event.factoryId);
 
     result.fold(
       (failure) => emit(FactoryDetailsFailure(message: failure.message)),
       (factory) => emit(FactoryDetailsSuccess(factory: factory)),
+    );
+  }
+
+  Future<void> deleteFactoryEvent(
+    DeleteFactoryEvent event,
+    Emitter<FactoryDetailsState> emit,
+  ) async {
+    emit(FactoryDeleting());
+
+    final result = await usecase.deleteFactory(event.factId);
+
+    result.fold(
+      (failure) => emit(FactoryDeleteFailure(msg: failure.message)),
+      (msg) => emit(FactoryDeletedSuccessfully(msg: msg)),
     );
   }
 }

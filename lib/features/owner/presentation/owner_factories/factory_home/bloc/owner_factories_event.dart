@@ -1,4 +1,3 @@
-// owner_factories_event.dart
 part of 'owner_factories_bloc.dart';
 
 abstract class OwnerFactoriesEvent extends Equatable {
@@ -8,15 +7,38 @@ abstract class OwnerFactoriesEvent extends Equatable {
 }
 
 class FetchFactories extends OwnerFactoriesEvent {
-  final String search;
-  final int page;
-  final int size;
-  final String sort;
+  const FetchFactories();
+}
 
-  const FetchFactories({
-    this.search = "",
-    this.page = 0,
-    this.size = 5,
-    this.sort = "name,asc",
-  });
+class LoadMoreFactories extends OwnerFactoriesEvent {
+  const LoadMoreFactories();
+}
+
+class UpdateFactorySearch extends OwnerFactoriesEvent {
+  final String query;
+  const UpdateFactorySearch(this.query);
+
+  @override
+  List<Object?> get props => [query];
+}
+
+class UpdateFactorySort extends OwnerFactoriesEvent {
+  final String sortBy;
+  final bool ascending;
+  const UpdateFactorySort({required this.sortBy, required this.ascending});
+
+  @override
+  List<Object?> get props => [sortBy, ascending];
+}
+
+class UpdateFactoryFilter extends OwnerFactoriesEvent {
+  final String filter;
+  const UpdateFactoryFilter(this.filter);
+
+  @override
+  List<Object?> get props => [filter];
+}
+
+class ResetFactoryFilters extends OwnerFactoriesEvent {
+  const ResetFactoryFilters();
 }

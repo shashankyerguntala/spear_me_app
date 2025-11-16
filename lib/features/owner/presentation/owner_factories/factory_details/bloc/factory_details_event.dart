@@ -7,11 +7,17 @@ abstract class FactoryDetailsEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class FetchFactoryDetailsEvent extends FactoryDetailsEvent {
+final class FetchFactoryDetailsEvent extends FactoryDetailsEvent {
   final int factoryId;
 
   const FetchFactoryDetailsEvent(this.factoryId);
 
   @override
   List<Object?> get props => [factoryId];
+}
+
+final class DeleteFactoryEvent extends FactoryDetailsEvent {
+  final int factId;
+
+  const DeleteFactoryEvent({required this.factId});
 }

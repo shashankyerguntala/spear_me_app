@@ -72,6 +72,46 @@ class OwnerDataSource {
     });
   }
 
+  //! delete factory
+  Future<Either<Failure, String>> deleteFactory({
+    required int factoryId,
+  }) async {
+    final result = await dioClient.deleteRequest(
+      '/api/users/delete/$factoryId',
+    );
+
+    return result.fold((fail) => Left(fail), (data) {
+      final message = data['message'] ?? 'Unknown response';
+
+      if (data['success'] == true) {
+        return Right(message);
+      } else {
+        return Left(Failure(message));
+      }
+    });
+  }
+
+  //! update factory
+  Future<Either<Failure, String>> updateFactory({
+    required int factoryId,
+    required Map<String, dynamic> payload,
+  }) async {
+    final result = await dioClient.putRequest(
+      '/api/users/update/$factoryId',
+      data: payload,
+    );
+
+    return result.fold((fail) => Left(fail), (data) {
+      final message = data['message'] ?? 'Unknown response';
+
+      if (data['success'] == true) {
+        return Right(message);
+      } else {
+        return Left(Failure(message));
+      }
+    });
+  }
+
   //! get central office
   Future<Either<Failure, List<CentralOfficeEntity>>> getCentralOffice() async {
     final response = await dioClient.getRequest(ApiConstants.getCentralOffice);

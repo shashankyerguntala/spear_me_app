@@ -4,7 +4,6 @@ import 'package:equatable/equatable.dart';
 import 'package:spear_me_app/features/plant_head/domain/entity/staff_entity.dart';
 import 'package:spear_me_app/features/plant_head/domain/entity/paginated_staff_entity.dart';
 import 'package:spear_me_app/features/plant_head/domain/usecases/get_usecase.dart';
-
 part 'pl_employees_event.dart';
 part 'pl_employees_state.dart';
 
@@ -19,7 +18,7 @@ class PlEmployeesBloc extends Bloc<PlEmployeesEvent, PlEmployeesState> {
   }
 
   Future<void> _onFetchEmployees(
-    FetchEmployees event,
+    FetchEmployees event, 
     Emitter<PlEmployeesState> emit,
   ) async {
     emit(state.copyWith(isLoading: true, page: 0));

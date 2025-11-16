@@ -36,6 +36,12 @@ abstract class OwnerRepository {
     String? sort,
     bool? asc,
   });
+  Future<Either<Failure, String>> deleteFactory(int factoryId);
+
+  Future<Either<Failure, String>> updateFactory(
+    int factoryId,
+    Map<String, dynamic> payload,
+  );
 
   Future<Either<Failure, OwnerProfileEntity>> getOwnerProfile();
   Future<Either<Failure, String>> createPlantHead({

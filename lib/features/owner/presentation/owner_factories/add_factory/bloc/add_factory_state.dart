@@ -23,8 +23,12 @@ class AddFactorySuccess extends AddFactoryState {
 class AddFactoryFailure extends AddFactoryState {
   final String message;
   final bool allowAddPlantHead;
-  const AddFactoryFailure(this.message, {this.allowAddPlantHead = false});
+
+  const AddFactoryFailure(
+    this.message, {
+    this.allowAddPlantHead = false,
+  });
 
   @override
-  List<Object?> get props => [message];
+  List<Object?> get props => [message, allowAddPlantHead];
 }

@@ -38,16 +38,16 @@ class OwnerUsecase {
 
   //! get factories
   Future<Either<Failure, PagedFactoriesEntity>> getFactories(
-    String search,
+    String? search,
     int page, {
     int size = 3,
-    String sort = "name,asc",
+    String? sort,
   }) {
     return ownerRepository.getFactories(
-      search: search,
+      search: search ?? '',
       page: page,
       size: size,
-      sort: sort,
+      sort: sort ?? "name,asc",
     );
   }
 
@@ -93,5 +93,16 @@ class OwnerUsecase {
 
   Future<Either<Failure, String>> deleteEmployee(int employeeId) {
     return ownerRepository.deleteEmployee(employeeId);
+  }
+
+  Future<Either<Failure, String>> deleteFactory(int factoryId) {
+    return ownerRepository.deleteFactory(factoryId);
+  }
+
+  Future<Either<Failure, String>> updateFactory(
+    int factoryId,
+    Map<String, dynamic> payload,
+  ) {
+    return ownerRepository.updateFactory(factoryId, payload);
   }
 }

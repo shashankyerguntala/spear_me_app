@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:spear_me_app/core/constants/color_constants.dart';
 
 class FactoryCard extends StatelessWidget {
   final String name;
@@ -19,17 +20,17 @@ class FactoryCard extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.grey.shade300),
+        border: Border.all(color: ColorConstants.border),
       ),
       child: Row(
         children: <Widget>[
           Container(
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
-              color: Colors.blue.shade50,
+              color: ColorConstants.primaryLight.withAlpha(30),
               borderRadius: BorderRadius.circular(8),
             ),
-            child: const Icon(Icons.factory, color: Colors.blue),
+            child: const Icon(Icons.factory, color: ColorConstants.primary),
           ),
 
           const SizedBox(width: 16),
@@ -46,7 +47,7 @@ class FactoryCard extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 4),
-                Text(location, style: TextStyle(color: Colors.grey.shade600)),
+                Text(location, style: TextStyle(color: ColorConstants.primary)),
               ],
             ),
           ),

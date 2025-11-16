@@ -28,3 +28,17 @@ class FactoryDetailsFailure extends FactoryDetailsState {
   @override
   List<Object?> get props => [message];
 }
+
+class FactoryDeleting extends FactoryDetailsState {}
+
+class FactoryDeletedSuccessfully extends FactoryDetailsState {
+  final String msg;
+
+  const FactoryDeletedSuccessfully({required this.msg});
+}
+
+class FactoryDeleteFailure extends FactoryDetailsState {
+  final String msg;
+
+  const FactoryDeleteFailure({required this.msg});
+}

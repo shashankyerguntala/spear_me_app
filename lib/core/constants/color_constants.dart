@@ -32,4 +32,5 @@ class ColorConstants {
   static const Color border = Color(0xFFE5E7EB);
   static const Color shadow = Color(0x1A000000);
   static const Color transparent = Color.fromARGB(128, 0, 0, 0);
+  static const Color red = Colors.red;
 }

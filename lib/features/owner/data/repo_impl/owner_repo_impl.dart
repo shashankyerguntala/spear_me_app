@@ -71,6 +71,22 @@ class OwnerRepoImpl extends OwnerRepository {
   }
 
   @override
+  Future<Either<Failure, String>> deleteFactory(int factoryId) {
+    return ownerDataSource.deleteFactory(factoryId: factoryId);
+  }
+
+  @override
+  Future<Either<Failure, String>> updateFactory(
+    int factoryId,
+    Map<String, dynamic> payload,
+  ) {
+    return ownerDataSource.updateFactory(
+      factoryId: factoryId,
+      payload: payload,
+    );
+  }
+
+  @override
   Future<Either<Failure, OwnerProfileEntity>> getOwnerProfile() {
     return ownerDataSource.getProfile();
   }
