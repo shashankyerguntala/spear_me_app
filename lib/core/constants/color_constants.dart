@@ -34,4 +34,9 @@ class ColorConstants {
   static const Color transparent = Color.fromARGB(128, 0, 0, 0);
   static const Color red = Colors.red;
   static const Color overlayDark = Color.fromARGB(66, 0, 0, 0);
+  static const Color shimmerBase = Color(0xFFD6D6D6);
+  static const Color shimmerHighlight = Color(0xFFF5F5F5);
+  static const Color shimmerTile = Color(0xFFFFFFFF);
+  static const Color lightShadow = Color.fromARGB(3, 0, 0, 0);
+  static const Color greyText = Color(0xFF9E9E9E);
 }

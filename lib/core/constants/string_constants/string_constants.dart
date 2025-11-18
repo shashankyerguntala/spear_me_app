@@ -187,4 +187,17 @@ class StringConstants {
   static const String searchProductsHint = 'Search products...';
   static const String allCategory = 'All';
   static const String retry = 'Retry';
+  static const String toolsTitle = 'Tools';
+  static const String addTool = 'Add Tool';
+  static const String searchToolsHint = 'Search tools by name...';
+  static const String category = 'Category';
+  static const String filter = 'Filter';
+  static const String noToolsFound = 'No tools found';
+  static const String all = 'All';
+  static const String perishable = 'PERISHABLE';
+  static const String nonPerishable = 'NON-PERISHABLE';
+  static const String expensive = 'EXPENSIVE';
+  static const String dateAdded = 'Date Added';
+  static const String sortName = 'Name';
+  static const String sortThreshold = 'Threshold';
 }

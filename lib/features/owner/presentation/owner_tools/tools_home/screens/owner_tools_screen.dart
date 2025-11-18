@@ -2,10 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:spear_me_app/core/constants/color_constants.dart';
+import 'package:spear_me_app/core/constants/string_constants/routes_constansts.dart';
+import 'package:spear_me_app/core/constants/string_constants/string_constants.dart';
 import 'package:spear_me_app/core/di/di.dart';
 import 'package:spear_me_app/core/helper_functions.dart';
 import 'package:spear_me_app/features/common/widgets/custom_floating_action_button.dart';
+import 'package:spear_me_app/features/common/widgets/filter_sort_section.dart';
+import 'package:spear_me_app/features/common/widgets/search_field_widget.dart';
 import 'package:spear_me_app/features/common/widgets/tool_card.dart';
+import 'package:spear_me_app/features/owner/data/data_sources/local_data_source/filter_options_products.dart';
+import 'package:spear_me_app/features/owner/data/data_sources/local_data_source/sort_options_products.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_products/owner_products_home/screens/products_grid_shimmer.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_tools/tools_home/bloc/tools_bloc.dart';
 
@@ -17,46 +23,65 @@ class ToolsHomeScreen extends StatelessWidget {
     return BlocProvider(
       create: (_) => di<ToolsBloc>()
         ..add(FetchToolCategories())
-        ..add(const FetchTools(categoryName: "All")),
-      child: const _ToolsBodyScreen(),
+        ..add(const FetchTools(categoryName: StringConstants.all)),
+      child: const ToolsBodyScreen(),
     );
   }
 }
 
-class _ToolsBodyScreen extends StatefulWidget {
-  const _ToolsBodyScreen();
+class ToolsBodyScreen extends StatefulWidget {
+  const ToolsBodyScreen({super.key});
 
   @override
-  State<_ToolsBodyScreen> createState() => _ToolsBodyScreenState();
+  State<ToolsBodyScreen> createState() => _ToolsBodyScreenState();
 }
 
-class _ToolsBodyScreenState extends State<_ToolsBodyScreen> {
-  final TextEditingController _searchController = TextEditingController();
-  late final ScrollController _scrollController;
+class _ToolsBodyScreenState extends State<ToolsBodyScreen> {
+  final TextEditingController searchCtrl = TextEditingController();
+  late final ScrollController scrollCtrl;
 
   @override
   void initState() {
     super.initState();
-    _scrollController = ScrollController()..addListener(_onScroll);
+    scrollCtrl = ScrollController()..addListener(_onScroll);
   }
 
   @override
   void dispose() {
-    _scrollController.dispose();
-    _searchController.dispose();
+    scrollCtrl.dispose();
+    searchCtrl.dispose();
     super.dispose();
   }
 
   void _onScroll() {
     final bloc = context.read<ToolsBloc>();
-    if (!_scrollController.hasClients) {
+    if (!scrollCtrl.hasClients) {
       return;
     }
-    final max = _scrollController.position.maxScrollExtent;
-    final current = _scrollController.position.pixels;
+
+    final max = scrollCtrl.position.maxScrollExtent;
+    final current = scrollCtrl.position.pixels;
+
     if (current >= max - 100) {
       bloc.add(LoadMoreTools());
     }
+  }
+
+  void _handleFilterChange(String val) {
+    if (val == StringConstants.all) {
+      context.read<ToolsBloc>().add(
+        const FetchTools(categoryName: StringConstants.all),
+      );
+    } else {
+      context.read<ToolsBloc>().add(FilterTools(val));
+    }
+  }
+
+  void _handleSortChange(String val) {
+    final state = context.read<ToolsBloc>().state;
+    context.read<ToolsBloc>().add(
+      SortTools(sortBy: val, sortDir: state.sortDir),
+    );
   }
 
   @override
@@ -71,36 +96,56 @@ class _ToolsBodyScreenState extends State<_ToolsBodyScreen> {
           );
         }
       },
+
       builder: (context, state) {
         return Scaffold(
           backgroundColor: ColorConstants.surface,
+
           appBar: AppBar(
-            title: const Text('Tools'),
+            title: const Text(StringConstants.toolsTitle),
             centerTitle: true,
             elevation: 0,
             backgroundColor: ColorConstants.surface,
           ),
+
           floatingActionButton: CustomFloatingActionButton(
-            label: "Add Tool",
-            onPressed: () => context.push('/owner/addTool'),
+            label: StringConstants.addTool,
+            onPressed: () => context.push(
+              '${RoutesConstants.ownerToolsRoutes}/${RoutesConstants.ownerAddTools}',
+            ),
           ),
+
           body: Padding(
             padding: const EdgeInsets.all(16),
             child: Column(
               children: [
-                _buildSearchBar(context),
-                const SizedBox(height: 12),
-                _buildCategoryDropdown(state),
-                const SizedBox(height: 12),
-                Row(
-                  children: [
-                    Expanded(child: _buildSortDropdown(context, state)),
-                    const SizedBox(width: 12),
-                    Expanded(child: _buildFilterDropdown(context, state)),
-                  ],
+                SearchField(
+                  controller: searchCtrl,
+                  hintText: StringConstants.searchToolsHint,
+                  onChanged: (value) {
+                    context.read<ToolsBloc>().add(SearchTools(value));
+                  },
+                  onClear: () {
+                    context.read<ToolsBloc>().add(
+                      const FetchTools(categoryName: StringConstants.all),
+                    );
+                  },
                 ),
+
+                const SizedBox(height: 12),
+
+                FilterSortSection(
+                  selectedFilterValue: state.filter ?? StringConstants.all,
+                  selectedSortValue: state.sortBy ?? "createdAt",
+                  filterOptions: toolsFilters,
+                  sortOptions: toolsSort,
+                  onFilterChanged: _handleFilterChange,
+                  onSortChanged: _handleSortChange,
+                ),
+
                 const SizedBox(height: 16),
-                Expanded(child: _buildGridSection(state)),
+
+                Expanded(child: _buildGrid(state)),
               ],
             ),
           ),
@@ -163,7 +208,6 @@ class _ToolsBodyScreenState extends State<_ToolsBodyScreen> {
   }
 
   Widget _buildFilterDropdown(BuildContext context, ToolsState state) {
-    // TODO(Shashank): since these values are constant ones, its a better practice to convert them into enums than strings
     const filters = ["All", "PERISHABLE", "NON-PERISHABLE", "EXPENSIVE"];
 
     return DropdownButtonFormField<String>(
@@ -192,14 +236,17 @@ class _ToolsBodyScreenState extends State<_ToolsBodyScreen> {
 
     if (state.tools.isEmpty) {
       return const Center(
-        child: Text("No tools found", style: TextStyle(color: Colors.grey)),
+        child: Text(
+          StringConstants.noToolsFound,
+          style: TextStyle(color: ColorConstants.greyText),
+        ),
       );
     }
 
     return Stack(
       children: [
         GridView.builder(
-          controller: _scrollController,
+          controller: scrollCtrl,
           itemCount: state.tools.length,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
@@ -208,10 +255,11 @@ class _ToolsBodyScreenState extends State<_ToolsBodyScreen> {
             childAspectRatio: 0.78,
           ),
           itemBuilder: (context, i) {
-            final tool = state.tools[i];
-            return ToolCard(tool: tool, onTap: () {});
+            final item = state.tools[i];
+            return ToolCard(tool: item, onTap: () {});
           },
         ),
+
         if (state.isLoadingMore)
           const Positioned(
             bottom: 20,

@@ -169,7 +169,7 @@ class _OwnerProductsBodyState extends State<OwnerProductsBody> {
               Expanded(
                 child: BlocBuilder<OwnerProductsHomeBloc, OwnerProductsHomeState>(
                   builder: (context, state) {
-                    if (state.isLoading && state.products == null) {
+                    if (state.isLoading) {
                       return ProductsGridShimmer();
                     }
 
