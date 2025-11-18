@@ -13,7 +13,7 @@ class RoutesConstants {
   static const ownerMerchandise = '/owner/merchandise';
   static const ownerToolsRoutes = '/owner/tools';
 
-  //! --- FIXED: NESTED ROUTES MUST BE RELATIVE ---
+  //! NESTED ROUTES
   static const ownerAddFactoriesRoute = 'add';
   static const ownerAddCentralOfficeRoute = 'add';
   static const ownerAddProducts = 'add-product';
@@ -21,8 +21,6 @@ class RoutesConstants {
   static const createPlantHead = 'create-plant-head';
   static const ownerAddMerchandise = 'add';
   static const ownerAddTools = 'add';
-
-  //! FACTORY DETAILS (nested under /owner/factories)
   static const factoryDetails = 'details';
 
   //! PLANT HEAD ROOT ROUTES
