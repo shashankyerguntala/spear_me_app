@@ -4,7 +4,7 @@ import 'package:spear_me_app/core/routes/routes.dart';
 import 'package:spear_me_app/core/di/di.dart';
 
 void main() async {
-  Di.init();
+  await Di.init();
   runApp(const MyApp());
 }
 

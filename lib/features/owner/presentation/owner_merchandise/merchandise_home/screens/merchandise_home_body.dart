@@ -7,7 +7,7 @@ import 'package:spear_me_app/core/helper_functions.dart';
 import 'package:spear_me_app/features/common/widgets/confirmation_dialogue.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_merchandise/merchandise_home/bloc/merchandise_home_bloc.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_merchandise/merchandise_home/widgets/merchandise_card.dart';
-import 'package:spear_me_app/features/owner/presentation/owner_merchandise/merchandise_home/widgets/merchandise_grid_shimmer.dart';
+import 'package:spear_me_app/features/owner/presentation/owner_merchandise/merchandise_home/screens/merchandise_grid_shimmer.dart';
 
 class MerchandiseHomeBody extends StatefulWidget {
   const MerchandiseHomeBody({super.key});
@@ -23,7 +23,7 @@ class _MerchandiseHomeBodyState extends State<MerchandiseHomeBody> {
   @override
   void initState() {
     super.initState();
-    context.read<MerchandiseHomeBloc>().add(const FetchMerchandise());
+
     _scrollController.addListener(_onScroll);
   }
 
@@ -124,7 +124,7 @@ class _MerchandiseHomeBodyState extends State<MerchandiseHomeBody> {
                               ),
                         ),
                         onEdit: () => context.push(
-                          RoutesConstants.ownerAddMerchandise,
+                          '${RoutesConstants.ownerMerchandise}/${RoutesConstants.ownerAddMerchandise}',
                           extra: merchandise,
                         ),
                         merchandise: merchandise,

@@ -4,7 +4,6 @@ import 'package:spear_me_app/core/constants/string_constants/string_constants.da
 import 'package:spear_me_app/features/common/widgets/filter_sort_section.dart';
 import 'package:spear_me_app/features/common/widgets/search_field_widget.dart';
 import 'package:spear_me_app/features/owner/data/data_sources/local_data_source/city_list_factory.dart';
-import 'package:spear_me_app/features/owner/data/data_sources/local_data_source/sort_options_employees.dart';
 import 'package:spear_me_app/features/owner/data/data_sources/local_data_source/sort_options_factory.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_factories/factory_home/bloc/owner_factories_bloc.dart';
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shimmer/shimmer.dart';
+import 'package:spear_me_app/features/common/widgets/shimmer_card.dart';
 
 class MerchandiseGridShimmer extends StatelessWidget {
   const MerchandiseGridShimmer({super.key});
@@ -15,20 +15,7 @@ class MerchandiseGridShimmer extends StatelessWidget {
         crossAxisSpacing: 14,
         childAspectRatio: 0.78,
       ),
-      itemBuilder: (_, __) => _shimmerCard(),
-    );
-  }
-
-  Widget _shimmerCard() {
-    return Shimmer.fromColors(
-      baseColor: Colors.grey.shade300,
-      highlightColor: Colors.grey.shade100,
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(12),
-        ),
-      ),
+      itemBuilder: (_, __) => ShimmerCard(width: 100, height: 100),
     );
   }
 }

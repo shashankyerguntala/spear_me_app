@@ -67,18 +67,29 @@ class CustomTextField extends StatelessWidget {
               )
             : null,
         labelText: label,
-        labelStyle: const TextStyle(color: ColorConstants.textPrimary),
+        labelStyle: const TextStyle(
+          color: ColorConstants.textSecondary,
+          fontSize: 16,
+        ),
         focusedErrorBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: ColorConstants.error),
+          borderSide: const BorderSide(color: ColorConstants.border),
           borderRadius: BorderRadius.circular(16),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: ColorConstants.primary),
+          borderSide: const BorderSide(color: ColorConstants.border),
+          borderRadius: BorderRadius.circular(16),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderSide: const BorderSide(color: ColorConstants.border),
+          borderRadius: BorderRadius.circular(16),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderSide: const BorderSide(color: ColorConstants.border),
           borderRadius: BorderRadius.circular(16),
         ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
-          borderSide: BorderSide(color: ColorConstants.border),
+          borderSide: const BorderSide(color: ColorConstants.border),
         ),
         filled: true,
         fillColor: ColorConstants.cardBg,

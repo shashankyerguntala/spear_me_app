@@ -23,44 +23,49 @@ class _MerchandiseHomeScreenState extends State<MerchandiseHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: ColorConstants.surface,
-      appBar: AppBar(
-        title: Text(
-          StringConstants.merchandise,
-          style: AppTextStyles.headlineMedium,
-        ),
-        centerTitle: true,
+    return BlocProvider(
+      create: (context) => di<MerchandiseHomeBloc>()..add(FetchMerchandise()),
+      child: Scaffold(
         backgroundColor: ColorConstants.surface,
-        elevation: 0,
-      ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 12, 16, 6),
-            child: SearchField(
-              controller: _searchController,
-              hintText: StringConstants.searchMerchandise,
-              onChanged: (value) {
-                context.read<MerchandiseHomeBloc>().add(
-                  UpdateSearchQuery(value),
-                );
-              },
-              onClear: () {
-                _searchController.clear();
-                context.read<MerchandiseHomeBloc>().add(
-                  const UpdateSearchQuery(''),
-                );
-              },
-            ),
+        appBar: AppBar(
+          title: Text(
+            StringConstants.merchandise,
+            style: AppTextStyles.headlineMedium,
           ),
+          centerTitle: true,
+          backgroundColor: ColorConstants.surface,
+          elevation: 0,
+        ),
+        body: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 12, 16, 6),
+              child: SearchField(
+                controller: _searchController,
+                hintText: StringConstants.searchMerchandise,
+                onChanged: (value) {
+                  context.read<MerchandiseHomeBloc>().add(
+                    UpdateSearchQuery(value),
+                  );
+                },
+                onClear: () {
+                  _searchController.clear();
+                  context.read<MerchandiseHomeBloc>().add(
+                    const UpdateSearchQuery(''),
+                  );
+                },
+              ),
+            ),
 
-          const Expanded(child: MerchandiseHomeBody()),
-        ],
-      ),
-      floatingActionButton: CustomFloatingActionButton(
-        label: StringConstants.addMerchandise,
-        onPressed: () => context.push(RoutesConstants.ownerAddMerchandise),
+            const Expanded(child: MerchandiseHomeBody()),
+          ],
+        ),
+        floatingActionButton: CustomFloatingActionButton(
+          label: StringConstants.addMerchandise,
+          onPressed: () => context.push(
+            '${RoutesConstants.ownerMerchandise}/${RoutesConstants.ownerAddMerchandise}',
+          ),
+        ),
       ),
     );
   }

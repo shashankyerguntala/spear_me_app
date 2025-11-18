@@ -12,10 +12,10 @@ class MerchandiseCard extends StatelessWidget {
 
   const MerchandiseCard({
     required this.merchandise,
-    super.key,
     this.onTap,
     this.onEdit,
     this.onDelete,
+    super.key,
   });
 
   @override
@@ -27,11 +27,11 @@ class MerchandiseCard extends StatelessWidget {
         decoration: BoxDecoration(
           color: ColorConstants.cardBg,
           borderRadius: BorderRadius.circular(12),
-          boxShadow: [
+          boxShadow: const [
             BoxShadow(
-              color: Colors.black.withAlpha(10),
+              color: ColorConstants.shadow,
               blurRadius: 4,
-              offset: const Offset(0, 2),
+              offset: Offset(0, 2),
             ),
           ],
         ),
@@ -47,8 +47,11 @@ class MerchandiseCard extends StatelessWidget {
                   merchandise.imageUrl ?? '',
                   fit: BoxFit.cover,
                   errorBuilder: (_, __, ___) => Container(
-                    color: Colors.grey.shade300,
-                    child: const Icon(Icons.image_not_supported),
+                    color: ColorConstants.border,
+                    child: const Icon(
+                      Icons.image_not_supported,
+                      color: ColorConstants.textSecondary,
+                    ),
                   ),
                 ),
               ),
@@ -64,29 +67,33 @@ class MerchandiseCard extends StatelessWidget {
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 14,
+                      color: ColorConstants.textPrimary,
                     ),
                     overflow: TextOverflow.ellipsis,
                   ),
+
                   const SizedBox(height: 4),
+
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Pts: ${merchandise.requiredPoints}",
+                        '${StringConstants.points}${merchandise.requiredPoints}',
                         style: const TextStyle(
                           fontSize: 12,
-                          color: Colors.grey,
+                          color: ColorConstants.textSecondary,
                         ),
                       ),
                       Text(
-                        "Qty: ${merchandise.availableQuantity}",
+                        '${StringConstants.quantity}${merchandise.availableQuantity}',
                         style: const TextStyle(
                           fontSize: 12,
-                          color: Colors.grey,
+                          color: ColorConstants.textSecondary,
                         ),
                       ),
                     ],
                   ),
+
                   const SizedBox(height: 10),
 
                   Column(
@@ -94,7 +101,6 @@ class MerchandiseCard extends StatelessWidget {
                     children: [
                       ActionButton(
                         icon: Icons.edit_outlined,
-
                         label: StringConstants.edit,
                         color: ColorConstants.primary,
                         onPressed: onEdit,

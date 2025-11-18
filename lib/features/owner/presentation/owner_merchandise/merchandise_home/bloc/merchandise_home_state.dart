@@ -74,8 +74,8 @@ class MerchandiseHomeState extends Equatable {
     sortBy,
     ascending,
   ];
-}
 
-class MerchandiseHomeInitial extends MerchandiseHomeState {
-  const MerchandiseHomeInitial() : super();
+  factory MerchandiseHomeState.initial() {
+    return MerchandiseHomeState();
+  }
 }

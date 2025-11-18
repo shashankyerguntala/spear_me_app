@@ -54,7 +54,7 @@ class FactoryDetailsScreen extends StatelessWidget {
             return const SizedBox();
           },
         ),
-        bottomNavigationBar: FactorBottomBar(factoryId: factoryId),
+        bottomNavigationBar: FactoryBottomBar(factoryId: factoryId),
       ),
     );
   }

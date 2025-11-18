@@ -1,30 +1,36 @@
 part of 'add_merchandise_bloc.dart';
 
-abstract class AddMerchandiseState extends Equatable {
-  const AddMerchandiseState();
+class AddMerchandiseState extends Equatable {
+  final File? image;
+  final bool isLoading;
+  final String? error;
+  final String? success;
+
+  const AddMerchandiseState({
+    this.image,
+    this.isLoading = false,
+    this.error,
+    this.success,
+  });
+
+  AddMerchandiseState copyWith({
+    File? image,
+    bool? isLoading,
+    String? error,
+    String? success,
+  }) {
+    return AddMerchandiseState(
+      image: image ?? this.image,
+      isLoading: isLoading ?? this.isLoading,
+      error: error,
+      success: success,
+    );
+  }
 
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [image, isLoading, error, success];
 }
 
-class AddMerchandiseInitial extends AddMerchandiseState {}
-
-class AddMerchandiseLoading extends AddMerchandiseState {}
-
-class AddMerchandiseSuccess extends AddMerchandiseState {
-  final String message;
-
-  const AddMerchandiseSuccess(this.message);
-
-  @override
-  List<Object?> get props => [message];
-}
-
-class AddMerchandiseFailure extends AddMerchandiseState {
-  final String error;
-
-  const AddMerchandiseFailure(this.error);
-
-  @override
-  List<Object?> get props => [error];
+class AddMerchandiseInitial extends AddMerchandiseState {
+  const AddMerchandiseInitial() : super();
 }

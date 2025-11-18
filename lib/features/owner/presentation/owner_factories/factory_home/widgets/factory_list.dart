@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:spear_me_app/core/constants/string_constants/routes_constansts.dart';
 import 'package:spear_me_app/core/constants/string_constants/string_constants.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_factories/factory_home/bloc/owner_factories_bloc.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_factories/factory_home/screens/owner_factory_shimmer.dart';
@@ -32,7 +34,7 @@ class FactoriesList extends StatelessWidget {
           },
           child: ListView.builder(
             controller: scrollController,
-
+            physics: const AlwaysScrollableScrollPhysics(),
             itemCount: state.factories.length + (state.hasMoreData ? 1 : 0),
             itemBuilder: (_, i) {
               if (i >= state.factories.length) {
@@ -42,11 +44,13 @@ class FactoriesList extends StatelessWidget {
                 );
               }
 
-              final f = state.factories[i];
-              return FactoryCard(
-                name: f.name,
-                location: f.city,
-                isActive: true,
+              final factory = state.factories[i];
+              return GestureDetector(
+                onTap: () => context.push(
+                  '${RoutesConstants.ownerFactoriesRoute}/${RoutesConstants.factoryDetails}/${factory.factoryId}',
+                ),
+
+                child: FactoryCard(factoryEntity: state.factories[i]),
               );
             },
           ),

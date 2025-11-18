@@ -18,4 +18,13 @@ class FactoryModel extends FactoryEntity {
       factoryId: json['factoryId'],
     );
   }
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'city': city,
+      'address': address,
+      'plantHeadEmail': plantHeadEmail,
+      'factoryId': factoryId,
+    };
+  }
 }

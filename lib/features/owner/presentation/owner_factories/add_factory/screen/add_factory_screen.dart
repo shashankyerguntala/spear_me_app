@@ -1,23 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lottie/lottie.dart';
 import 'package:spear_me_app/core/constants/color_constants.dart';
 import 'package:spear_me_app/core/constants/string_constants/string_constants.dart';
-import 'package:spear_me_app/core/constants/string_constants/assets_constants.dart';
 import 'package:spear_me_app/core/constants/string_constants/routes_constansts.dart';
 import 'package:spear_me_app/core/di/di.dart';
 import 'package:spear_me_app/features/common/widgets/custom_floating_action_button.dart';
 import 'package:spear_me_app/features/common/widgets/custom_textfield.dart';
-import 'package:spear_me_app/features/owner/data/data_sources/local_data_source/city_list_factory.dart';
-import 'package:spear_me_app/features/owner/domain/entity/factory_details_entity.dart';
+import 'package:spear_me_app/features/owner/domain/entity/factory_entity.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_factories/add_factory/bloc/add_factory_bloc.dart';
+import 'package:spear_me_app/features/owner/presentation/owner_factories/add_factory/widgets/city_drop_down.dart';
 
 class AddFactoryScreen extends StatelessWidget {
   final bool isEdit;
-  final FactoryDetailsEntity? factory;
+  final FactoryEntity? factory;
 
-  const AddFactoryScreen({required this.isEdit, super.key, this.factory});
+  const AddFactoryScreen({required this.isEdit, this.factory, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +28,7 @@ class AddFactoryScreen extends StatelessWidget {
 
 class _AddFactoryBody extends StatefulWidget {
   final bool isEdit;
-  final FactoryDetailsEntity? factory;
+  final FactoryEntity? factory;
 
   const _AddFactoryBody({required this.isEdit, this.factory});
 
@@ -39,11 +37,11 @@ class _AddFactoryBody extends StatefulWidget {
 }
 
 class _AddFactoryBodyState extends State<_AddFactoryBody> {
-  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final formKey = GlobalKey<FormState>();
 
-  late TextEditingController nameController;
-  late TextEditingController addressController;
-  late TextEditingController emailController;
+  late final TextEditingController nameController;
+  late final TextEditingController addressController;
+  late final TextEditingController emailController;
 
   String? selectedCity;
 
@@ -52,17 +50,18 @@ class _AddFactoryBodyState extends State<_AddFactoryBody> {
     super.initState();
 
     nameController = TextEditingController(
-      text: widget.isEdit ? widget.factory?.factoryName ?? "" : "",
+      text: widget.isEdit ? widget.factory?.name ?? "" : "",
     );
+
+    selectedCity = widget.isEdit ? widget.factory?.city : null;
 
     addressController = TextEditingController(
-      text: widget.isEdit ? widget.factory?.location ?? "" : "",
+      text: widget.isEdit ? widget.factory?.address ?? "" : "",
     );
 
-//! pass the email when lavanya gives the email in factory details 
-    emailController = TextEditingController(text: widget.isEdit ? "" : "");
-
-    selectedCity = widget.isEdit ? widget.factory?.location : null;
+    emailController = TextEditingController(
+      text: widget.isEdit ? widget.factory?.plantHeadEmail ?? "" : "",
+    );
   }
 
   @override
@@ -71,143 +70,119 @@ class _AddFactoryBodyState extends State<_AddFactoryBody> {
         ? StringConstants.editFactory
         : StringConstants.addFactory;
 
-    final actionText = widget.isEdit
+    final buttonText = widget.isEdit
         ? StringConstants.editFactory
         : StringConstants.createFactory;
 
-    return SafeArea(
-      child: Scaffold(
+    return Scaffold(
+      backgroundColor: ColorConstants.surface,
+
+      appBar: AppBar(
         backgroundColor: ColorConstants.surface,
+        centerTitle: true,
+        title: Text(title),
+      ),
 
-        appBar: AppBar(
-          backgroundColor: ColorConstants.surface,
-          centerTitle: true,
-          title: Text(
-            title,
-            style: const TextStyle(fontWeight: FontWeight.bold),
-          ),
-        ),
+      body: BlocListener<AddFactoryBloc, AddFactoryState>(
+        listener: (context, state) {
+          if (state is AddFactorySuccess) {
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text(state.message)));
+            Navigator.pop(context);
+          }
 
-        body: BlocListener<AddFactoryBloc, AddFactoryState>(
-          listener: (context, state) {
-            if (state is AddFactoryLoading) {
-              showDialog(
-                context: context,
-                barrierDismissible: false,
-                builder: (_) => Center(
-                  child: Lottie.asset(AssetsConstants.loginLoadingAsset),
-                ),
-              );
-            }
-
-            if (state is AddFactorySuccess) {
-              Navigator.pop(context); // close loader
-              Navigator.pop(context); // go back
-              ScaffoldMessenger.of(
-                context,
-              ).showSnackBar(SnackBar(content: Text(state.message)));
-            }
-
-            if (state is AddFactoryFailure) {
-              Navigator.pop(context);
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(state.message),
-                  backgroundColor: ColorConstants.error,
-                ),
-              );
-            }
-          },
-
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Form(
-              key: formKey,
-              child: SingleChildScrollView(
-                child: Column(
-                  spacing: 20,
-                  children: [
-                    CustomTextField(
-                      controller: nameController,
-                      label: StringConstants.factoryName,
-                      validatorMsg: StringConstants.factoryNameCannnotBeEmpty,
-                    ),
-
-                    DropdownButtonFormField<String>(
-                      value: selectedCity,
-                      dropdownColor: ColorConstants.cardBg,
-                      items: locations
-                          .map(
-                            (city) => DropdownMenuItem(
-                              value: city,
-                              child: Text(city),
-                            ),
-                          )
-                          .toList(),
-                      onChanged: (value) {
-                        setState(() => selectedCity = value);
-                      },
-                      decoration: InputDecoration(
-                        labelText: StringConstants.city,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                      ),
-                      validator: (value) => value == null || value.isEmpty
-                          ? StringConstants.cityRequired
-                          : null,
-                    ),
-
-                    CustomTextField(
-                      controller: addressController,
-                      label: StringConstants.address,
-                      validatorMsg: StringConstants.addressCannotBeEmpty,
-                    ),
-
-                    CustomTextField(
-                      controller: emailController,
-                      label: StringConstants.plantHeadEmail,
-                      validatorMsg: StringConstants.plantHeadEmailCannotBeEmpty,
-                      keyboardType: TextInputType.emailAddress,
-                    ),
-
-                    SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: ColorConstants.primary,
-                          padding: const EdgeInsets.symmetric(vertical: 14),
-                        ),
-                        onPressed: _submit,
-                        child: Text(
-                          actionText,
-                          style: const TextStyle(
-                            color: ColorConstants.textOnPrimary,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+          if (state is AddFactoryFailure) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(state.message),
+                backgroundColor: ColorConstants.error,
               ),
-            ),
-          ),
-        ),
+            );
+          }
+        },
 
-        floatingActionButton: BlocBuilder<AddFactoryBloc, AddFactoryState>(
-          builder: (context, state) {
-            if (!widget.isEdit &&
-                state is AddFactoryFailure &&
-                state.allowAddPlantHead == true) {
-              return CustomFloatingActionButton(
-                label: StringConstants.createPlantHead,
-                onPressed: () => context.push(RoutesConstants.createPlantHead),
-              );
-            }
-            return const SizedBox.shrink();
-          },
+        child: Form(
+          key: formKey,
+          child: ListView(
+            padding: const EdgeInsets.all(16),
+            children: [
+              CustomTextField(
+                controller: nameController,
+                label: StringConstants.factoryName,
+                validatorMsg: StringConstants.factoryNameCannnotBeEmpty,
+              ),
+
+              const SizedBox(height: 16),
+
+              CityDropdown(
+                initialCity: selectedCity,
+                onCityChanged: (value) => selectedCity = value,
+              ),
+
+              const SizedBox(height: 16),
+
+              CustomTextField(
+                controller: addressController,
+                label: StringConstants.address,
+                validatorMsg: StringConstants.addressCannotBeEmpty,
+              ),
+
+              const SizedBox(height: 16),
+
+              CustomTextField(
+                controller: emailController,
+                label: StringConstants.plantHeadEmail,
+                validatorMsg: StringConstants.plantHeadEmailCannotBeEmpty,
+                keyboardType: TextInputType.emailAddress,
+              ),
+
+              const SizedBox(height: 24),
+
+              BlocBuilder<AddFactoryBloc, AddFactoryState>(
+                builder: (context, state) {
+                  final isLoading = state is AddFactoryLoading;
+
+                  return SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: isLoading ? null : _submit,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: ColorConstants.primary,
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                      ),
+                      child: isLoading
+                          ? const SizedBox(
+                              height: 20,
+                              width: 20,
+                              child: CircularProgressIndicator(
+                                color: Colors.white,
+                                strokeWidth: 2,
+                              ),
+                            )
+                          : Text(
+                              buttonText,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
         ),
       ),
+      floatingActionButton: !widget.isEdit
+          ? CustomFloatingActionButton(
+              label: StringConstants.createPlantHead,
+              onPressed: () => context.push(
+                '${RoutesConstants.ownerFactoriesRoute}/${RoutesConstants.createPlantHead}',
+              ),
+            )
+          : null,
     );
   }
 
@@ -221,10 +196,12 @@ class _AddFactoryBodyState extends State<_AddFactoryBody> {
     final address = addressController.text.trim();
     final email = emailController.text.trim();
 
+    final bloc = context.read<AddFactoryBloc>();
+
     if (widget.isEdit) {
-      context.read<AddFactoryBloc>().add(
+      bloc.add(
         UpdateFactoryRequested(
-          factoryId: widget.factory!.factoryId!,
+          factoryId: widget.factory!.factoryId,
           name: name,
           city: city,
           address: address,
@@ -232,7 +209,7 @@ class _AddFactoryBodyState extends State<_AddFactoryBody> {
         ),
       );
     } else {
-      context.read<AddFactoryBloc>().add(
+      bloc.add(
         AddFactoryRequested(
           name: name,
           city: city,

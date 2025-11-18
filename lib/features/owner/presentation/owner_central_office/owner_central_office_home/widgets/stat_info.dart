@@ -10,15 +10,12 @@ class InfoRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Icon(icon, color: Colors.white.withOpacity(0.9), size: 20),
+        Icon(icon, color: Colors.white.withAlpha(90), size: 20),
         const SizedBox(width: 8),
         Expanded(
           child: Text(
             text,
-            style: TextStyle(
-              color: Colors.white.withOpacity(0.95),
-              fontSize: 15,
-            ),
+            style: TextStyle(color: Colors.white.withAlpha(95), fontSize: 15),
           ),
         ),
       ],

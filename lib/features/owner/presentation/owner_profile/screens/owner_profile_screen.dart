@@ -9,13 +9,11 @@ import 'package:spear_me_app/core/constants/string_constants/routes_constansts.d
 import 'package:spear_me_app/core/constants/string_constants/string_constants.dart';
 import 'package:spear_me_app/core/di/di.dart';
 import 'package:spear_me_app/core/helper_functions.dart';
-
 import 'package:spear_me_app/features/owner/presentation/owner_profile/bloc/owner_profile_bloc.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_profile/screens/owner_profile_shimmer.dart';
 
 class OwnerProfileScreen extends StatelessWidget {
   const OwnerProfileScreen({super.key});
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -27,7 +25,6 @@ class OwnerProfileScreen extends StatelessWidget {
 
 class _OwnerProfileBody extends StatelessWidget {
   const _OwnerProfileBody();
-
   @override
   Widget build(BuildContext context) {
     return BlocListener<OwnerProfileBloc, OwnerProfileState>(
@@ -53,11 +50,9 @@ class _OwnerProfileBody extends StatelessWidget {
           if (context.mounted) {
             context.go(RoutesConstants.loginRoute);
           }
-
           context.go(RoutesConstants.loginRoute);
         }
       },
-
       child: Scaffold(
         appBar: AppBar(
           title: const Text(
@@ -76,19 +71,15 @@ class _OwnerProfileBody extends StatelessWidget {
             if (state is OwnerProfileLoading) {
               return const OwnerProfileShimmer();
             }
-
             final profile = state is OwnerProfileLoaded
                 ? state.profile
                 : state is OwnerProfileUploading
                 ? state.profile
                 : null;
-
             if (profile == null) {
               return const SizedBox.shrink();
             }
-
             final isUploading = state is OwnerProfileUploading;
-
             return Container(
               decoration: const BoxDecoration(
                 gradient: LinearGradient(
@@ -169,9 +160,7 @@ class _OwnerProfileBody extends StatelessWidget {
                         ],
                       ),
                     ),
-
                     const SizedBox(height: 24),
-
                     Text(
                       profile.username,
                       style: GoogleFonts.poppins(
@@ -182,16 +171,14 @@ class _OwnerProfileBody extends StatelessWidget {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      _formatRole(profile.role),
+                      HelperFunctions.formatRole(profile.role),
                       style: GoogleFonts.poppins(
                         fontSize: 15,
                         color: ColorConstants.textSecondary,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
-
                     const SizedBox(height: 32),
-
                     Container(
                       width: double.infinity,
                       padding: const EdgeInsets.symmetric(
@@ -214,21 +201,19 @@ class _OwnerProfileBody extends StatelessWidget {
                         children: [
                           _infoRow(
                             Icons.email_outlined,
-                            'Email',
+                            StringConstants.email,
                             profile.email,
                           ),
                           const Divider(height: 24),
                           _infoRow(
                             Icons.phone_outlined,
-                            'Phone',
+                            StringConstants.phone,
                             profile.phone.toString(),
                           ),
                         ],
                       ),
                     ),
-
                     const SizedBox(height: 30),
-
                     ElevatedButton.icon(
                       onPressed: () =>
                           context.read<OwnerProfileBloc>().add(LogoutEvent()),
@@ -254,15 +239,6 @@ class _OwnerProfileBody extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  static String _formatRole(String role) {
-    return role
-        .replaceAll('_', ' ')
-        .toLowerCase()
-        .split(' ')
-        .map((word) => word[0].toUpperCase() + word.substring(1))
-        .join(' ');
   }
 
   Widget _infoRow(IconData icon, String label, String value) {

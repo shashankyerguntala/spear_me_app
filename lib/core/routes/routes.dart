@@ -8,10 +8,10 @@ import 'package:spear_me_app/core/routes/shell_routes/plant_head_shell_routes.da
 import 'package:spear_me_app/features/authentication/presentation/sign_in/screens/sign_in_screen.dart';
 import 'package:spear_me_app/features/authentication/presentation/sign_up/screens/sign_up_screen.dart';
 
-// ignore: avoid_classes_with_only_static_members
+
 class Routes {
   static final GoRouter router = GoRouter(
-    initialLocation: RoutesConstants.loginRoute,
+    initialLocation: RoutesConstants.ownerHomeRoute,
     routes: <RouteBase>[
       //! redirects in GoRouter
 

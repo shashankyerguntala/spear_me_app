@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:spear_me_app/core/constants/color_constants.dart';
 
-// ignore: avoid_classes_with_only_static_members
 class HelperFunctions {
   static void showSnackBar(
     BuildContext context, {
@@ -27,7 +26,7 @@ class HelperFunctions {
         ),
       );
   }
-
+//! create extensions 
   static Color getRoleColor(String role) {
     switch (role.toUpperCase()) {
       case 'OWNER':
@@ -49,5 +48,13 @@ class HelperFunctions {
         .map((word) => word[0].toUpperCase() + word.substring(1).toLowerCase())
         .join(' ');
   }
-  
+
+  static String format(String role) {
+    return role
+        .replaceAll('_', ' ')
+        .toLowerCase()
+        .split(' ')
+        .map((w) => w[0].toUpperCase() + w.substring(1))
+        .join(' ');
+  }
 }

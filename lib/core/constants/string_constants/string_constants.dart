@@ -148,4 +148,38 @@ class StringConstants {
   static const String defaultPhoneNumber = '123456789';
   static const String employeeId = 'Employee ID';
   static const String department = 'Department';
+  static const String noEmployeesFound = 'No Employees Found';
+  static const String tryAdjustingSearchFilters =
+      'Try adjusting your search or filters';
+  static const String createPlantHeadTitle = 'Create Plant Head';
+  static const String usernameCannotBeEmpty = 'Username cannot be empty';
+
+  static const String deleteFactoryTitle = 'Delete Factory?';
+  static const String deleteFactoryMessage =
+      'This action will mark the factory as INACTIVE.\nAre you sure?';
+  static const String points = 'Pts: ';
+  static const String quantity = 'Qty: ';
+  static const String noImage = 'Image not available';
+  static const String merchandiseName = 'Merchandise Name';
+  static const String merchandiseNameRequired = 'Please enter merchandise name';
+
+  static const String requiredPoints = 'Required Points';
+  static const String requiredPointsRequired = 'Please enter required points';
+
+  static const String availableQuantity = 'Available Quantity';
+  static const String availableQuantityRequired =
+      'Please enter available quantity';
+
+  static const String tapToUploadImage = 'Tap to upload image';
+
+  static const String submitting = 'Submitting...';
+  static const String updating = 'Updating...';
+
+  static const String addMerchandiseButton = 'Add Merchandise';
+  static const String saveChanges = 'Save Changes';
+  static const String email = 'Email';
+  static const String phone = 'Phone';
+  static const String profileLoadingError = 'Failed to load profile';
+  static const String tapToChangePhoto = 'Tap to change photo';
+  static const String editProfilePhoto = 'Edit Photo';
 }

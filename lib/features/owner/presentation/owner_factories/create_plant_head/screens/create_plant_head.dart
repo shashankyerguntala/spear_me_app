@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lottie/lottie.dart';
 import 'package:spear_me_app/core/constants/color_constants.dart';
-import 'package:spear_me_app/core/constants/string_constants/assets_constants.dart';
+import 'package:spear_me_app/core/constants/string_constants/string_constants.dart';
 import 'package:spear_me_app/core/di/di.dart';
 import 'package:spear_me_app/features/common/widgets/custom_textfield.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_factories/create_plant_head/bloc/create_plant_head_bloc.dart';
@@ -14,19 +13,19 @@ class CreatePlantHeadScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => di<CreatePlantHeadBloc>(),
-      child: const _CreatePlantHeadBody(),
+      child: const CreatePlantHeadBody(),
     );
   }
 }
 
-class _CreatePlantHeadBody extends StatefulWidget {
-  const _CreatePlantHeadBody();
+class CreatePlantHeadBody extends StatefulWidget {
+  const CreatePlantHeadBody({super.key});
 
   @override
-  State<_CreatePlantHeadBody> createState() => _CreatePlantHeadBodyState();
+  State<CreatePlantHeadBody> createState() => CreatePlantHeadBodyState();
 }
 
-class _CreatePlantHeadBodyState extends State<_CreatePlantHeadBody> {
+class CreatePlantHeadBodyState extends State<CreatePlantHeadBody> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   final TextEditingController usernameController = TextEditingController();
@@ -37,80 +36,105 @@ class _CreatePlantHeadBodyState extends State<_CreatePlantHeadBody> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: ColorConstants.surface,
+
         appBar: AppBar(
-          backgroundColor: ColorConstants.surface,
           centerTitle: true,
+          backgroundColor: ColorConstants.surface,
           title: const Text(
-            "Create Plant Head",
+            StringConstants.createPlantHeadTitle,
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
         ),
 
         body: BlocListener<CreatePlantHeadBloc, CreatePlantHeadState>(
           listener: (context, state) {
-            if (state is CreatePlantHeadLoading) {
-              Lottie.asset(AssetsConstants.loginLoadingAsset);
-            }
-
             if (state is CreatePlantHeadSuccess) {
-              Navigator.pop(context);
               ScaffoldMessenger.of(
                 context,
               ).showSnackBar(SnackBar(content: Text(state.message)));
+              Navigator.pop(context);
             }
 
             if (state is CreatePlantHeadFailure) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(state.message),
-                  backgroundColor: Colors.red,
+                  backgroundColor: ColorConstants.error,
                 ),
               );
             }
           },
+
           child: Padding(
             padding: const EdgeInsets.all(16),
             child: Form(
               key: formKey,
               child: Column(
-                spacing: 20,
                 children: [
+                  /// Username
                   CustomTextField(
                     controller: usernameController,
-                    label: "Username",
-                    validatorMsg: "Username cannot be empty",
-                    isNumber: false, isPhoneNumber: false,
+                    label: StringConstants.usernameLabel,
+                    validatorMsg: StringConstants.usernameCannotBeEmpty,
                   ),
+
+                  const SizedBox(height: 20),
+
+                  /// Email
                   CustomTextField(
                     controller: emailController,
-                    label: "Email",
-                    validatorMsg: "Email cannot be empty",
+                    label: StringConstants.emailLabel,
+                    validatorMsg: StringConstants.emailCannotBeEmpty,
                     keyboardType: TextInputType.emailAddress,
-                    isNumber: false, isPhoneNumber: false,
                   ),
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: ColorConstants.primary,
-                        padding: const EdgeInsets.symmetric(vertical: 14),
-                      ),
-                      onPressed: () {
-                        if (formKey.currentState!.validate()) {
-                          FocusScope.of(context).unfocus();
-                          context.read<CreatePlantHeadBloc>().add(
-                            CreatePlantHeadRequested(
-                              username: usernameController.text.trim(),
-                              email: emailController.text.trim(),
-                            ),
-                          );
-                        }
-                      },
-                      child: const Text(
-                        "Create Plant Head",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
+
+                  const SizedBox(height: 28),
+
+                  /// Submit Button
+                  BlocBuilder<CreatePlantHeadBloc, CreatePlantHeadState>(
+                    builder: (context, state) {
+                      final loading = state is CreatePlantHeadLoading;
+
+                      return SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: ColorConstants.primary,
+                            padding: const EdgeInsets.symmetric(vertical: 14),
+                          ),
+                          onPressed: loading
+                              ? null
+                              : () {
+                                  if (formKey.currentState!.validate()) {
+                                    FocusScope.of(context).unfocus();
+
+                                    context.read<CreatePlantHeadBloc>().add(
+                                      CreatePlantHeadRequested(
+                                        username: usernameController.text
+                                            .trim(),
+                                        email: emailController.text.trim(),
+                                      ),
+                                    );
+                                  }
+                                },
+                          child: loading
+                              ? const SizedBox(
+                                  height: 22,
+                                  width: 22,
+                                  child: CircularProgressIndicator(
+                                    color: ColorConstants.textOnPrimary,
+                                    strokeWidth: 2,
+                                  ),
+                                )
+                              : const Text(
+                                  StringConstants.createPlantHeadTitle,
+                                  style: TextStyle(
+                                    color: ColorConstants.textOnPrimary,
+                                  ),
+                                ),
+                        ),
+                      );
+                    },
                   ),
                 ],
               ),

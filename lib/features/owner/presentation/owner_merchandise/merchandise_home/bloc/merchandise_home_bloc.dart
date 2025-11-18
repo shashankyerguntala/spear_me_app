@@ -13,7 +13,7 @@ class MerchandiseHomeBloc
   final MerchandiseUsecase usecase;
 
   MerchandiseHomeBloc({required this.usecase})
-    : super(const MerchandiseHomeInitial()) {
+    : super(MerchandiseHomeState.initial()) {
     on<FetchMerchandise>(
       _onFetchMerchandise,
       transformer: throttleDroppable(throttleDuration),

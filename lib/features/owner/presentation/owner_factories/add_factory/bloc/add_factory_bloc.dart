@@ -27,16 +27,7 @@ class AddFactoryBloc extends Bloc<AddFactoryEvent, AddFactoryState> {
     );
 
     result.fold((failure) {
-      final isPlantHeadMissing = failure.message.contains(
-        "Please create a Plant Head",
-      );
-
-      emit(
-        AddFactoryFailure(
-          failure.message,
-          allowAddPlantHead: isPlantHeadMissing,
-        ),
-      );
+      emit(AddFactoryFailure(message: failure.message));
     }, (message) => emit(AddFactorySuccess(message)));
   }
 
@@ -56,7 +47,7 @@ class AddFactoryBloc extends Bloc<AddFactoryEvent, AddFactoryState> {
     final result = await ownerUsecase.updateFactory(event.factoryId, payload);
 
     result.fold(
-      (failure) => emit(AddFactoryFailure(failure.message)),
+      (failure) => emit(AddFactoryFailure(message: failure.message)),
       (message) => emit(AddFactorySuccess(message)),
     );
   }

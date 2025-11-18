@@ -15,8 +15,7 @@ class OwnerFactories extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) =>
-          OwnerFactoriesBloc(usecase: di())..add(const FetchFactories()),
+      create: (_) => di<OwnerFactoriesBloc>()..add(FetchFactories()),
       child: const _OwnerFactoriesView(),
     );
   }
@@ -66,7 +65,12 @@ class _OwnerFactoriesViewState extends State<_OwnerFactoriesView> {
       appBar: AppBar(title: const Text(StringConstants.factories)),
       floatingActionButton: CustomFloatingActionButton(
         label: StringConstants.addFactory,
-        onPressed: () => context.push(RoutesConstants.ownerAddFactoriesRoute),
+        onPressed: () {
+          context.push(
+            '${RoutesConstants.ownerFactoriesRoute}/${RoutesConstants.ownerAddFactoriesRoute}',
+            extra: {'isEdit': false, 'factory': null},
+          );
+        },
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:spear_me_app/core/constants/string_constants/string_constants.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_central_office/owner_central_office_home/widgets/stat_info.dart';
 
 class OfficeLocationCard extends StatelessWidget {
@@ -55,7 +56,10 @@ class OfficeLocationCard extends StatelessWidget {
           const SizedBox(height: 16),
           InfoRow(icon: Icons.location_on, text: location),
           const SizedBox(height: 8),
-          InfoRow(icon: Icons.people, text: '$employeeCount Employees'),
+          InfoRow(
+            icon: Icons.people,
+            text: '$employeeCount ${StringConstants.employees}',
+          ),
         ],
       ),
     );

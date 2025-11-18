@@ -7,35 +7,27 @@ abstract class AddMerchandiseEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class UploadMerchandiseImage extends AddMerchandiseEvent {
-  final String imagePath;
-
-  const UploadMerchandiseImage(this.imagePath);
+class PickMerchandiseImage extends AddMerchandiseEvent {
+  final File file;
+  const PickMerchandiseImage(this.file);
 
   @override
-  List<Object?> get props => [imagePath];
+  List<Object?> get props => [file];
 }
 
 class SubmitMerchandise extends AddMerchandiseEvent {
   final String name;
   final int requiredPoints;
   final int availableQuantity;
-  final String imagePath;
 
   const SubmitMerchandise({
     required this.name,
     required this.requiredPoints,
     required this.availableQuantity,
-    required this.imagePath,
   });
 
   @override
-  List<Object?> get props => [
-    name,
-    requiredPoints,
-    availableQuantity,
-    imagePath,
-  ];
+  List<Object?> get props => [name, requiredPoints, availableQuantity];
 }
 
 class UpdateMerchandise extends AddMerchandiseEvent {
@@ -43,22 +35,14 @@ class UpdateMerchandise extends AddMerchandiseEvent {
   final String name;
   final int requiredPoints;
   final int availableQuantity;
-  final String? imagePath;
 
   const UpdateMerchandise({
     required this.id,
     required this.name,
     required this.requiredPoints,
     required this.availableQuantity,
-    this.imagePath,
   });
 
   @override
-  List<Object?> get props => [
-    id,
-    name,
-    requiredPoints,
-    availableQuantity,
-    imagePath,
-  ];
+  List<Object?> get props => [id, name, requiredPoints, availableQuantity];
 }
