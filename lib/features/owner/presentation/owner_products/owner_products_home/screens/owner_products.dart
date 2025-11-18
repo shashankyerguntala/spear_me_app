@@ -9,6 +9,7 @@ import 'package:spear_me_app/core/helper_functions.dart';
 import 'package:spear_me_app/features/common/widgets/product_card.dart';
 import 'package:spear_me_app/features/common/widgets/product_details_sheet.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_products/owner_products_home/bloc/owner_products_home_bloc.dart';
+import 'package:spear_me_app/features/owner/presentation/owner_products/owner_products_home/screens/products_grid_shimmer.dart';
 
 class OwnerProducts extends StatelessWidget {
   const OwnerProducts({super.key});
@@ -74,7 +75,7 @@ class _OwnerProductsBodyState extends State<OwnerProductsBody> {
           backgroundColor: ColorConstants.owner,
           onPressed: () {
             context.push(
-              RoutesConstants.ownerAddProducts,
+              '${RoutesConstants.ownerProductsRoute}/${RoutesConstants.ownerAddProducts}',
               extra: {'isEdit': false},
             );
           },
@@ -135,7 +136,7 @@ class _OwnerProductsBodyState extends State<OwnerProductsBody> {
                         GestureDetector(
                           onTap: () async {
                             final status = await context.push<bool>(
-                              RoutesConstants.ownerAddCategory,
+                              '${RoutesConstants.ownerProductsRoute}/${RoutesConstants.ownerAddCategory}',
                             );
 
                             if (status == true && context.mounted) {
@@ -169,7 +170,7 @@ class _OwnerProductsBodyState extends State<OwnerProductsBody> {
                 child: BlocBuilder<OwnerProductsHomeBloc, OwnerProductsHomeState>(
                   builder: (context, state) {
                     if (state.isLoading && state.products == null) {
-                      return const Center(child: CircularProgressIndicator());
+                      return ProductsGridShimmer();
                     }
 
                     if (state.error != null) {
@@ -260,13 +261,7 @@ class _OwnerProductsBodyState extends State<OwnerProductsBody> {
                           },
                         ),
 
-                        if (state.isDeleting)
-                          Container(
-                            color: ColorConstants.overlayDark,
-                            child: const Center(
-                              child: CircularProgressIndicator(),
-                            ),
-                          ),
+                        if (state.isDeleting) ProductsGridShimmer(),
                       ],
                     );
                   },

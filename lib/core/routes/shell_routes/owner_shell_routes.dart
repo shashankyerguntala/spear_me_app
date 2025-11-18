@@ -107,7 +107,7 @@ final List<GoRoute> ownerRoutes = <GoRoute>[
         const OwnerProducts(),
     routes: [
       GoRoute(
-        path: 'add',
+        path: RoutesConstants.ownerAddProducts,
         builder: (BuildContext context, GoRouterState state) {
           final extra = state.extra as Map<String, dynamic>?;
           return OwnerAddProducts(
@@ -117,7 +117,7 @@ final List<GoRoute> ownerRoutes = <GoRoute>[
         },
       ),
       GoRoute(
-        path: 'add-category',
+        path: RoutesConstants.ownerAddCategory,
         builder: (BuildContext context, GoRouterState state) =>
             const OwnerAddCategory(),
       ),
@@ -130,7 +130,7 @@ final List<GoRoute> ownerRoutes = <GoRoute>[
         const ToolsHomeScreen(),
     routes: [
       GoRoute(
-        path: 'add',
+        path: RoutesConstants.ownerAddTools,
         builder: (BuildContext context, GoRouterState state) =>
             const AddToolsScreen(),
       ),

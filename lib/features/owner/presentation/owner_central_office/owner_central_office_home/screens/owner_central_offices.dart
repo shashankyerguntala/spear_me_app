@@ -66,20 +66,25 @@ class _CentralOfficeBody extends StatelessWidget {
                 final office = state.offices.first;
                 final employees = office.officers;
 
-                return ListView(
-                  padding: EdgeInsets.zero,
-                  children: [
-                    OfficeLocationCard(
-                      officeName: StringConstants.centralOffice,
-                      location: office.location,
-                      address: StringConstants.unknownAddress,
-                      employeeCount: employees.length,
-                    ),
-
-                    const SizedBox(height: 16),
-
-                    EmployeeListSection(employees: employees),
-                  ],
+                return RefreshIndicator(
+                  onRefresh: () async {
+                    context.read<OwnerCentralOfficeHomeBloc>().add(
+                      FetchCentralOffices(),
+                    );
+                  },
+                  child: ListView(
+                    padding: EdgeInsets.zero,
+                    children: [
+                      OfficeLocationCard(
+                        officeName: StringConstants.centralOffice,
+                        location: office.location,
+                        address: StringConstants.unknownAddress,
+                        employeeCount: employees.length,
+                      ),
+                      const SizedBox(height: 16),
+                      EmployeeListSection(employees: employees),
+                    ],
+                  ),
                 );
               }
 

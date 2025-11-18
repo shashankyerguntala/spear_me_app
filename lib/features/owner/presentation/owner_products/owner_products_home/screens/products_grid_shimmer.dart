@@ -2,31 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ProductsGridShimmer extends StatelessWidget {
-  const ProductsGridShimmer({
-    super.key,
-    this.itemCount = 8,
-    this.crossAxisCount = 2,
-    this.mainAxisSpacing = 14,
-    this.crossAxisSpacing = 14,
-    this.childAspectRatio = 0.75,
-  });
-
-  final int itemCount;
-  final int crossAxisCount;
-  final double mainAxisSpacing;
-  final double crossAxisSpacing;
-  final double childAspectRatio;
+  const ProductsGridShimmer({super.key});
 
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
-      itemCount: itemCount,
+      itemCount: 8,
       padding: const EdgeInsets.all(0),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: crossAxisCount,
-        mainAxisSpacing: mainAxisSpacing,
-        crossAxisSpacing: crossAxisSpacing,
-        childAspectRatio: childAspectRatio,
+        crossAxisCount: 2,
+        mainAxisSpacing: 12,
+        crossAxisSpacing: 12,
+        childAspectRatio: 0.7,
       ),
       itemBuilder: (_, __) => const _ProductTileShimmer(),
     );
