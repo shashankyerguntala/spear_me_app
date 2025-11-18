@@ -31,6 +31,8 @@ class ActionButton extends StatelessWidget {
             const SizedBox(width: 4),
             Text(
               label,
+              // TODO(Shashank): you can also extract textstyles into a separate file and use them.
+              // extracting textstyles also helps in maintaining consistency in the app.
               style: TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.w500,

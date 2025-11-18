@@ -37,6 +37,7 @@ class AddFactoryBloc extends Bloc<AddFactoryEvent, AddFactoryState> {
   ) async {
     emit(AddFactoryLoading());
 
+// TODO(Shashank): or create a model for this, something like - `UpdateFactoryRequestModel`
     final payload = {
       "name": event.name,
       "city": event.city,

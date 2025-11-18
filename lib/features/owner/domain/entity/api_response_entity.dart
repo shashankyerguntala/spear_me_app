@@ -1,3 +1,5 @@
+// TODO(Shashank): you can also extend your entities to Equatable class because you're using it in blocs too.
+
 class ApiResponseEntity<T> {
   final bool success;
   final String message;

@@ -9,6 +9,8 @@ import 'package:spear_me_app/features/authentication/domain/usecase/auth_usecase
 part 'sign_in_event.dart';
 part 'sign_in_state.dart';
 
+
+// TODO(Shashank): make sure the user's login session is persistent and not lost on app restart.
 class SignInBloc extends Bloc<SignInEvent, SignInState> {
   bool isPasswordObscured = true;
   final AuthUsecase authUsecase;

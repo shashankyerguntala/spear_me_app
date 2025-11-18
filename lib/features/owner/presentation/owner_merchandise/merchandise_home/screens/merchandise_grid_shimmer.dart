@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:spear_me_app/features/common/widgets/shimmer_card.dart';
 
+// TODO(Shashank): move it to widgets folder
 class MerchandiseGridShimmer extends StatelessWidget {
   const MerchandiseGridShimmer({super.key});
 

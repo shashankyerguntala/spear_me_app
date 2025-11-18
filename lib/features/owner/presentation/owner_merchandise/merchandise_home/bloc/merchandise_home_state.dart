@@ -75,6 +75,7 @@ class MerchandiseHomeState extends Equatable {
     ascending,
   ];
 
+  // TODO(Shashank): why this way?
   factory MerchandiseHomeState.initial() {
     return MerchandiseHomeState();
   }
