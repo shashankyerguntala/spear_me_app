@@ -98,6 +98,9 @@ class PlCreateBloc extends Bloc<PlCreateEvent, PlCreateState> {
             );
 
             emit(const PlCreateSuccess("Bay created successfully"));
+
+            // TODO(Shashank): you are updating the state without any params.
+            // TODO(Shashank): make sure to update the state with the new bays list.
             emit(current.copyWith());
           },
         );

@@ -13,6 +13,9 @@ import 'package:spear_me_app/features/owner/domain/entity/product_category_entit
 import 'package:spear_me_app/features/owner/domain/entity/product_entity.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_products/owner_add_product/bloc/owner_add_product_bloc.dart';
 
+
+// TODO(Shashank): this file's code should be refactored into more separate files for better clarity. 
+// resolve the warnings too
 class OwnerAddProducts extends StatefulWidget {
   final bool isEdit;
   final ProductEntity? product;

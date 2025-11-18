@@ -27,6 +27,9 @@ class HelperFunctions {
       );
   }
 //! create extensions 
+
+// TODO(Shashank): no need to create these extensions. You can create enum classes and assign values to them, like Color, Role value, display value etc.
+
   static Color getRoleColor(String role) {
     switch (role.toUpperCase()) {
       case 'OWNER':

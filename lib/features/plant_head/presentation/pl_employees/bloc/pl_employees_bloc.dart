@@ -48,6 +48,8 @@ class PlEmployeesBloc extends Bloc<PlEmployeesEvent, PlEmployeesState> {
     );
   }
 
+
+// TODO(Shashank): Explore debouncer for search functionality
   Future<void> _onSearchEmployees(
     SearchEmployees event,
     Emitter<PlEmployeesState> emit,

@@ -19,6 +19,7 @@ class PlantHeadDrawer extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const DrawerHeader(
+            // TODO(Shashank): two sources of truth for colors
             decoration: BoxDecoration(color: ColorConstants.plantHead),
             child: Align(
               alignment: Alignment.bottomLeft,
@@ -43,6 +44,7 @@ class PlantHeadDrawer extends StatelessWidget {
           ),
 
           ListTile(
+            // TODO(Shashank): extract colors into its own file too
             leading: const Icon(Icons.logout, color: Colors.red),
             title: const Text("Logout", style: TextStyle(color: Colors.red)),
             onTap: () {

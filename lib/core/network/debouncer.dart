@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:stream_transform/stream_transform.dart';
 
+// TODO(Shashank): put this file in utils folder
 const debounceDuration = Duration(milliseconds: 400);
 const throttleDuration = Duration(milliseconds: 800);
 

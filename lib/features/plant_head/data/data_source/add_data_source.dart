@@ -22,6 +22,9 @@ class AddDataSource {
       data: {"bayName": bayName},
     );
 
+  // TODO(Shashank): you are folding the response twice, once in data source, once in bloc
+  // return response directly in data source, and fold it in bloc.
+
     return response.fold((fail) => Left(fail), (data) {
       if (data["success"] == true) {
         return Right(data['message']);
@@ -30,6 +33,21 @@ class AddDataSource {
       }
     });
   }
+
+  // do something like this below, add a response parser here
+  
+  //   @override
+  // Future<Either<Failure, ReportAnIssueResponseModel>> reportAnIssue({
+  //   required final ReportAnIssueRequestModel reportAnIssueRequest,
+  // }) async {
+  //   return _httpApiClient.request<ReportAnIssueResponseModel>(
+  //     url: DataSourceConstantsMainUrl.raiseTicket,
+  //     method: HttpMethod.post,
+  //     data: reportAnIssueRequest.toJson(),
+  //     responseParser: (final Map<String, dynamic> json) =>
+  //         ReportAnIssueResponseModel.fromJson(json['data']),
+  //   );
+  // }
 
   //!  ADD EMPLOYEE
   Future<Either<Failure, String>> addEmployee({

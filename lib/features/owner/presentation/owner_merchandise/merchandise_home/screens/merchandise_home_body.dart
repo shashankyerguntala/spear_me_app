@@ -9,6 +9,8 @@ import 'package:spear_me_app/features/owner/presentation/owner_merchandise/merch
 import 'package:spear_me_app/features/owner/presentation/owner_merchandise/merchandise_home/widgets/merchandise_card.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_merchandise/merchandise_home/screens/merchandise_grid_shimmer.dart';
 
+
+// TODO(Shashank): although this is body of the screen, still move it into widgets folder.
 class MerchandiseHomeBody extends StatefulWidget {
   const MerchandiseHomeBody({super.key});
 

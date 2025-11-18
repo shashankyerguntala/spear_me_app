@@ -133,6 +133,8 @@ class _AddToolsBodyState extends State<_AddToolsBody> {
                   ),
 
                   DropdownButtonFormField<String>(
+                    // TODO(Shashank): replace deprecated values with the new ones as per the warnings.
+                    // this is because when in the future updates these deprecated values will be deleted, your code will not break.
                     value: _selectedType,
                     decoration: InputDecoration(
                       labelText: "Tool Type",
