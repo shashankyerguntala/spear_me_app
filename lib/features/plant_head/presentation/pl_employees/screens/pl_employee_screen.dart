@@ -84,6 +84,8 @@ class _PlEmployeeBodyState extends State<_PlEmployeeBody> {
       builder: (context, state) {
         return Scaffold(
           backgroundColor: ColorConstants.surface,
+
+          // TODO(Shashank): Extract string constants and make sure appropriate textstyle is provided as per UI design
           appBar: AppBar(title: const Text("Employees"), centerTitle: true),
           body: Padding(
             padding: const EdgeInsets.all(16),

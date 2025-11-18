@@ -63,6 +63,7 @@ class PlDashboardScreen extends StatelessWidget {
                             onTap: () => context.push(
                               RoutesConstants.ownerProductsRoute,
                             ),
+                            // TODO(Shashank): hardcoded value 
                             value: '122',
                             icon: Icons.production_quantity_limits,
                           ),

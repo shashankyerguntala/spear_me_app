@@ -68,6 +68,8 @@ class _PlProductsBody extends StatelessWidget {
             );
           }
         } else {
+          // TODO(Shashank): The error state UI should be more descriptive. 
+          // Rendering a sizedbox simply will make the user clueless what state the screen is in.
           return SizedBox();
         }
       },

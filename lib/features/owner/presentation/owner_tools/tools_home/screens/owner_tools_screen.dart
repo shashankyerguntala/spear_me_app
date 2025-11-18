@@ -163,6 +163,7 @@ class _ToolsBodyScreenState extends State<_ToolsBodyScreen> {
   }
 
   Widget _buildFilterDropdown(BuildContext context, ToolsState state) {
+    // TODO(Shashank): since these values are constant ones, its a better practice to convert them into enums than strings
     const filters = ["All", "PERISHABLE", "NON-PERISHABLE", "EXPENSIVE"];
 
     return DropdownButtonFormField<String>(
