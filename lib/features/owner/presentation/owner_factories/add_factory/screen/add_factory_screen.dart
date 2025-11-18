@@ -190,12 +190,10 @@ class _AddFactoryBodyState extends State<_AddFactoryBody> {
     if (!formKey.currentState!.validate()) {
       return;
     }
-
     final name = nameController.text.trim();
     final city = selectedCity!;
     final address = addressController.text.trim();
     final email = emailController.text.trim();
-
     final bloc = context.read<AddFactoryBloc>();
 
     if (widget.isEdit) {

@@ -33,4 +33,5 @@ class ColorConstants {
   static const Color shadow = Color(0x1A000000);
   static const Color transparent = Color.fromARGB(128, 0, 0, 0);
   static const Color red = Colors.red;
+  static const Color overlayDark = Color.fromARGB(66, 0, 0, 0);
 }

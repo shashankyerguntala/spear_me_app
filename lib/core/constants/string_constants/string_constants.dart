@@ -182,4 +182,9 @@ class StringConstants {
   static const String profileLoadingError = 'Failed to load profile';
   static const String tapToChangePhoto = 'Tap to change photo';
   static const String editProfilePhoto = 'Edit Photo';
+  static const String productsTitle = 'Products';
+  static const String addProduct = 'Add Product';
+  static const String searchProductsHint = 'Search products...';
+  static const String allCategory = 'All';
+  static const String retry = 'Retry';
 }

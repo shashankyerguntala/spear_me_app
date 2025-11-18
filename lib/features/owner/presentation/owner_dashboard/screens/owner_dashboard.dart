@@ -68,14 +68,16 @@ class OwnerDashboard extends StatelessWidget {
                         children: <Widget>[
                           StatCard(
                             label: StringConstants.products,
-                            onTap: () =>
-                                context.go(RoutesConstants.ownerProductsRoute),
+                            onTap: () => context.push(
+                              RoutesConstants.ownerProductsRoute,
+                            ),
                             value: '20',
                             icon: Icons.card_travel,
                           ),
                           StatCard(
                             label: StringConstants.tools,
-                            onTap: () => RoutesConstants.ownerProductsRoute,
+                            onTap: () =>
+                                context.push(RoutesConstants.ownerToolsRoutes),
                             value: '56',
                             icon: Icons.card_travel,
                           ),

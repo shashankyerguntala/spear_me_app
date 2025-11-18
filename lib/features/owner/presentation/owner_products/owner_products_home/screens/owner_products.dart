@@ -3,11 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:spear_me_app/core/constants/color_constants.dart';
 import 'package:spear_me_app/core/constants/string_constants/routes_constansts.dart';
+import 'package:spear_me_app/core/constants/string_constants/string_constants.dart';
 import 'package:spear_me_app/core/di/di.dart';
 import 'package:spear_me_app/core/helper_functions.dart';
 import 'package:spear_me_app/features/common/widgets/product_card.dart';
-import 'package:spear_me_app/features/owner/presentation/owner_products/owner_products_home/bloc/owner_products_home_bloc.dart';
 import 'package:spear_me_app/features/common/widgets/product_details_sheet.dart';
+import 'package:spear_me_app/features/owner/presentation/owner_products/owner_products_home/bloc/owner_products_home_bloc.dart';
 
 class OwnerProducts extends StatelessWidget {
   const OwnerProducts({super.key});
@@ -18,25 +19,25 @@ class OwnerProducts extends StatelessWidget {
       create: (_) => di<OwnerProductsHomeBloc>()
         ..add(FetchProductCategories())
         ..add(FetchProducts()),
-      child: const _OwnerProductsBody(),
+      child: const OwnerProductsBody(),
     );
   }
 }
 
-class _OwnerProductsBody extends StatefulWidget {
-  const _OwnerProductsBody();
+class OwnerProductsBody extends StatefulWidget {
+  const OwnerProductsBody({super.key});
 
   @override
-  State<_OwnerProductsBody> createState() => _OwnerProductsBodyState();
+  State<OwnerProductsBody> createState() => _OwnerProductsBodyState();
 }
 
-class _OwnerProductsBodyState extends State<_OwnerProductsBody> {
-  final TextEditingController searchController = TextEditingController();
-  String selectedCategory = "All";
+class _OwnerProductsBodyState extends State<OwnerProductsBody> {
+  final TextEditingController searchCtrl = TextEditingController();
+  String chosenCategory = StringConstants.allCategory;
 
   @override
   void dispose() {
-    searchController.dispose();
+    searchCtrl.dispose();
     super.dispose();
   }
 
@@ -64,7 +65,7 @@ class _OwnerProductsBodyState extends State<_OwnerProductsBody> {
       child: Scaffold(
         backgroundColor: ColorConstants.surface,
         appBar: AppBar(
-          title: const Text("Products"),
+          title: const Text(StringConstants.productsTitle),
           backgroundColor: ColorConstants.surface,
           elevation: 0,
           centerTitle: true,
@@ -77,20 +78,21 @@ class _OwnerProductsBodyState extends State<_OwnerProductsBody> {
               extra: {'isEdit': false},
             );
           },
-          icon: const Icon(Icons.add, color: Colors.white),
+          icon: const Icon(Icons.add, color: ColorConstants.textOnPrimary),
           label: const Text(
-            "Add Product",
-            style: TextStyle(color: Colors.white),
+            StringConstants.addProduct,
+            style: TextStyle(color: ColorConstants.textOnPrimary),
           ),
         ),
+
         body: Padding(
           padding: const EdgeInsets.all(16),
           child: Column(
             children: [
               TextField(
-                controller: searchController,
+                controller: searchCtrl,
                 decoration: InputDecoration(
-                  hintText: 'Search products...',
+                  hintText: StringConstants.searchProductsHint,
                   prefixIcon: const Icon(Icons.search),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
@@ -100,18 +102,20 @@ class _OwnerProductsBodyState extends State<_OwnerProductsBody> {
                   context.read<OwnerProductsHomeBloc>().add(
                     FetchProducts(
                       search: value.trim(),
-                      categoryName: selectedCategory == "All"
+                      categoryName:
+                          chosenCategory == StringConstants.allCategory
                           ? null
-                          : selectedCategory,
+                          : chosenCategory,
                     ),
                   );
                 },
               ),
               const SizedBox(height: 16),
+
               BlocBuilder<OwnerProductsHomeBloc, OwnerProductsHomeState>(
                 builder: (context, state) {
-                  final categories = [
-                    "All",
+                  final categoryList = [
+                    StringConstants.allCategory,
                     ...state.categories.map((e) => e.categoryName),
                   ];
 
@@ -122,8 +126,8 @@ class _OwnerProductsBodyState extends State<_OwnerProductsBody> {
                         Expanded(
                           child: ListView(
                             scrollDirection: Axis.horizontal,
-                            children: categories
-                                .map((c) => _buildCategoryChip(c))
+                            children: categoryList
+                                .map((cat) => createCategoryChip(cat))
                                 .toList(),
                           ),
                         ),
@@ -136,7 +140,7 @@ class _OwnerProductsBodyState extends State<_OwnerProductsBody> {
 
                             if (status == true && context.mounted) {
                               context.read<OwnerProductsHomeBloc>().add(
-                                (FetchProductCategories()),
+                                FetchProductCategories(),
                               );
                               context.read<OwnerProductsHomeBloc>().add(
                                 FetchProducts(),
@@ -148,7 +152,7 @@ class _OwnerProductsBodyState extends State<_OwnerProductsBody> {
                             backgroundColor: ColorConstants.primary,
                             child: const Icon(
                               Icons.add,
-                              color: Colors.white,
+                              color: ColorConstants.textOnPrimary,
                               size: 20,
                             ),
                           ),
@@ -158,13 +162,16 @@ class _OwnerProductsBodyState extends State<_OwnerProductsBody> {
                   );
                 },
               ),
+
               const SizedBox(height: 16),
+
               Expanded(
                 child: BlocBuilder<OwnerProductsHomeBloc, OwnerProductsHomeState>(
                   builder: (context, state) {
                     if (state.isLoading && state.products == null) {
                       return const Center(child: CircularProgressIndicator());
                     }
+
                     if (state.error != null) {
                       return Center(
                         child: Column(
@@ -173,12 +180,14 @@ class _OwnerProductsBodyState extends State<_OwnerProductsBody> {
                             const Icon(
                               Icons.error_outline,
                               size: 64,
-                              color: Colors.red,
+                              color: ColorConstants.error,
                             ),
                             const SizedBox(height: 16),
                             Text(
                               state.error!,
-                              style: const TextStyle(color: Colors.red),
+                              style: const TextStyle(
+                                color: ColorConstants.error,
+                              ),
                               textAlign: TextAlign.center,
                             ),
                             const SizedBox(height: 16),
@@ -186,28 +195,33 @@ class _OwnerProductsBodyState extends State<_OwnerProductsBody> {
                               onPressed: () {
                                 context.read<OwnerProductsHomeBloc>().add(
                                   FetchProducts(
-                                    search: searchController.text.trim(),
-                                    categoryName: selectedCategory == "All"
+                                    search: searchCtrl.text.trim(),
+                                    categoryName:
+                                        chosenCategory ==
+                                            StringConstants.allCategory
                                         ? null
-                                        : selectedCategory,
+                                        : chosenCategory,
                                   ),
                                 );
                               },
                               icon: const Icon(Icons.refresh),
-                              label: const Text("Retry"),
+                              label: const Text(StringConstants.retry),
                             ),
                           ],
                         ),
                       );
                     }
 
-                    final products = state.products?.content ?? [];
+                    final productList = state.products?.content ?? [];
 
-                    if (products.isEmpty) {
+                    if (productList.isEmpty) {
                       return const Center(
                         child: Text(
-                          "No products found",
-                          style: TextStyle(fontSize: 16, color: Colors.grey),
+                          StringConstants.noProductsFound,
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: ColorConstants.textSecondary,
+                          ),
                         ),
                       );
                     }
@@ -215,7 +229,7 @@ class _OwnerProductsBodyState extends State<_OwnerProductsBody> {
                     return Stack(
                       children: [
                         GridView.builder(
-                          itemCount: products.length,
+                          itemCount: productList.length,
                           gridDelegate:
                               const SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: 2,
@@ -224,21 +238,21 @@ class _OwnerProductsBodyState extends State<_OwnerProductsBody> {
                                 childAspectRatio: 0.78,
                               ),
                           itemBuilder: (_, i) {
-                            final p = products[i];
+                            final item = productList[i];
                             return ProductCard(
-                              product: p,
+                              product: item,
                               onTap: () => ProductDetailBottomSheet.show(
                                 context,
-                                product: p,
+                                product: item,
                                 onDelete: () {
                                   context.read<OwnerProductsHomeBloc>().add(
-                                    DeleteProduct(p.id),
+                                    DeleteProduct(item.id),
                                   );
                                 },
                                 onEdit: () {
                                   context.push(
                                     RoutesConstants.ownerAddProducts,
-                                    extra: {'isEdit': true, 'product': p},
+                                    extra: {'isEdit': true, 'product': item},
                                   );
                                 },
                               ),
@@ -248,7 +262,7 @@ class _OwnerProductsBodyState extends State<_OwnerProductsBody> {
 
                         if (state.isDeleting)
                           Container(
-                            color: Colors.black26,
+                            color: ColorConstants.overlayDark,
                             child: const Center(
                               child: CircularProgressIndicator(),
                             ),
@@ -265,25 +279,27 @@ class _OwnerProductsBodyState extends State<_OwnerProductsBody> {
     );
   }
 
-  Widget _buildCategoryChip(String category) {
-    final isSelected = selectedCategory == category;
+  Widget createCategoryChip(String cat) {
+    final isSelected = chosenCategory == cat;
 
     return Padding(
       padding: const EdgeInsets.only(right: 8),
       child: ChoiceChip(
-        label: Text(category),
+        label: Text(cat),
         selected: isSelected,
         selectedColor: ColorConstants.primary,
         labelStyle: TextStyle(
-          color: isSelected ? Colors.white : Colors.black,
+          color: isSelected
+              ? ColorConstants.textOnPrimary
+              : ColorConstants.textPrimary,
           fontWeight: FontWeight.w600,
         ),
         onSelected: (_) {
-          setState(() => selectedCategory = category);
+          setState(() => chosenCategory = cat);
           context.read<OwnerProductsHomeBloc>().add(
             FetchProducts(
-              search: searchController.text.trim(),
-              categoryName: category == "All" ? null : category,
+              search: searchCtrl.text.trim(),
+              categoryName: cat == StringConstants.allCategory ? null : cat,
             ),
           );
         },

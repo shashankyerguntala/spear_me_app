@@ -92,7 +92,9 @@ class _CentralOfficeBody extends StatelessWidget {
         hoverColor: ColorConstants.owner,
         backgroundColor: ColorConstants.owner,
         onPressed: () {
-          context.push(RoutesConstants.ownerAddCentralOfficeRoute);
+          context.push(
+            '${RoutesConstants.ownerCentralOfficesRoute}/${RoutesConstants.ownerAddCentralOfficeRoute}',
+          );
         },
         label: const Text(
           StringConstants.addCentralOfficer,
