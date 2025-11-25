@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:spear_me_app/core/constants/string_constants/routes_constansts.dart';
+import 'package:spear_me_app/features/authentication/data/model/roles_enum.dart';
 import 'package:spear_me_app/features/owner/domain/entity/factory_entity.dart';
 import 'package:spear_me_app/features/owner/domain/entity/merchandise_entity.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_central_office/add_central_office/screens/add_central_officer.dart';
@@ -16,7 +17,6 @@ import 'package:spear_me_app/features/owner/presentation/owner_merchandise/merch
 import 'package:spear_me_app/features/owner/presentation/owner_products/owner_add_category/screens/owner_add_category.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_products/owner_add_product/screens/owner_add_products.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_products/owner_products_home/screens/owner_products.dart';
-import 'package:spear_me_app/features/owner/presentation/owner_profile/screens/owner_profile_screen.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_tools/add_tools/screens/add_tools_screen.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_tools/tools_home/screens/owner_tools_screen.dart';
 
@@ -26,11 +26,7 @@ final List<GoRoute> ownerRoutes = <GoRoute>[
     path: RoutesConstants.ownerHomeRoute,
     builder: (BuildContext context, GoRouterState state) => OwnerDashboard(),
   ),
-  GoRoute(
-    path: RoutesConstants.ownerProfileRoute,
-    builder: (BuildContext context, GoRouterState state) =>
-        const OwnerProfileScreen(),
-  ),
+
   GoRoute(
     path: RoutesConstants.ownerFactoriesRoute,
     builder: (BuildContext context, GoRouterState state) => OwnerFactories(),
@@ -126,8 +122,8 @@ final List<GoRoute> ownerRoutes = <GoRoute>[
 
   GoRoute(
     path: RoutesConstants.ownerToolsRoutes,
-    builder: (BuildContext context, GoRouterState state) =>
-        const ToolsHomeScreen(),
+    builder: (context, state) => ToolsHomeScreen(role: RolesEnum.owner),
+
     routes: [
       GoRoute(
         path: RoutesConstants.ownerAddTools,

@@ -1,93 +1,107 @@
 part of 'tools_bloc.dart';
 
 class ToolsState extends Equatable {
-  final bool isLoadingCategories;
+  final List<ToolEntity> tools;
+  final List<ToolCategoryEntity> categories;
   final bool isLoadingTools;
+  final bool isLoadingCategories;
   final bool isLoadingMore;
-
+  final bool isAddingCategory;
+  final bool isUpdatingCategory;
+  final bool isDeletingCategory;
+  final String? errorMessage;
+  final String? successMessage;
+  final String? searchKeyword;
+  final String? filter;
+  final String? sortBy;
+  final String sortDir;
   final int page;
   final int pageSize;
   final bool lastPage;
-
-  final List<ToolCategoryEntity> categories;
-  final List<ToolEntity> tools;
-
   final String? selectedCategoryName;
-  final String? searchKeyword;
-  final String? sortBy;
-  final String sortDir;
-  final String? filter;
-
-  final String? errorMessage;
 
   const ToolsState({
-    this.isLoadingCategories = false,
+    this.tools = const [],
+    this.categories = const [],
     this.isLoadingTools = false,
+    this.isLoadingCategories = false,
     this.isLoadingMore = false,
+    this.isAddingCategory = false,
+    this.isUpdatingCategory = false,
+    this.isDeletingCategory = false,
+    this.errorMessage,
+    this.successMessage,
+    this.searchKeyword,
+    this.filter,
+    this.sortBy,
+    this.sortDir = "DESC",
     this.page = 0,
     this.pageSize = 10,
     this.lastPage = false,
-    this.categories = const [],
-    this.tools = const [],
     this.selectedCategoryName,
-    this.searchKeyword,
-    this.sortBy,
-    this.sortDir = "desc",
-    this.filter,
-    this.errorMessage,
   });
 
   ToolsState copyWith({
-    bool? isLoadingCategories,
+    List<ToolEntity>? tools,
+    List<ToolCategoryEntity>? categories,
     bool? isLoadingTools,
+    bool? isLoadingCategories,
     bool? isLoadingMore,
+    bool? isAddingCategory,
+    bool? isUpdatingCategory,
+    bool? isDeletingCategory,
+    String? errorMessage,
+    String? successMessage,
+    String? searchKeyword,
+    String? filter,
+    String? sortBy,
+    String? sortDir,
     int? page,
     int? pageSize,
     bool? lastPage,
-    List<ToolCategoryEntity>? categories,
-    List<ToolEntity>? tools,
     String? selectedCategoryName,
-    String? searchKeyword,
-    String? sortBy,
-    String? sortDir,
-    String? filter,
-    String? errorMessage,
   }) {
     return ToolsState(
-      isLoadingCategories: isLoadingCategories ?? this.isLoadingCategories,
+      tools: tools ?? this.tools,
+      categories: categories ?? this.categories,
       isLoadingTools: isLoadingTools ?? this.isLoadingTools,
+      isLoadingCategories: isLoadingCategories ?? this.isLoadingCategories,
       isLoadingMore: isLoadingMore ?? this.isLoadingMore,
+      isAddingCategory: isAddingCategory ?? this.isAddingCategory,
+      isUpdatingCategory: isUpdatingCategory ?? this.isUpdatingCategory,
+      isDeletingCategory: isDeletingCategory ?? this.isDeletingCategory,
+      errorMessage: errorMessage,
+      successMessage: successMessage,
+      searchKeyword: searchKeyword ?? this.searchKeyword,
+      filter: filter ?? this.filter,
+      sortBy: sortBy ?? this.sortBy,
+      sortDir: sortDir ?? this.sortDir,
       page: page ?? this.page,
       pageSize: pageSize ?? this.pageSize,
       lastPage: lastPage ?? this.lastPage,
-      categories: categories ?? this.categories,
-      tools: tools ?? this.tools,
       selectedCategoryName: selectedCategoryName ?? this.selectedCategoryName,
-      searchKeyword: searchKeyword ?? this.searchKeyword,
-      sortBy: sortBy ?? this.sortBy,
-      sortDir: sortDir ?? this.sortDir,
-      filter: filter ?? this.filter,
-      errorMessage: errorMessage,
     );
   }
 
   @override
   List<Object?> get props => [
-    isLoadingCategories,
-    isLoadingTools,
-    isLoadingMore,
-    page,
-    pageSize,
-    lastPage,
-    categories,
-    tools,
-    selectedCategoryName,
-    searchKeyword,
-    sortBy,
-    sortDir,
-    filter,
-    errorMessage,
-  ];
-
-  factory ToolsState.initial() => const ToolsState();
+        tools,
+        categories,
+        isLoadingTools,
+        isLoadingCategories,
+        isLoadingMore,
+        isAddingCategory,
+        isUpdatingCategory,
+        isDeletingCategory,
+        errorMessage,
+        successMessage,
+        searchKeyword,
+        filter,
+        sortBy,
+        sortDir,
+        page,
+        pageSize,
+        lastPage,
+        selectedCategoryName,
+      ];
 }

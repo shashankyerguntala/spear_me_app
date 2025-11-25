@@ -71,7 +71,6 @@ class CreatePlantHeadBodyState extends State<CreatePlantHeadBody> {
               key: formKey,
               child: Column(
                 children: [
-                  /// Username
                   CustomTextField(
                     controller: usernameController,
                     label: StringConstants.usernameLabel,
@@ -80,7 +79,6 @@ class CreatePlantHeadBodyState extends State<CreatePlantHeadBody> {
 
                   const SizedBox(height: 20),
 
-                  /// Email
                   CustomTextField(
                     controller: emailController,
                     label: StringConstants.emailLabel,
@@ -90,7 +88,6 @@ class CreatePlantHeadBodyState extends State<CreatePlantHeadBody> {
 
                   const SizedBox(height: 28),
 
-                  /// Submit Button
                   BlocBuilder<CreatePlantHeadBloc, CreatePlantHeadState>(
                     builder: (context, state) {
                       final loading = state is CreatePlantHeadLoading;

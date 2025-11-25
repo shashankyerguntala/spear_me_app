@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:spear_me_app/core/network/debouncer.dart';
+import 'package:spear_me_app/core/utils/debouncer.dart';
 import 'package:spear_me_app/features/owner/domain/entity/employee_entity.dart';
 import 'package:spear_me_app/features/owner/domain/usecase/owner_usecase.dart';
 

@@ -18,10 +18,10 @@ class PlEmployeesBloc extends Bloc<PlEmployeesEvent, PlEmployeesState> {
   }
 
   Future<void> _onFetchEmployees(
-    FetchEmployees event, 
+    FetchEmployees event,
     Emitter<PlEmployeesState> emit,
   ) async {
-    emit(state.copyWith(isLoading: true, page: 0));
+    emit(state.copyWith(isLoading: true, page: 0, errorMessage: null));
 
     final result = await usecase.getEmployees(
       page: 0,
@@ -43,27 +43,26 @@ class PlEmployeesBloc extends Bloc<PlEmployeesEvent, PlEmployeesState> {
           lastPage: data.last,
           totalPages: data.totalPages,
           totalElements: data.totalElements,
+          errorMessage: null,
         ),
       ),
     );
   }
 
-
-// TODO(Shashank): Explore debouncer for search functionality
   Future<void> _onSearchEmployees(
     SearchEmployees event,
     Emitter<PlEmployeesState> emit,
   ) async {
-    emit(state.copyWith(searchKeyword: event.keyword));
-    add(FetchEmployees());
+    emit(state.copyWith(searchKeyword: event.keyword, errorMessage: null));
+    add(const FetchEmployees());
   }
 
   Future<void> _onSelectRole(
     SelectRole event,
     Emitter<PlEmployeesState> emit,
   ) async {
-    emit(state.copyWith(roleFilter: event.role));
-    add(FetchEmployees());
+    emit(state.copyWith(roleFilter: event.role, errorMessage: null));
+    add(const FetchEmployees());
   }
 
   Future<void> _onLoadMoreEmployees(
@@ -74,7 +73,7 @@ class PlEmployeesBloc extends Bloc<PlEmployeesEvent, PlEmployeesState> {
       return;
     }
 
-    emit(state.copyWith(isLoadingMore: true));
+    emit(state.copyWith(isLoadingMore: true, errorMessage: null));
     final nextPage = state.page + 1;
 
     final result = await usecase.getEmployees(
@@ -98,6 +97,7 @@ class PlEmployeesBloc extends Bloc<PlEmployeesEvent, PlEmployeesState> {
           lastPage: data.last,
           totalPages: data.totalPages,
           totalElements: data.totalElements,
+          errorMessage: null,
         ),
       ),
     );

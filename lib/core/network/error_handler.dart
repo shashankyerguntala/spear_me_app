@@ -3,9 +3,9 @@ import 'package:spear_me_app/core/network/failure.dart';
 
 class ErrorHandler {
   static Failure handle(DioException e) {
-    if (e.response != null) {
-      return Failure('Received invalid status code: ${e.response!.statusCode}');
-    }
+    // if (e.response != null) {
+    //   return Failure('Received invalid status code: ${e.response!.statusCode}');
+    // }
 
     switch (e.type) {
       case DioExceptionType.connectionTimeout:

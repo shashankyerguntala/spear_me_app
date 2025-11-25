@@ -13,12 +13,10 @@ class AppInterceptor extends Interceptor {
         options.headers["Authorization"] = "Bearer $token";
       }
     }
-
     return handler.next(options);
   }
 
   @override
-  // ignore: always_specify_types
   void onResponse(Response response, ResponseInterceptorHandler handler) {
     return handler.next(response);
   }

@@ -52,7 +52,7 @@ class ToolDataSource {
     required String name,
     required String description,
   }) async {
-    final response = await client.postRequest(
+    final response = await client.putRequest(
       "${ApiConstants.updateCategory}/$id",
       data: {"name": name, "description": description},
     );
@@ -116,7 +116,7 @@ class ToolDataSource {
     });
 
     final response = await client.postRequest(
-      ApiConstants.updateToolImage,
+      ApiConstants.updateToolImage(toolId),
       data: formData,
       isMultipart: true,
     );
@@ -178,38 +178,34 @@ class ToolDataSource {
   //! get all tools
 
   Future<Either<Failure, List<ToolEntity>>> getAllTools({
-  String? searchName,
-  String? categoryName,
-  String? type,
-  int page = 0,
-  int size = 10,
-  String sortBy = "createdAt",
-  String sortDir = "desc",
-}) async {
-  final query = {
-    "page": "$page",
-    "size": "$size",
-    "sortBy": sortBy,
-    "sortDir": sortDir,
-    if (searchName != null && searchName.isNotEmpty) "searchName": searchName,
-    if (categoryName != null && categoryName.isNotEmpty)
+    String? searchName,
+    String? categoryName,
+    String? type,
+    int page = 0,
+    int size = 10,
+    String sortBy = "createdAt",
+    String sortDir = "desc",
+  }) async {
+    final query = {
+      "page": "$page",
+      "size": "$size",
+      "sortBy": sortBy,
+      "sortDir": sortDir,
+      if (searchName != null && searchName.isNotEmpty) "searchName": searchName,
+      if (categoryName != null && categoryName.isNotEmpty)
         "categoryName": categoryName,
-    if (type != null && type.isNotEmpty) "type": type,
-  };
+      if (type != null && type.isNotEmpty) "type": type,
+    };
 
-  final result = await client.getRequest(
-    ApiConstants.getAllTools,
-    queryParameters: query,
-  );
+    final result = await client.getRequest(
+      ApiConstants.getAllTools,
+      queryParameters: query,
+    );
 
-  return result.fold(
-    (fail) => Left(fail),
-    (json) {
+    return result.fold((fail) => Left(fail), (json) {
       final List<dynamic> data = json["data"] ?? [];
       final tools = data.map((e) => ToolModel.fromJson(e)).toList();
       return Right(tools);
-    },
-  );
-}
-
+    });
+  }
 }

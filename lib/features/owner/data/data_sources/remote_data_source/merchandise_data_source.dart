@@ -84,7 +84,7 @@ class MerchandiseDataSource {
 
     return response.fold((fail) => Left(fail), (data) {
       if (data["success"] == true) {
-        return Right(data["message"] );
+        return Right(data["message"]);
       } else {
         return Left(Failure(data["message"]));
       }

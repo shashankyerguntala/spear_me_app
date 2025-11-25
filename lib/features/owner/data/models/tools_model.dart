@@ -19,7 +19,7 @@ class ToolModel extends ToolEntity {
       type: json['type'],
       isExpensive: json['isExpensive'],
       threshold: (json['threshold'] as num?)?.toInt(),
-      image: json['image'],
+      image: json['imageUrl'],
     );
   }
 

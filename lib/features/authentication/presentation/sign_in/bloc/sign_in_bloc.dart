@@ -9,7 +9,6 @@ import 'package:spear_me_app/features/authentication/domain/usecase/auth_usecase
 part 'sign_in_event.dart';
 part 'sign_in_state.dart';
 
-
 // TODO(Shashank): make sure the user's login session is persistent and not lost on app restart.
 class SignInBloc extends Bloc<SignInEvent, SignInState> {
   bool isPasswordObscured = true;
@@ -30,8 +29,13 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
       final Either<Failure, LoginResponseEntity> result = await authUsecase
           .login(event.email, event.password);
       return await result.fold(
-        (Failure fail) => emit(SignInFailure(fail.message)),
+        (Failure fail) {
+          return emit(SignInFailure(fail.message));
+        },
         (LoginResponseEntity response) async {
+          if (!response.success) {
+            return emit(SignInFailure(response.message));
+          }
           await AuthLocalStorage.saveToken(response.token);
           return emit(SignInSuccess(response.role));
         },

@@ -4,22 +4,29 @@ import 'package:spear_me_app/core/constants/color_constants.dart';
 import 'package:spear_me_app/core/di/di.dart';
 import 'package:spear_me_app/core/helper_functions.dart';
 import 'package:spear_me_app/features/common/widgets/custom_textfield.dart';
+import 'package:spear_me_app/features/owner/domain/entity/tools_entity.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_tools/add_tools/bloc/add_tools_bloc.dart';
 
 class AddToolsScreen extends StatelessWidget {
-  const AddToolsScreen({super.key});
+  final ToolEntity? tool;
+  final bool isEdit;
+
+  const AddToolsScreen({this.tool, this.isEdit = false, super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => di<AddToolsBloc>()..add(FetchToolCategories()),
-      child: const _AddToolsBody(),
+      child: _AddToolsBody(tool: tool, isEdit: isEdit),
     );
   }
 }
 
 class _AddToolsBody extends StatefulWidget {
-  const _AddToolsBody();
+  final ToolEntity? tool;
+  final bool isEdit;
+
+  const _AddToolsBody({required this.isEdit, this.tool});
 
   @override
   State<_AddToolsBody> createState() => _AddToolsBodyState();
@@ -27,12 +34,26 @@ class _AddToolsBody extends StatefulWidget {
 
 class _AddToolsBodyState extends State<_AddToolsBody> {
   final _formKey = GlobalKey<FormState>();
+
   final _nameController = TextEditingController();
   final _thresholdController = TextEditingController();
 
   int? _selectedCategoryId;
   String _selectedType = "PERISHABLE";
   String _isExpensive = "NO";
+
+  @override
+  void initState() {
+    super.initState();
+
+    if (widget.isEdit && widget.tool != null) {
+      _nameController.text = widget.tool!.name;
+      _thresholdController.text = widget.tool!.threshold?.toString() ?? "0";
+      _selectedCategoryId = widget.tool!.id;
+      _selectedType = widget.tool!.type ?? "PERISHABLE";
+      _isExpensive = widget.tool!.isExpensive ?? "NO";
+    }
+  }
 
   @override
   void dispose() {
@@ -55,15 +76,30 @@ class _AddToolsBodyState extends State<_AddToolsBody> {
       return;
     }
 
-    context.read<AddToolsBloc>().add(
-      CreateTool(
-        name: _nameController.text.trim(),
-        categoryId: _selectedCategoryId!,
-        type: _selectedType,
-        isExpensive: _isExpensive,
-        threshold: int.tryParse(_thresholdController.text.trim()) ?? 0,
-      ),
-    );
+    final bloc = context.read<AddToolsBloc>();
+
+    if (widget.isEdit && widget.tool != null) {
+      bloc.add(
+        UpdateTool(
+          toolId: widget.tool!.id,
+          name: _nameController.text.trim(),
+          categoryId: _selectedCategoryId!,
+          toolType: _selectedType,
+          isExpensive: _isExpensive,
+          threshold: int.tryParse(_thresholdController.text.trim()) ?? 0,
+        ),
+      );
+    } else {
+      bloc.add(
+        CreateTool(
+          name: _nameController.text.trim(),
+          categoryId: _selectedCategoryId!,
+          type: _selectedType,
+          isExpensive: _isExpensive,
+          threshold: int.tryParse(_thresholdController.text.trim()) ?? 0,
+        ),
+      );
+    }
   }
 
   @override
@@ -88,10 +124,12 @@ class _AddToolsBodyState extends State<_AddToolsBody> {
         }
       },
       builder: (context, state) {
+        final title = widget.isEdit ? "Edit Tool" : "Add Tool";
+
         return Scaffold(
           backgroundColor: ColorConstants.surface,
           appBar: AppBar(
-            title: const Text("Add Tool"),
+            title: Text(title),
             centerTitle: true,
             elevation: 0,
             backgroundColor: ColorConstants.surface,
@@ -110,7 +148,7 @@ class _AddToolsBodyState extends State<_AddToolsBody> {
                   ),
 
                   DropdownButtonFormField<int>(
-                    value: _selectedCategoryId,
+                    initialValue: _selectedCategoryId,
                     isExpanded: true,
                     decoration: InputDecoration(
                       labelText: "Category",
@@ -132,9 +170,7 @@ class _AddToolsBodyState extends State<_AddToolsBody> {
                   ),
 
                   DropdownButtonFormField<String>(
-                    // TODO(Shashank): replace deprecated values with the new ones as per the warnings.
-                    // this is because when in the future updates these deprecated values will be deleted, your code will not break.
-                    value: _selectedType,
+                    initialValue: _selectedType,
                     decoration: InputDecoration(
                       labelText: "Tool Type",
                       border: OutlineInputBorder(
@@ -157,7 +193,7 @@ class _AddToolsBodyState extends State<_AddToolsBody> {
                   ),
 
                   DropdownButtonFormField<String>(
-                    value: _isExpensive,
+                    initialValue: _isExpensive,
                     decoration: InputDecoration(
                       labelText: "Is Expensive",
                       border: OutlineInputBorder(
@@ -177,9 +213,8 @@ class _AddToolsBodyState extends State<_AddToolsBody> {
                     controller: _thresholdController,
                     label: "Threshold Quantity",
                     validatorMsg: "Enter valid threshold value",
-                    isNumber: true,
                     keyboardType: TextInputType.number,
-                    isPhoneNumber: false,
+                    isNumber: true,
                   ),
 
                   const SizedBox(height: 20),
@@ -200,9 +235,11 @@ class _AddToolsBodyState extends State<_AddToolsBody> {
                                 color: Colors.white,
                               ),
                             )
-                          : const Icon(Icons.add),
+                          : Icon(widget.isEdit ? Icons.save : Icons.add),
                       label: Text(
-                        state.isSubmitting ? "Adding..." : "Add Tool",
+                        state.isSubmitting
+                            ? (widget.isEdit ? "Updating..." : "Adding...")
+                            : (widget.isEdit ? "Update Tool" : "Add Tool"),
                         style: const TextStyle(fontSize: 16),
                       ),
                       style: ElevatedButton.styleFrom(

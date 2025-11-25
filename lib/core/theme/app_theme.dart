@@ -20,7 +20,7 @@ class AppTheme {
     ),
 
     appBarTheme: AppBarTheme(
-      color: ColorConstants.scaffoldBg,
+      backgroundColor: ColorConstants.scaffoldBg,
       elevation: 0,
       centerTitle: true,
       titleTextStyle: AppTextStyles.headlineMedium.copyWith(

@@ -9,7 +9,6 @@ import 'package:spear_me_app/core/constants/string_constants/string_constants.da
 import 'package:spear_me_app/features/owner/presentation/owner_dashboard/bloc/owner_home_bloc.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_dashboard/widgets/bar_chart_widget.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_dashboard/widgets/stat_card.dart';
-import 'package:spear_me_app/features/plant_head/presentation/pl_dashboard/widgets/plant_head_drawer.dart';
 
 class PlDashboardScreen extends StatelessWidget {
   const PlDashboardScreen({super.key});
@@ -21,14 +20,14 @@ class PlDashboardScreen extends StatelessWidget {
       create: (BuildContext context) =>
           OwnerHomeBloc()..add(OwnerInitialEvent()),
       child: Scaffold(
-        drawer: PlantHeadDrawer(),
+        // drawer: PlantHeadDrawer(),
         appBar: AppBar(
           actions: <Widget>[
             Padding(
               padding: const EdgeInsets.all(12.0),
               child: IconButton(
                 onPressed: () {
-                  context.go(RoutesConstants.ownerProfileRoute);
+                  context.push(RoutesConstants.ownerProfileRoute);
                 },
                 icon: Icon(Icons.person),
               ),
@@ -55,7 +54,7 @@ class PlDashboardScreen extends StatelessWidget {
                           crossAxisCount: 2,
                           crossAxisSpacing: 16,
                           mainAxisSpacing: 16,
-                          childAspectRatio: 0.55,
+                          childAspectRatio: 0.9,
                         ),
                         children: <Widget>[
                           StatCard(
@@ -63,7 +62,7 @@ class PlDashboardScreen extends StatelessWidget {
                             onTap: () => context.push(
                               RoutesConstants.ownerProductsRoute,
                             ),
-                            // TODO(Shashank): hardcoded value 
+
                             value: '122',
                             icon: Icons.production_quantity_limits,
                           ),

@@ -29,7 +29,7 @@ class _CityDropdownState extends State<CityDropdown> {
   @override
   Widget build(BuildContext context) {
     return DropdownButtonFormField<String>(
-      value: selected,
+      initialValue: selected,
       dropdownColor: ColorConstants.cardBg,
       items: locations
           .map((city) => DropdownMenuItem(value: city, child: Text(city)))

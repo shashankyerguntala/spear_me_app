@@ -13,30 +13,37 @@ final GlobalKey<NavigatorState> plantHeadKey = GlobalKey<NavigatorState>();
 final List<GoRoute> plantHeadRoutes = <GoRoute>[
   GoRoute(
     path: RoutesConstants.plantHeadHomeRoute,
-    builder: (BuildContext context, GoRouterState state) => const PlDashboardScreen(),
+    builder: (BuildContext context, GoRouterState state) =>
+        const PlDashboardScreen(),
   ),
   GoRoute(
     path: RoutesConstants.plantHeadCreateRoute,
-    builder: (BuildContext context, GoRouterState state) => const PlCreateScreen(),
+    builder: (BuildContext context, GoRouterState state) =>
+        const PlCreateScreen(),
   ),
   GoRoute(
     path: RoutesConstants.plantHeadProfileRoute,
-    builder: (BuildContext context, GoRouterState state) => const PlProfileScreen(),
+    builder: (BuildContext context, GoRouterState state) =>
+        const PlProfileScreen(),
   ),
   GoRoute(
     path: RoutesConstants.plantHeadRequestsRoute,
-    builder: (BuildContext context, GoRouterState state) =>const PlRequestsScreen(),
+    builder: (BuildContext context, GoRouterState state) =>
+        const RequestsScreen(),
   ),
   GoRoute(
     path: RoutesConstants.plantHeadToolsRoute,
-    builder: (BuildContext context, GoRouterState state) => const PlToolsScreen(),
+    builder: (BuildContext context, GoRouterState state) =>
+        const PlToolsScreen(),
   ),
   GoRoute(
     path: RoutesConstants.plantHeadEmployeesRoute,
-    builder: (BuildContext context, GoRouterState state) =>const  PlEmployeeScreen(),
+    builder: (BuildContext context, GoRouterState state) =>
+        const PlEmployeeScreen(),
   ),
   GoRoute(
     path: RoutesConstants.plantHeadProductsRoute,
-    builder: (BuildContext context, GoRouterState state) => const PlProductsScreen(),
+    builder: (BuildContext context, GoRouterState state) =>
+        const PlProductsScreen(),
   ),
 ];

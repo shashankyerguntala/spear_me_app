@@ -35,16 +35,21 @@ import 'package:spear_me_app/features/owner/presentation/owner_merchandise/add_m
 import 'package:spear_me_app/features/owner/presentation/owner_merchandise/merchandise_home/bloc/merchandise_home_bloc.dart';
 import 'package:spear_me_app/features/plant_head/data/data_source/add_data_source.dart';
 import 'package:spear_me_app/features/plant_head/data/data_source/get_data_source.dart';
+import 'package:spear_me_app/features/plant_head/data/data_source/tool_request_data_source.dart';
 import 'package:spear_me_app/features/plant_head/data/repo_impl/add_repo_impl.dart';
 import 'package:spear_me_app/features/plant_head/data/repo_impl/get_repo_impl.dart';
+import 'package:spear_me_app/features/plant_head/data/repo_impl/tool_request_repo_impl.dart';
 import 'package:spear_me_app/features/plant_head/domain/repository/add_repository.dart';
 import 'package:spear_me_app/features/plant_head/domain/repository/get_repository.dart';
+import 'package:spear_me_app/features/plant_head/domain/repository/tool_request_repository.dart';
 import 'package:spear_me_app/features/plant_head/domain/usecases/add_usecase.dart';
 import 'package:spear_me_app/features/plant_head/domain/usecases/get_usecase.dart';
+import 'package:spear_me_app/features/plant_head/domain/usecases/tool_request_usecase.dart';
 import 'package:spear_me_app/features/plant_head/presentation/pl_create/bloc/pl_create_bloc.dart';
 import 'package:spear_me_app/features/plant_head/presentation/pl_employees/bloc/pl_employees_bloc.dart';
 import 'package:spear_me_app/features/plant_head/presentation/pl_dashboard/pl_products/bloc/pl_products_bloc.dart';
 import 'package:spear_me_app/features/owner/presentation/owner_profile/bloc/owner_profile_bloc.dart';
+import 'package:spear_me_app/features/plant_head/presentation/pl_requests/bloc/request_bloc.dart';
 
 final GetIt di = GetIt.instance;
 
@@ -77,8 +82,14 @@ class Di {
     di.registerLazySingleton<MerchandiseDataSource>(
       () => MerchandiseDataSource(di<DioClient>()),
     );
+
     di.registerLazySingleton<ToolDataSource>(
       () => ToolDataSource(di<DioClient>()),
+    );
+
+    // NEW: Request Data Source
+    di.registerLazySingleton<RequestRemoteDataSource>(
+      () => RequestRemoteDataSourceImpl(di<DioClient>()),
     );
 
     //! REPOSITORIES
@@ -105,9 +116,16 @@ class Di {
     di.registerLazySingleton<MerchandiseRepository>(
       () => MerchandiseRepositoryImpl(di<MerchandiseDataSource>()),
     );
+
     di.registerLazySingleton<ToolRepository>(
       () => ToolRepositoryImpl(di<ToolDataSource>()),
     );
+
+    // NEW: Request Repository
+    di.registerLazySingleton<RequestRepository>(
+      () => RequestRepositoryImpl(di<RequestRemoteDataSource>()),
+    );
+
     //! USECASES
     di.registerLazySingleton<AuthUsecase>(
       () => AuthUsecase(authRepository: di<AuthRepository>()),
@@ -128,9 +146,16 @@ class Di {
     di.registerLazySingleton<MerchandiseUsecase>(
       () => MerchandiseUsecase(di<MerchandiseRepository>()),
     );
+
     di.registerLazySingleton<ToolUsecase>(
       () => ToolUsecase(di<ToolRepository>()),
     );
+
+    // NEW: Request UseCase
+    di.registerLazySingleton<RequestUseCase>(
+      () => RequestUseCase(di<RequestRepository>()),
+    );
+
     //! BLOC
     di.registerFactory<SignInBloc>(() => SignInBloc(di<AuthUsecase>()));
     di.registerFactory<SignUpBloc>(() => SignUpBloc(di<AuthUsecase>()));
@@ -180,5 +205,7 @@ class Di {
     di.registerFactory<AddMerchandiseBloc>(
       () => AddMerchandiseBloc(di<MerchandiseUsecase>()),
     );
+
+    di.registerFactory<RequestBloc>(() => RequestBloc(di<RequestUseCase>()));
   }
 }

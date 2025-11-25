@@ -45,7 +45,7 @@ class ApiConstants {
   static const String updateCategory = '/api/tool/update/tool-category';
   static const String deleteToolCategory = '/api/tool/delete/tool-category';
   static const String createTool = '/api/tool/create';
-  static const String updateToolImage = '/api/tool/update-image';
+  static String updateToolImage(int toolId) => '/api/tool/$toolId/update-image';
   static const String updateTool = '/api/tool/update/';
   static const String getAllTools = '/api/tool/get/all/tools';
   static const String addToolToFactoryStock = '/api/tool/factory/stock/add';

@@ -118,7 +118,7 @@ class _PlCreateBodyState extends State<_PlCreateBody> {
                           children: [
                             Expanded(
                               child: DropdownButtonFormField<int>(
-                                value: data.selectedBayId,
+                                initialValue: data.selectedBayId,
                                 decoration: InputDecoration(
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(12),

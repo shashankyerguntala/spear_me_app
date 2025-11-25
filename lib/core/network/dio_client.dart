@@ -12,26 +12,42 @@ class DioClient {
     : dio = Dio(
         BaseOptions(
           baseUrl: ApiConstants.baseUrl,
-          connectTimeout: const Duration(seconds: 10),
-          receiveTimeout: const Duration(seconds: 10),
-          headers: <String, dynamic>{'Content-Type': 'application/json'},
+          connectTimeout: const Duration(seconds: 15),
+          receiveTimeout: const Duration(seconds: 15),
+          headers: {'Content-Type': 'application/json'},
         ),
       ) {
     dio.interceptors.add(AppInterceptor());
   }
 
-  //! Learn to Use reponse parser
+  Either<Failure, dynamic> _handleResponse(Response response) {
+    final data = response.data;
+
+    if (data is Map && data.containsKey('success')) {
+      final success = data['success'] == true;
+
+      if (!success) {
+        return Left(Failure(data['message'] ?? 'Unknown server error'));
+      }
+
+      return Right(data);
+    }
+
+    return Right(data);
+  }
+
   Future<Either<Failure, dynamic>> getRequest(
     String endpoint, {
     Map<String, dynamic>? queryParameters,
   }) async {
     try {
-      final Response response = await dio.get(
+      final response = await dio.get(
         endpoint,
         queryParameters: queryParameters,
-        options: Options(validateStatus: (int? status) => true),
+        options: Options(validateStatus: (_) => true),
       );
-      return Right(response.data);
+
+      return _handleResponse(response);
     } on DioException catch (e) {
       return Left(ErrorHandler.handle(e));
     }
@@ -49,27 +65,28 @@ class DioClient {
         data: data,
         queryParameters: queryParameters,
         options: isMultipart
-            ? Options(headers: {"Content-Type": "multipart/form-data"})
-            : null,
+            ? Options(
+                contentType: 'multipart/form-data',
+                validateStatus: (_) => true,
+              )
+            : Options(validateStatus: (_) => true),
       );
 
-      return Right(response.data);
+      return _handleResponse(response);
     } on DioException catch (e) {
       return Left(ErrorHandler.handle(e));
     }
   }
 
-  Future<Either<Failure, dynamic>> putRequest(
-    String endpoint, {
-    Map<String, dynamic>? data,
-  }) async {
+  Future<Either<Failure, dynamic>> putRequest(String endpoint, {data}) async {
     try {
-      final Response response = await dio.put(
+      final response = await dio.put(
         endpoint,
         data: data,
-        options: Options(validateStatus: (int? status) => true),
+        options: Options(validateStatus: (_) => true),
       );
-      return Right(response.data);
+
+      return _handleResponse(response);
     } on DioException catch (e) {
       return Left(ErrorHandler.handle(e));
     }
@@ -77,11 +94,12 @@ class DioClient {
 
   Future<Either<Failure, dynamic>> deleteRequest(String endpoint) async {
     try {
-      final Response response = await dio.delete(
+      final response = await dio.delete(
         endpoint,
-        options: Options(validateStatus: (int? status) => true),
+        options: Options(validateStatus: (_) => true),
       );
-      return Right(response.data);
+
+      return _handleResponse(response);
     } on DioException catch (e) {
       return Left(ErrorHandler.handle(e));
     }
@@ -92,15 +110,16 @@ class DioClient {
     required FormData formData,
   }) async {
     try {
-      final Response response = await dio.post(
+      final response = await dio.post(
         endpoint,
         data: formData,
         options: Options(
           contentType: 'multipart/form-data',
-          validateStatus: (int? status) => true,
+          validateStatus: (_) => true,
         ),
       );
-      return Right(response.data);
+
+      return _handleResponse(response);
     } on DioException catch (e) {
       return Left(ErrorHandler.handle(e));
     }

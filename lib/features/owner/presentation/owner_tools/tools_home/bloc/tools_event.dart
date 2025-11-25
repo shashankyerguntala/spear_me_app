@@ -10,8 +10,9 @@ abstract class ToolsEvent extends Equatable {
 class FetchToolCategories extends ToolsEvent {}
 
 class FetchTools extends ToolsEvent {
-  final String categoryName;
-  const FetchTools({required this.categoryName});
+  final String? categoryName;
+
+  const FetchTools({this.categoryName});
 
   @override
   List<Object?> get props => [categoryName];
@@ -19,6 +20,7 @@ class FetchTools extends ToolsEvent {
 
 class SearchTools extends ToolsEvent {
   final String query;
+
   const SearchTools(this.query);
 
   @override
@@ -28,7 +30,8 @@ class SearchTools extends ToolsEvent {
 class SortTools extends ToolsEvent {
   final String sortBy;
   final String sortDir;
-  const SortTools({required this.sortBy, this.sortDir = "desc"});
+
+  const SortTools({required this.sortBy, required this.sortDir});
 
   @override
   List<Object?> get props => [sortBy, sortDir];
@@ -36,10 +39,63 @@ class SortTools extends ToolsEvent {
 
 class FilterTools extends ToolsEvent {
   final String filter;
+
   const FilterTools(this.filter);
 
   @override
   List<Object?> get props => [filter];
 }
 
+class FilterByCategory extends ToolsEvent {
+  final String? categoryName;
+
+  const FilterByCategory(this.categoryName);
+
+  @override
+  List<Object?> get props => [categoryName];
+}
+
 class LoadMoreTools extends ToolsEvent {}
+
+class EditToolEvent extends ToolsEvent {
+  final ToolEntity tool;
+
+  const EditToolEvent(this.tool);
+
+  @override
+  List<Object?> get props => [tool];
+}
+
+class AddCategoryEvent extends ToolsEvent {
+  final String name;
+  final String description;
+
+  const AddCategoryEvent({required this.name, required this.description});
+
+  @override
+  List<Object?> get props => [name, description];
+}
+
+class UpdateCategoryEvent extends ToolsEvent {
+  final int id;
+  final String name;
+  final String description;
+
+  const UpdateCategoryEvent({
+    required this.id,
+    required this.name,
+    required this.description,
+  });
+
+  @override
+  List<Object?> get props => [id, name, description];
+}
+
+class DeleteCategoryEvent extends ToolsEvent {
+  final int categoryId;
+
+  const DeleteCategoryEvent(this.categoryId);
+
+  @override
+  List<Object?> get props => [categoryId];
+}

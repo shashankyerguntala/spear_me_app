@@ -266,7 +266,7 @@ class _OwnerAddProductsState extends State<OwnerAddProducts> {
                             validator: _validateThreshold,
                           ),
                           DropdownButtonFormField<ProductCategoryEntity>(
-                            value: selectedCategory,
+                            initialValue: selectedCategory,
                             items: categories
                                 .map(
                                   (c) => DropdownMenuItem(

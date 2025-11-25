@@ -1,9 +1,10 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+
+import 'package:spear_me_app/core/network/failure.dart';
 import 'package:spear_me_app/features/owner/domain/entity/tools_category_entity.dart';
 import 'package:spear_me_app/features/owner/domain/usecase/tools_usecase.dart';
-import 'package:spear_me_app/core/network/failure.dart';
 
 part 'add_tools_event.dart';
 part 'add_tools_state.dart';
@@ -14,6 +15,7 @@ class AddToolsBloc extends Bloc<AddToolsEvent, AddToolsState> {
   AddToolsBloc(this.usecase) : super(const AddToolsState()) {
     on<FetchToolCategories>(_onFetchCategories);
     on<CreateTool>(_onCreateTool);
+    on<UpdateTool>(_onUpdateTool);
   }
 
   Future<void> _onFetchCategories(
@@ -24,12 +26,14 @@ class AddToolsBloc extends Bloc<AddToolsEvent, AddToolsState> {
 
     final result = await usecase.getCategories();
     result.fold(
-      (Failure failure) => emit(
-        state.copyWith(
-          isLoadingCategories: false,
-          errorMessage: failure.message,
-        ),
-      ),
+      (Failure failure) {
+        emit(
+          state.copyWith(
+            isLoadingCategories: false,
+            errorMessage: failure.message,
+          ),
+        );
+      },
       (List<ToolCategoryEntity> categories) {
         emit(
           state.copyWith(isLoadingCategories: false, categories: categories),
@@ -53,11 +57,45 @@ class AddToolsBloc extends Bloc<AddToolsEvent, AddToolsState> {
     );
 
     result.fold(
-      (Failure failure) => emit(
-        state.copyWith(isSubmitting: false, errorMessage: failure.message),
+      (Failure failure) {
+        emit(
+          state.copyWith(isSubmitting: false, errorMessage: failure.message),
+        );
+      },
+      (String message) {
+        emit(state.copyWith(isSubmitting: false, successMessage: message));
+      },
+    );
+  }
+
+  Future<void> _onUpdateTool(
+    UpdateTool event,
+    Emitter<AddToolsState> emit,
+  ) async {
+    emit(
+      state.copyWith(
+        isSubmitting: true,
       ),
-      (String message) =>
-          emit(state.copyWith(isSubmitting: false, successMessage: message)),
+    );
+
+    final result = await usecase.updateTool(
+      toolId: event.toolId,
+      name: event.name,
+      categoryId: event.categoryId,
+      toolType: event.toolType,
+      isExpensive: event.isExpensive,
+      threshold: event.threshold,
+    );
+
+    result.fold(
+      (Failure failure) {
+        emit(
+          state.copyWith(isSubmitting: false, errorMessage: failure.message),
+        );
+      },
+      (String message) {
+        emit(state.copyWith(isSubmitting: false, successMessage: message));
+      },
     );
   }
 }

@@ -13,7 +13,7 @@ class BayDropdown extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DropdownButtonFormField<int>(
-      value: selectedBayId,
+      initialValue: selectedBayId,
       items: bays.map<DropdownMenuItem<int>>((b) {
         return DropdownMenuItem<int>(
           value: b["id"] as int,
